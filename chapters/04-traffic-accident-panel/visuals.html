@@ -91,6 +91,64 @@
             <p>用 AIC/BIC 比较计数模型，是讲解模型选择的直观材料。</p>
           </article>
         </div>
+        <div class="explain-grid">
+          <article class="explain-card">
+            <h3>逻辑回归表怎么看</h3>
+            <p><code>odds_ratio</code> 大于 1 表示严重或死亡事故的优势比更高，小于 1 表示优势比更低。比如 <code>rural</code> 的 OR 约为 1.238，表示在控制其他变量后，乡村地区严重/死亡事故的优势比更高。</p>
+          </article>
+          <article class="explain-card">
+            <h3>泊松回归表怎么看</h3>
+            <p><code>incidence_rate_ratio</code> 大于 1 表示期望伤亡人数增加，小于 1 表示减少。比如 <code>number_of_vehicles</code> 的 IRR 约为 1.149，表示涉及车辆数增加时，期望伤亡人数更高。</p>
+          </article>
+        </div>
+        <div class="table-wrap result-table">
+          <table>
+            <caption>逻辑回归结果：严重或死亡事故概率</caption>
+            <thead>
+              <tr>
+                <th>变量</th>
+                <th>系数</th>
+                <th>Odds Ratio</th>
+                <th>p 值</th>
+                <th>解释</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>speed_limit</td><td>0.008</td><td>1.008</td><td>&lt;0.001</td><td>速度限制越高，严重/死亡事故优势比略升高。</td></tr>
+              <tr><td>rural</td><td>0.213</td><td>1.238</td><td>&lt;0.001</td><td>乡村地区的严重/死亡事故优势比更高。</td></tr>
+              <tr><td>darkness</td><td>0.188</td><td>1.207</td><td>&lt;0.001</td><td>夜间或照明不足与更高严重事故优势比相关。</td></tr>
+              <tr><td>adverse_weather</td><td>-0.137</td><td>0.872</td><td>0.007</td><td>不良天气在此模型中与较低优势比相关，需要谨慎解释，可能存在暴露量和驾驶行为变化。</td></tr>
+              <tr><td>wet_or_icy</td><td>0.019</td><td>1.020</td><td>0.650</td><td>统计证据不强，不宜过度解读。</td></tr>
+              <tr><td>junction_present</td><td>0.057</td><td>1.058</td><td>0.075</td><td>接近显著，但证据有限。</td></tr>
+              <tr><td>weekend</td><td>0.159</td><td>1.172</td><td>&lt;0.001</td><td>周末与更高严重/死亡事故优势比相关。</td></tr>
+              <tr><td>number_of_vehicles</td><td>-0.228</td><td>0.796</td><td>&lt;0.001</td><td>涉及车辆数越多，严重/死亡事故优势比反而较低，可能和单车事故严重性较高有关。</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="table-wrap result-table">
+          <table>
+            <caption>泊松回归结果：伤亡人数</caption>
+            <thead>
+              <tr>
+                <th>变量</th>
+                <th>系数</th>
+                <th>IRR</th>
+                <th>p 值</th>
+                <th>解释</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>speed_limit</td><td>0.004</td><td>1.004</td><td>&lt;0.001</td><td>速度限制每增加 1 mph，期望伤亡人数约增加 0.4%。</td></tr>
+              <tr><td>rural</td><td>0.075</td><td>1.078</td><td>&lt;0.001</td><td>乡村事故的期望伤亡人数更高。</td></tr>
+              <tr><td>darkness</td><td>0.041</td><td>1.042</td><td>0.001</td><td>夜间或照明不足与更高期望伤亡人数相关。</td></tr>
+              <tr><td>adverse_weather</td><td>-0.010</td><td>0.990</td><td>0.592</td><td>统计证据不强。</td></tr>
+              <tr><td>wet_or_icy</td><td>0.027</td><td>1.028</td><td>0.087</td><td>弱证据，适合引导学生讨论显著性阈值。</td></tr>
+              <tr><td>junction_present</td><td>0.034</td><td>1.035</td><td>0.004</td><td>路口附近事故的期望伤亡人数略高。</td></tr>
+              <tr><td>weekend</td><td>0.064</td><td>1.066</td><td>&lt;0.001</td><td>周末事故期望伤亡人数更高。</td></tr>
+              <tr><td>number_of_vehicles</td><td>0.139</td><td>1.149</td><td>&lt;0.001</td><td>涉及车辆数增加，与期望伤亡人数增加相关。</td></tr>
+            </tbody>
+          </table>
+        </div>
       </section>
 
       <section class="section muted">
@@ -113,6 +171,7 @@
         </div>
         <div class="table-wrap result-table">
           <table>
+            <caption>情景预测结果</caption>
             <thead>
               <tr>
                 <th>情景</th>
@@ -168,6 +227,38 @@
             <h3>预测效果</h3>
             <p>观测值和预测值对比可用于检查模型是否捕捉到了计数结果的基本分布。</p>
           </article>
+        </div>
+        <div class="explain-grid">
+          <article class="explain-card">
+            <h3>零膨胀模型的两个部分</h3>
+            <p><code>inflate_</code> 开头的变量属于零膨胀部分，解释“为什么更可能是结构性零值”。非 <code>inflate_</code> 的变量属于计数组件，解释“在非结构性零值状态下，计数如何变化”。</p>
+          </article>
+          <article class="explain-card">
+            <h3>为什么本例适合展示零膨胀</h3>
+            <p><code>vulnerable_casualties</code> 有大量 0，因为多数事故没有行人或骑行者伤亡。直接使用普通泊松模型可能无法充分表达这种零值机制。</p>
+          </article>
+        </div>
+        <div class="table-wrap result-table">
+          <table>
+            <caption>零膨胀泊松模型结果节选</caption>
+            <thead>
+              <tr>
+                <th>组件</th>
+                <th>变量</th>
+                <th>系数</th>
+                <th>exp(coef)</th>
+                <th>p 值</th>
+                <th>解释</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>count</td><td>speed_limit</td><td>-0.037</td><td>0.964</td><td>&lt;0.001</td><td>在计数组件中，速度限制越高，弱势交通参与者伤亡数更低，可能与道路类型和行人/骑行者暴露量有关。</td></tr>
+              <tr><td>count</td><td>rural</td><td>-0.350</td><td>0.705</td><td>&lt;0.001</td><td>乡村事故中弱势交通参与者伤亡数更低，可能因为行人和骑行者暴露更少。</td></tr>
+              <tr><td>count</td><td>junction_present</td><td>0.085</td><td>1.088</td><td>&lt;0.001</td><td>路口附近弱势交通参与者伤亡数更高。</td></tr>
+              <tr><td>count</td><td>number_of_vehicles</td><td>-0.950</td><td>0.387</td><td>&lt;0.001</td><td>涉及车辆数越多，弱势交通参与者伤亡数更低，提示该因变量与事故类型强相关。</td></tr>
+              <tr><td>zero inflation</td><td>rural</td><td>1.034</td><td>2.813</td><td>0.992</td><td>零膨胀部分不显著，教学中应提醒学生不要只看系数方向。</td></tr>
+            </tbody>
+          </table>
         </div>
       </section>
 

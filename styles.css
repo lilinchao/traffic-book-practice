@@ -392,6 +392,31 @@ h3 {
   border-radius: 8px;
 }
 
+caption {
+  padding: 14px 12px;
+  color: var(--accent-strong);
+  font-weight: 850;
+  text-align: left;
+}
+
+.explain-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 24px;
+}
+
+.explain-card {
+  padding: 18px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+.explain-card p {
+  color: var(--muted);
+}
+
 .guide-layout {
   display: grid;
   grid-template-columns: 220px minmax(0, 1fr);
@@ -606,6 +631,7 @@ code {
 
   .guide-layout,
   .guide-image-row,
+  .explain-grid,
   .model-list {
     grid-template-columns: 1fr;
   }
