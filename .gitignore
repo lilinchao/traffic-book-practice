@@ -4,6 +4,7 @@
 .jupyter/
 .jupyter-data/
 .jupyter-runtime/
+.local/
 .matplotlib/
 .pip-cache/
 .python-user/
