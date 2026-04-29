@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="交通数据分析实践章节的开源数据集目录。">
+    <title>交通数据集目录</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="index.html">
+        <span class="brand-mark">AI</span>
+        <span>工程实践开放书</span>
+      </a>
+      <nav class="site-nav" aria-label="数据集导航">
+        <a href="index.html#chapters">章节</a>
+        <a href="#chapter-04">面板</a>
+        <a href="#chapter-05">位置</a>
+        <a href="#chapter-06">时序</a>
+        <a href="#chapter-07">时空</a>
+        <a href="#chapter-08">影像</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="section">
+        <p class="eyebrow">Dataset Catalog</p>
+        <h1>交通数据集目录</h1>
+        <p class="hero-text">
+          这些数据源优先选择公开可访问、适合教学复现、能覆盖编程、AI、数据和工程实践的数据集。正式写作前仍需逐项核对许可证、引用格式和再分发规则。
+        </p>
+        <div class="hero-actions">
+          <a class="button primary" href="data/README.md">查看本地案例数据</a>
+          <a class="button secondary" href="scripts/download_case_data.sh">下载脚本</a>
+        </div>
+      </section>
+
+      <section class="section muted" id="chapter-04">
+        <div class="section-heading">
+          <p class="eyebrow">Chapter 04</p>
+          <h2>交通面板数据分析</h2>
+          <p>适合做城市、州、省或国家级别的横截面时间序列分析。</p>
+        </div>
+        <div class="dataset-grid">
+          <article class="dataset-card recommended">
+            <span class="tag">推荐主数据集</span>
+            <h3>NYC Motor Vehicle Collisions Crashes</h3>
+            <p>纽约官方交通事故数据，每行是一条事故记录，包含日期、行政区、位置、伤亡人数和事故原因。适合聚合成行政区-月份面板。</p>
+            <a href="https://data.cityofnewyork.us/Public-Safety/Motor-Vehicle-Collisions-Crashes/h9gi-nx95" target="_blank" rel="noreferrer">打开数据源</a>
+          </article>
+          <article class="dataset-card">
+            <span class="tag">年度面板</span>
+            <h3>FHWA Highway Statistics Series</h3>
+            <p>美国联邦公路管理局年度公路统计，适合构造州-年份面板，分析 VMT、道路里程、车辆注册和交通财政指标。</p>
+            <a href="https://www.fhwa.dot.gov/policyinformation/statistics.cfm" target="_blank" rel="noreferrer">打开数据源</a>
+          </article>
+          <article class="dataset-card">
+            <span class="tag">城市出行</span>
+            <h3>NYC Open Data Traffic Volume Counts</h3>
+            <p>纽约道路交通量观测数据，可按道路、区域、月份或年份聚合，适合做城市内部面板分析。</p>
+            <a href="https://data.cityofnewyork.us/Transportation/Traffic-Volume-Counts/btm5-ppia" target="_blank" rel="noreferrer">打开数据源</a>
+          </article>
+          <article class="dataset-card">
+            <span class="tag">安全分析</span>
+            <h3>NHTSA FARS</h3>
+            <p>美国 Fatality Analysis Reporting System，适合构建事故、死亡人数、道路类型、天气、车辆和驾驶人相关的年度面板。</p>
+            <a href="https://www.nhtsa.gov/research-data/fatality-analysis-reporting-system-fars" target="_blank" rel="noreferrer">打开数据源</a>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="chapter-05">
+        <div class="section-heading">
+          <p class="eyebrow">Chapter 05</p>
+          <h2>交通位置数据分析</h2>
+          <p>适合做轨迹清洗、地图匹配、OD 分析、空间聚类和热点识别。</p>
+        </div>
+        <div class="dataset-grid">
+          <article class="dataset-card recommended">
+            <span class="tag">推荐主数据集</span>
+            <h3>Microsoft GeoLife GPS Trajectories</h3>
+            <p>包含用户 GPS 轨迹，适合讲轨迹点、停留点、出行方式识别、轨迹压缩和空间可视化。</p>
+            <a href="https://www.microsoft.com/en-us/research/publication/geolife-gps-trajectory-dataset-user-guide/" target="_blank" rel="noreferrer">打开数据源</a>
+          </article>
+          <article class="dataset-card">
+            <span class="tag">出租车轨迹</span>
+            <h3>T-Drive Taxi Trajectories</h3>
+            <p>北京出租车 GPS 轨迹数据，适合做轨迹清洗、路网匹配、速度估计和城市出行热点分析。</p>
+            <a href="https://www.microsoft.com/en-us/research/publication/t-drive-trajectory-data-sample/" target="_blank" rel="noreferrer">打开数据源</a>
+          </article>
+          <article class="dataset-card">
+            <span class="tag">OD 分析</span>
+            <h3>NYC TLC Trip Record Data</h3>
+            <p>纽约出租车和网约车行程数据，包含上下车时间、区域、费用等字段，适合做 OD、需求预测和运营分析。</p>
+            <a href="https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page" target="_blank" rel="noreferrer">打开数据源</a>
+          </article>
+          <article class="dataset-card">
+            <span class="tag">共享出行</span>
+            <h3>Capital Bikeshare System Data</h3>
+            <p>共享单车行程数据，适合做站点热度、通勤模式、天气关联和空间流动分析。</p>
+            <a href="https://capitalbikeshare.com/system-data" target="_blank" rel="noreferrer">打开数据源</a>
+          </article>
+        </div>
+      </section>
+
+      <section class="section muted" id="chapter-06">
+        <div class="section-heading">
+          <p class="eyebrow">Chapter 06</p>
+          <h2>交通时序数据分析</h2>
+          <p>适合做单点或多点流量、速度、占有率、客流和需求预测。</p>
+        </div>
+        <div class="dataset-grid">
+          <article class="dataset-card recommended">
+            <span class="tag">推荐主数据集</span>
+            <h3>Caltrans PeMS</h3>
+            <p>加州高速公路传感器数据，包含流量、速度和占有率，是交通预测研究里非常常用的基础数据源。</p>
+            <a href="https://pems.dot.ca.gov/" target="_blank" rel="noreferrer">打开数据源</a>
+          </article>
+          <article class="dataset-card">
+            <span class="tag">基准数据</span>
+            <h3>METR-LA</h3>
+            <p>洛杉矶高速传感器速度数据，适合教学交通速度预测、缺失值处理和多步预测。</p>
+            <a href="https://github.com/liyaguang/DCRNN" target="_blank" rel="noreferrer">打开数据源</a>
+          </article>
+          <article class="dataset-card">
+            <span class="tag">基准数据</span>
+            <h3>PEMS-BAY</h3>
+            <p>旧金山湾区高速传感器速度数据，常与 METR-LA 一起用于时序和时空预测基准实验。</p>
+            <a href="https://github.com/liyaguang/DCRNN" target="_blank" rel="noreferrer">打开数据源</a>
+          </article>
+          <article class="dataset-card">
+            <span class="tag">客流时序</span>
+            <h3>Chicago Transit Authority Ridership</h3>
+            <p>芝加哥公交和轨道客流开放数据，适合做日级客流预测、节假日效应和趋势分解。</p>
+            <a href="https://data.cityofchicago.org/Transportation/CTA-Ridership-Daily-Boarding-Totals/6iiy-9s97" target="_blank" rel="noreferrer">打开数据源</a>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="chapter-07">
+        <div class="section-heading">
+          <p class="eyebrow">Chapter 07</p>
+          <h2>交通时空数据分析</h2>
+          <p>适合讲图结构、传感器网络、空间邻接矩阵、图神经网络和时空预测。</p>
+        </div>
+        <div class="dataset-grid">
+          <article class="dataset-card recommended">
+            <span class="tag">推荐主数据集</span>
+            <h3>PeMSD4 / PeMSD8</h3>
+            <p>交通时空预测常用基准数据集，通常包含多传感器流量序列和道路网络邻接信息，适合图时序建模。</p>
+            <a href="https://github.com/guoshnBJTU/ASTGCN-r-pytorch" target="_blank" rel="noreferrer">打开数据源</a>
+          </article>
+          <article class="dataset-card">
+            <span class="tag">图预测</span>
+            <h3>METR-LA + Road Sensor Graph</h3>
+            <p>适合从传感器距离构建图，讲 DCRNN、STGCN、Graph WaveNet 等模型的输入格式。</p>
+            <a href="https://github.com/liyaguang/DCRNN" target="_blank" rel="noreferrer">打开数据源</a>
+          </article>
+          <article class="dataset-card">
+            <span class="tag">图预测</span>
+            <h3>PEMS-BAY + Road Sensor Graph</h3>
+            <p>与 METR-LA 互补，适合做跨城市泛化、传感器缺失和模型鲁棒性实验。</p>
+            <a href="https://github.com/liyaguang/DCRNN" target="_blank" rel="noreferrer">打开数据源</a>
+          </article>
+          <article class="dataset-card">
+            <span class="tag">研究合集</span>
+            <h3>Traffic Forecasting Benchmark Collections</h3>
+            <p>许多论文仓库整理了 PeMS 系列、METR-LA、PEMS-BAY 等数据，可作为扩展实验入口。</p>
+            <a href="https://github.com/guoshnBJTU/ASTGCN-r-pytorch" target="_blank" rel="noreferrer">打开数据源</a>
+          </article>
+        </div>
+      </section>
+
+      <section class="section muted" id="chapter-08">
+        <div class="section-heading">
+          <p class="eyebrow">Chapter 08</p>
+          <h2>交通影像数据分析</h2>
+          <p>适合做车辆检测、车道线、交通标志、视频跟踪、场景分割和自动驾驶感知。</p>
+        </div>
+        <div class="dataset-grid">
+          <article class="dataset-card recommended">
+            <span class="tag">推荐主数据集</span>
+            <h3>BDD100K</h3>
+            <p>大规模驾驶视频和图像数据集，覆盖检测、分割、车道线和可行驶区域等任务，适合综合影像实践。</p>
+            <a href="https://www.bdd100k.com/" target="_blank" rel="noreferrer">打开数据源</a>
+          </article>
+          <article class="dataset-card">
+            <span class="tag">车辆检测</span>
+            <h3>UA-DETRAC</h3>
+            <p>交通监控视频车辆检测和跟踪数据集，适合做检测、跟踪、遮挡和多目标评估。</p>
+            <a href="https://detrac-db.rit.albany.edu/" target="_blank" rel="noreferrer">打开数据源</a>
+          </article>
+          <article class="dataset-card">
+            <span class="tag">挑战赛</span>
+            <h3>AI City Challenge</h3>
+            <p>面向智慧交通视频理解的年度挑战数据，适合做车辆重识别、多摄像头跟踪、交通事件检测等进阶项目。</p>
+            <a href="https://www.aicitychallenge.org/" target="_blank" rel="noreferrer">打开数据源</a>
+          </article>
+          <article class="dataset-card">
+            <span class="tag">自动驾驶</span>
+            <h3>KITTI Vision Benchmark</h3>
+            <p>经典自动驾驶视觉数据集，适合讲目标检测、深度估计、视觉里程计和多传感器标定。</p>
+            <a href="https://www.cvlibs.net/datasets/kitti/" target="_blank" rel="noreferrer">打开数据源</a>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <span>交通数据集目录</span>
+      <a href="index.html">返回首页</a>
+    </footer>
+    <script src="script.js"></script>
+  </body>
+</html>

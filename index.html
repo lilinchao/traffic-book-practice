@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="编程、AI、数据与工程实践书籍的开源配套材料。">
+    <title>AI 工程实践开放书</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="#top" aria-label="返回首页">
+        <span class="brand-mark">AI</span>
+        <span>工程实践开放书</span>
+      </a>
+      <nav class="site-nav" aria-label="主导航">
+        <a href="#chapters">章节</a>
+        <a href="datasets.html">数据集</a>
+        <a href="#projects">项目</a>
+        <a href="#setup">环境</a>
+        <a href="#contribute">贡献</a>
+      </nav>
+    </header>
+
+    <main id="top">
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">Open practice materials for a hands-on book</p>
+          <h1>编程、AI、数据与工程实践，一章一练。</h1>
+          <p class="hero-text">
+            这里是书籍的开源实践材料：每章配套可运行代码、实验数据、工程清单、练习任务和参考实现。
+          </p>
+          <div class="hero-actions" aria-label="主要操作">
+            <a class="button primary" href="#chapters">浏览章节</a>
+            <a class="button secondary" href="https://github.com/" target="_blank" rel="noreferrer">查看 GitHub</a>
+          </div>
+        </div>
+        <div class="hero-visual" aria-label="AI 工程实践流程图">
+          <div class="pipeline-node data">
+            <span>Data</span>
+            <strong>采集与清洗</strong>
+          </div>
+          <div class="pipeline-line"></div>
+          <div class="pipeline-node model">
+            <span>Model</span>
+            <strong>实验与评估</strong>
+          </div>
+          <div class="pipeline-line"></div>
+          <div class="pipeline-node deploy">
+            <span>Deploy</span>
+            <strong>服务与监控</strong>
+          </div>
+          <div class="hero-panel">
+            <div class="status-card">
+              <span class="status-label">Current Track</span>
+              <strong>AI Engineering</strong>
+            </div>
+            <div class="metric-grid">
+              <div>
+                <span>Chapters</span>
+                <strong>08</strong>
+              </div>
+              <div>
+                <span>Projects</span>
+                <strong>03</strong>
+              </div>
+              <div>
+                <span>Datasets</span>
+                <strong>18</strong>
+              </div>
+              <div>
+                <span>Labs</span>
+                <strong>24</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="chapters">
+        <div class="section-heading">
+          <p class="eyebrow">Chapter Labs</p>
+          <h2>章节实践</h2>
+        </div>
+        <div class="chapter-list">
+          <article class="chapter-item">
+            <span>01</span>
+            <div>
+              <h3>环境、工具链与第一个 AI 程序</h3>
+              <p>配置 Python、Notebook、API 密钥管理和最小可运行实验。</p>
+            </div>
+            <a href="chapters/01-getting-started/">打开</a>
+          </article>
+          <article class="chapter-item">
+            <span>02</span>
+            <div>
+              <h3>数据采集、清洗与版本管理</h3>
+              <p>构建可复现的数据流水线，记录数据来源、变更和质量检查。</p>
+            </div>
+            <a href="templates/chapter/">模板</a>
+          </article>
+          <article class="chapter-item">
+            <span>03</span>
+            <div>
+              <h3>模型实验、评估与误差分析</h3>
+              <p>从 baseline 到实验追踪，建立可靠的模型比较方法。</p>
+            </div>
+            <a href="templates/chapter/">模板</a>
+          </article>
+          <article class="chapter-item">
+            <span>04</span>
+            <div>
+              <h3>交通面板数据分析</h3>
+              <p>使用交通事故记录构造行政区-月份面板，并完成逻辑回归、泊松回归、负二项回归和零膨胀模型案例。</p>
+            </div>
+            <a href="chapters/04-traffic-accident-panel/">打开</a>
+          </article>
+          <article class="chapter-item">
+            <span>05</span>
+            <div>
+              <h3>交通位置数据分析</h3>
+              <p>使用轨迹、出租车、共享单车和 GPS 数据分析移动行为与空间热点。</p>
+            </div>
+            <a href="datasets.html#chapter-05">数据集</a>
+          </article>
+          <article class="chapter-item">
+            <span>06</span>
+            <div>
+              <h3>交通时序数据分析</h3>
+              <p>使用流量、速度、占有率和客流数据进行预测、异常检测和节假日分析。</p>
+            </div>
+            <a href="datasets.html#chapter-06">数据集</a>
+          </article>
+          <article class="chapter-item">
+            <span>07</span>
+            <div>
+              <h3>交通时空数据分析</h3>
+              <p>结合道路网络和多传感器序列，建模城市交通状态的空间传播。</p>
+            </div>
+            <a href="datasets.html#chapter-07">数据集</a>
+          </article>
+          <article class="chapter-item">
+            <span>08</span>
+            <div>
+              <h3>交通影像数据分析</h3>
+              <p>使用道路图像和视频数据完成车辆检测、轨迹识别和场景理解。</p>
+            </div>
+            <a href="datasets.html#chapter-08">数据集</a>
+          </article>
+        </div>
+      </section>
+
+      <section class="section muted" id="projects">
+        <div class="section-heading">
+          <p class="eyebrow">Capstone Projects</p>
+          <h2>项目制实践</h2>
+        </div>
+        <div class="project-grid">
+          <article class="project-card">
+            <h3>智能文档问答系统</h3>
+            <p>从文档解析、向量检索、回答生成到离线评估，完成一个可演示的 RAG 项目。</p>
+            <ul>
+              <li>数据切分与索引</li>
+              <li>检索质量评估</li>
+              <li>回答质量测试</li>
+            </ul>
+          </article>
+          <article class="project-card">
+            <h3>数据质量监控流水线</h3>
+            <p>围绕真实业务表构建 schema 检查、异常检测、报表和告警机制。</p>
+            <ul>
+              <li>批处理任务</li>
+              <li>质量规则</li>
+              <li>可观测性</li>
+            </ul>
+          </article>
+          <article class="project-card">
+            <h3>模型服务与持续交付</h3>
+            <p>将训练好的模型封装成服务，加入测试、容器化、部署和监控。</p>
+            <ul>
+              <li>API 服务</li>
+              <li>CI 检查</li>
+              <li>部署清单</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="section two-column" id="setup">
+        <div>
+          <p class="eyebrow">Setup</p>
+          <h2>推荐学习环境</h2>
+          <p>
+            每个实践都应提供本地运行、云端 Notebook 和最小依赖说明，让读者把精力放在学习本身。
+          </p>
+        </div>
+        <div class="checklist">
+          <label><input type="checkbox" checked disabled> Python 3.11+</label>
+          <label><input type="checkbox" checked disabled> Jupyter 或 VS Code</label>
+          <label><input type="checkbox" checked disabled> `.env.example` 管理密钥</label>
+          <label><input type="checkbox" checked disabled> `requirements.txt` 或 `pyproject.toml`</label>
+          <label><input type="checkbox" checked disabled> 每章独立验证命令</label>
+        </div>
+      </section>
+
+      <section class="section muted" id="contribute">
+        <div class="section-heading">
+          <p class="eyebrow">Open Source</p>
+          <h2>欢迎读者一起改进</h2>
+        </div>
+        <div class="contribute-layout">
+          <p>
+            这个仓库可以接收勘误、环境问题、实践补充、不同系统的运行记录和新的案例。建议使用 Issue 管理反馈，用 Pull Request 合并改进。
+          </p>
+          <a class="button primary" href="contributing.html">贡献指南</a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <span>AI 工程实践开放书</span>
+      <span>MIT for code. CC BY 4.0 for learning materials.</span>
+    </footer>
+    <script src="script.js"></script>
+  </body>
+</html>

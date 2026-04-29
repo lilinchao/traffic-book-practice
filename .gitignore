@@ -1,0 +1,15 @@
+.DS_Store
+.codex
+.ipython/
+.jupyter/
+.jupyter-data/
+.jupyter-runtime/
+.matplotlib/
+.pip-cache/
+.python-user/
+__pycache__/
+*.pyc
+.env
+.venv/
+node_modules/
+dist/
