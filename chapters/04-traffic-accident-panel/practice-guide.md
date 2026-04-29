@@ -85,6 +85,10 @@ severe_or_fatal
 - `odds_ratio < 1`：对应变量与严重/死亡事故优势比降低相关。
 - 不能直接解释为政策效果。
 
+结果表：
+
+`data/results/chapter-04/logistic_regression_odds_ratios.csv`
+
 ### 5.2 泊松回归
 
 因变量：
@@ -99,9 +103,17 @@ number_of_casualties
 - `incidence_rate_ratio < 1`：期望伤亡人数减少。
 - 需要检查计数数据的离散程度。
 
+结果表：
+
+`data/results/chapter-04/poisson_incidence_rate_ratios.csv`
+
 ### 5.3 负二项回归
 
 负二项模型用于处理计数数据的过度离散。如果泊松模型的方差假设不合适，可以用负二项模型作为替代方案。
+
+模型比较表：
+
+`data/results/chapter-04/count_model_comparison.csv`
 
 ### 5.4 零膨胀模型
 
@@ -116,7 +128,31 @@ vulnerable_casualties
 - 为什么某些观测更可能是结构性零值？
 - 非结构性零值情况下，伤亡人数如何变化？
 
-## 6. 因果分析边界
+结果表：
+
+`data/results/chapter-04/zero_inflated_poisson_results.csv`
+
+## 6. 情景预测案例
+
+为了让模型结果更容易解释，本实践提供了 4 个情景预测：
+
+| 情景 | 含义 |
+| --- | --- |
+| Urban daylight, 30 mph | 城市、白天、30 mph |
+| Urban darkness, 30 mph | 城市、夜间、30 mph |
+| Rural daylight, 60 mph | 乡村、白天、60 mph |
+| Rural darkness, wet, 60 mph | 乡村、夜间、潮湿路面、60 mph |
+
+情景预测表：
+
+`data/results/chapter-04/scenario_predictions.csv`
+
+这张表把模型输出转换成两个更容易理解的结果：
+
+- 预测严重或死亡事故概率
+- 预测伤亡人数
+
+## 7. 因果分析边界
 
 当前案例可以训练“因果分析的思维”，但还不是严格因果识别。
 
@@ -126,7 +162,7 @@ vulnerable_casualties
 - 控制混杂因素，例如交通流量、道路等级、天气暴露、执法强度。
 - 使用更强识别策略，例如匹配、倾向得分、双重差分、断点回归或固定效应模型。
 
-## 7. 学生任务
+## 8. 学生任务
 
 ### 基础任务
 
@@ -149,7 +185,7 @@ vulnerable_casualties
 3. 选择一个自变量，写出可能的混杂因素。
 4. 设计一个更接近因果识别的研究方案。
 
-## 8. 延伸：出行调查数据集
+## 9. 延伸：出行调查数据集
 
 如果要研究出行行为，可以继续使用 National Household Travel Survey 数据。
 

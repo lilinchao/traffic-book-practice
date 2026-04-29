@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>第 4 章可视化预览</title>
+    <title>第 4 章模型结果展示</title>
     <link rel="stylesheet" href="../../styles.css">
   </head>
   <body>
@@ -21,51 +21,193 @@
 
     <main>
       <section class="section">
-        <p class="eyebrow">Chapter 04 Visuals</p>
-        <h1>交通表格型数据可视化</h1>
+        <p class="eyebrow">Model Results</p>
+        <h1>交通表格型数据建模结果展示</h1>
         <p class="hero-text">
-          这些图展示 STATS19 表格数据中的自变量、因变量和模型结果，用于快速预览案例效果。
+          这一页展示建模后可以得到的典型结果：描述性图表、回归系数表、模型比较、情景预测和零膨胀模型输出。
         </p>
+        <div class="hero-actions">
+          <a class="button primary" href="../../data/results/chapter-04/logistic_regression_odds_ratios.csv">逻辑回归结果表</a>
+          <a class="button secondary" href="../../data/results/chapter-04/scenario_predictions.csv">情景预测表</a>
+          <a class="button secondary" href="../../data/results/chapter-04/count_model_comparison.csv">模型比较表</a>
+        </div>
       </section>
 
       <section class="section muted">
+        <div class="section-heading">
+          <p class="eyebrow">01</p>
+          <h2>描述性结果</h2>
+          <p>先看自变量和因变量的关系，再进入模型。速度限制、城乡属性、照明条件和弱势交通参与者零值分布，是本案例最适合讲解的几个入口。</p>
+        </div>
         <div class="visual-grid">
           <article class="visual-card">
             <img src="../../assets/chapter-04/01_severity_by_speed_limit.png" alt="不同速度限制下严重事故比例">
             <h3>速度限制与严重事故</h3>
-            <p>比较不同速度限制道路上的严重或死亡事故比例。</p>
+            <p>用于引出核心自变量：速度限制越高，严重事故比例是否更高。</p>
           </article>
           <article class="visual-card">
             <img src="../../assets/chapter-04/02_severity_area_lighting_heatmap.png" alt="城乡与照明条件下严重事故比例热力图">
             <h3>城乡与照明</h3>
-            <p>观察城乡属性和照明条件与事故严重程度的关系。</p>
+            <p>热力图帮助比较 rural/urban 与 daylight/darkness 的组合差异。</p>
           </article>
           <article class="visual-card">
             <img src="../../assets/chapter-04/03_casualty_count_by_area.png" alt="城乡地区伤亡人数分布">
             <h3>伤亡人数分布</h3>
-            <p>比较城市和乡村地区碰撞事故的伤亡人数分布。</p>
+            <p>展示计数型因变量 `number_of_casualties` 的分布形态。</p>
           </article>
           <article class="visual-card">
             <img src="../../assets/chapter-04/04_vulnerable_zero_distribution.png" alt="弱势交通参与者伤亡数零值分布">
             <h3>零值较多的计数</h3>
-            <p>弱势交通参与者伤亡数中有大量 0，适合引出零膨胀模型。</p>
+            <p>大量 0 值为零膨胀模型提供直觉。</p>
           </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <p class="eyebrow">02</p>
+          <h2>回归模型结果</h2>
+          <p>模型结果通常以系数表和可解释图呈现。逻辑回归关注 odds ratio，泊松回归关注 incidence rate ratio。</p>
+        </div>
+        <div class="visual-grid">
           <article class="visual-card">
             <img src="../../assets/chapter-04/05_logistic_odds_ratios.png" alt="逻辑回归 odds ratio">
-            <h3>逻辑回归结果</h3>
-            <p>用 odds ratio 展示自变量与严重事故概率之间的关系。</p>
+            <h3>逻辑回归：Odds Ratio</h3>
+            <p>示例解读：`speed_limit` 的 odds ratio 约为 1.008，表示速度限制每增加 1 mph，严重/死亡事故的优势比约增加 0.8%。</p>
+          </article>
+          <article class="visual-card">
+            <img src="../../assets/chapter-04/08_poisson_incidence_rate_ratios.png" alt="泊松回归 IRR">
+            <h3>泊松回归：IRR</h3>
+            <p>IRR 用来解释计数因变量的相对变化，例如期望伤亡人数的增加或减少。</p>
           </article>
           <article class="visual-card">
             <img src="../../assets/chapter-04/06_poisson_observed_vs_predicted.png" alt="泊松回归预测伤亡人数与观测值对比">
-            <h3>泊松回归预测</h3>
-            <p>比较泊松模型预测的伤亡人数与实际观测值。</p>
+            <h3>预测值与观测值</h3>
+            <p>散点图可以检查模型预测是否跟实际计数大致一致。</p>
+          </article>
+          <article class="visual-card">
+            <img src="../../assets/chapter-04/07_count_model_comparison.png" alt="泊松回归和负二项回归 AIC BIC 对比">
+            <h3>泊松 vs 负二项</h3>
+            <p>用 AIC/BIC 比较计数模型，是讲解模型选择的直观材料。</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section muted">
+        <div class="section-heading">
+          <p class="eyebrow">03</p>
+          <h2>情景预测案例</h2>
+          <p>情景预测把模型结果翻译成更容易理解的案例：在不同道路条件下，严重事故概率和预期伤亡人数如何变化。</p>
+        </div>
+        <div class="visual-grid">
+          <article class="visual-card">
+            <img src="../../assets/chapter-04/09_scenario_severe_probability.png" alt="不同情景下严重事故预测概率">
+            <h3>严重事故概率</h3>
+            <p>情景预测显示，乡村、夜间、潮湿和更高速度限制组合下，预测严重/死亡事故概率更高。</p>
+          </article>
+          <article class="visual-card">
+            <img src="../../assets/chapter-04/10_scenario_predicted_casualties.png" alt="不同情景下预测伤亡人数">
+            <h3>预期伤亡人数</h3>
+            <p>泊松和负二项模型可以输出每个情景下的预期伤亡人数。</p>
+          </article>
+        </div>
+        <div class="table-wrap result-table">
+          <table>
+            <thead>
+              <tr>
+                <th>情景</th>
+                <th>严重事故概率</th>
+                <th>泊松预测伤亡数</th>
+                <th>负二项预测伤亡数</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Urban daylight, 30 mph</td>
+                <td>0.200</td>
+                <td>1.215</td>
+                <td>1.216</td>
+              </tr>
+              <tr>
+                <td>Urban darkness, 30 mph</td>
+                <td>0.231</td>
+                <td>1.266</td>
+                <td>1.270</td>
+              </tr>
+              <tr>
+                <td>Rural daylight, 60 mph</td>
+                <td>0.272</td>
+                <td>1.447</td>
+                <td>1.447</td>
+              </tr>
+              <tr>
+                <td>Rural darkness, wet, 60 mph</td>
+                <td>0.320</td>
+                <td>1.635</td>
+                <td>1.634</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <p class="eyebrow">04</p>
+          <h2>零膨胀模型结果</h2>
+          <p>弱势交通参与者伤亡数有大量零值，适合展示零膨胀模型如何把零值过程和计数过程拆开。</p>
+        </div>
+        <div class="visual-grid">
+          <article class="visual-card">
+            <img src="../../assets/chapter-04/11_zip_count_component.png" alt="零膨胀泊松计数组件系数">
+            <h3>计数组件</h3>
+            <p>展示在非结构性零值状态下，自变量与弱势交通参与者伤亡数之间的关系。</p>
+          </article>
+          <article class="visual-card">
+            <img src="../../assets/chapter-04/12_zip_observed_vs_predicted.png" alt="零膨胀泊松观测值与预测值">
+            <h3>预测效果</h3>
+            <p>观测值和预测值对比可用于检查模型是否捕捉到了计数结果的基本分布。</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section muted">
+        <div class="section-heading">
+          <p class="eyebrow">05</p>
+          <h2>可下载结果表</h2>
+        </div>
+        <div class="project-grid">
+          <article class="project-card">
+            <h3>逻辑回归</h3>
+            <p>系数、odds ratio、置信区间和 p 值。</p>
+            <a href="../../data/results/chapter-04/logistic_regression_odds_ratios.csv">下载 CSV</a>
+          </article>
+          <article class="project-card">
+            <h3>泊松回归</h3>
+            <p>系数、incidence rate ratio、置信区间和 p 值。</p>
+            <a href="../../data/results/chapter-04/poisson_incidence_rate_ratios.csv">下载 CSV</a>
+          </article>
+          <article class="project-card">
+            <h3>模型比较</h3>
+            <p>泊松和负二项模型的 AIC、BIC、离散统计量。</p>
+            <a href="../../data/results/chapter-04/count_model_comparison.csv">下载 CSV</a>
+          </article>
+          <article class="project-card">
+            <h3>情景预测</h3>
+            <p>不同道路情景下的预测严重事故概率和预期伤亡数。</p>
+            <a href="../../data/results/chapter-04/scenario_predictions.csv">下载 CSV</a>
+          </article>
+          <article class="project-card">
+            <h3>零膨胀模型</h3>
+            <p>零膨胀泊松模型的计数组件和零膨胀组件结果。</p>
+            <a href="../../data/results/chapter-04/zero_inflated_poisson_results.csv">下载 CSV</a>
           </article>
         </div>
       </section>
     </main>
 
     <footer class="site-footer">
-      <span>Chapter 04 visuals</span>
+      <span>Chapter 04 model results</span>
       <a href="index.html">返回第 4 章</a>
     </footer>
     <script src="../../script.js"></script>

@@ -1,0 +1,5 @@
+scenario,speed_limit,rural,darkness,adverse_weather,wet_or_icy,junction_present,weekend,number_of_vehicles,predicted_severe_probability,predicted_casualties_poisson,predicted_casualties_negative_binomial
+"Urban daylight, 30 mph",30,0,0,0,0,1,0,2,0.1996106910360252,1.2147340650275855,1.2161802362901906
+"Urban darkness, 30 mph",30,0,1,0,0,1,0,2,0.23142275814015162,1.2660221029503547,1.2695405212700845
+"Rural daylight, 60 mph",60,1,0,0,0,0,0,2,0.27182453333956236,1.4469283097487058,1.447335863011717
+"Rural darkness, wet, 60 mph",60,1,1,1,1,0,1,2,0.31965999268680384,1.6352646699923743,1.6338902475757922

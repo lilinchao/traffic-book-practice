@@ -377,6 +377,21 @@ h3 {
   border-radius: 8px;
 }
 
+.project-card a {
+  display: inline-flex;
+  margin-top: 8px;
+  color: var(--accent-strong);
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.result-table {
+  margin-top: 24px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
 .guide-layout {
   display: grid;
   grid-template-columns: 220px minmax(0, 1fr);

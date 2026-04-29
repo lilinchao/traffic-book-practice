@@ -11,6 +11,7 @@ The files in `raw/` are downloaded from public data sources and are intended for
 | `raw/stats19_collision_2023.csv` | Chapter 4 | UK DfT STATS19 | Traffic collision tabular data, severity modeling |
 | `raw/stats19_casualty_2023.csv` | Chapter 4 | UK DfT STATS19 | Casualty-level table for derived vulnerable road-user outcomes |
 | `processed/stats19_collision_casualty_tabular_2023_sample.csv` | Chapter 4 | Derived from STATS19 | Tabular causal-oriented modeling, logistic/count/zero-inflated examples |
+| `results/chapter-04/*.csv` | Chapter 4 | Derived from STATS19 model outputs | Model coefficients, model comparison, scenario predictions |
 | `raw/nyc_motor_vehicle_collisions_crashes_2023_sample.csv` | Chapter 4 | NYC Open Data Motor Vehicle Collisions Crashes | Traffic accident records, panel construction, injury and crash factor analysis |
 | `processed/nyc_crash_borough_month_panel_2023.csv` | Chapter 4 | NYC Open Data grouped API result | Borough-month panel data, grouped statistics, fixed-effect style exercises |
 | `raw/nyc_traffic_volume_counts_sample.csv` | Chapter 4 / 6 | NYC Open Data Traffic Volume Counts | Traffic volume panel data, hourly profile analysis, road segment comparison |

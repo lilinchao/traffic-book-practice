@@ -9,6 +9,7 @@
 - Processed teaching sample: `../../data/processed/stats19_collision_casualty_tabular_2023_sample.csv`
 - Notebook: `../../notebooks/chapter-04/traffic_accident_panel_analysis.ipynb`
 - Practice guide: `practice-guide.md`
+- Model result tables: `../../data/results/chapter-04/`
 
 ## Practice Goals
 
@@ -18,6 +19,7 @@
 - 使用泊松回归和负二项回归分析伤亡人数
 - 使用零膨胀泊松模型分析弱势交通参与者伤亡数
 - 讨论相关性模型和严格因果识别之间的边界
+- 输出模型结果表、情景预测表和可视化图表
 
 ## Refresh Data
 
