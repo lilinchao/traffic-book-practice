@@ -1,33 +1,30 @@
-# 04 Traffic Accident Panel Analysis
+# 04 Traffic Tabular Data Analysis
 
-本章使用纽约交通事故开放数据，演示如何从事件级事故记录构造“行政区-月份”面板数据，并完成描述性分析与回归建模案例。
+本章使用英国 STATS19 交通事故表格数据，演示如何围绕因变量、自变量和控制变量设计建模案例，并分析自变量对事故严重程度、伤亡人数和弱势交通参与者伤亡数的影响。
 
 ## Dataset
 
-- Raw sample: `../../data/raw/nyc_motor_vehicle_collisions_crashes_2023_sample.csv`
-- Processed panel: `../../data/processed/nyc_crash_borough_month_panel_2023.csv`
-- Data dictionary: `../../data/dictionaries/nyc_motor_vehicle_collisions.md`
+- Raw collision table: `../../data/raw/stats19_collision_2023.csv`
+- Raw casualty table: `../../data/raw/stats19_casualty_2023.csv`
+- Processed teaching sample: `../../data/processed/stats19_collision_casualty_tabular_2023_sample.csv`
 - Notebook: `../../notebooks/chapter-04/traffic_accident_panel_analysis.ipynb`
 - Practice guide: `practice-guide.md`
 
 ## Practice Goals
 
-- 读取并检查事故记录数据
-- 处理日期、行政区和伤亡数字段
-- 构造 borough-month 面板数据
-- 分析不同 borough 的事故数量和伤亡变化
-- 识别样本中的常见事故原因
-- 使用逻辑回归识别高受伤率月份
-- 使用泊松回归和负二项回归建模事故次数
-- 使用零膨胀泊松模型建模死亡事故计数
+- 读取并理解交通事故表格数据
+- 区分因变量、自变量和控制变量
+- 使用逻辑回归分析严重事故概率
+- 使用泊松回归和负二项回归分析伤亡人数
+- 使用零膨胀泊松模型分析弱势交通参与者伤亡数
+- 讨论相关性模型和严格因果识别之间的边界
 
 ## Refresh Data
 
 ```bash
 bash scripts/download_case_data.sh
+python3 scripts/build_stats19_tabular_case.py
 ```
-
-Run the command from the repository root. The processed panel is downloaded as a grouped result from the NYC Open Data API so it covers all 12 months of 2023.
 
 ## Run Notebook
 

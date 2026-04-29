@@ -2,23 +2,21 @@
 
 ## Basic
 
-1. 读取 `data/raw/nyc_motor_vehicle_collisions_crashes_2023_sample.csv`。
-2. 统计每个 borough 的事故数量。
-3. 将 `crash_date` 转换为月份。
-4. 生成 borough-month 事故数量表。
+1. 读取 `data/processed/stats19_collision_casualty_tabular_2023_sample.csv`。
+2. 解释 `severe_or_fatal`、`number_of_casualties` 和 `vulnerable_casualties` 三个因变量。
+3. 比较不同 `speed_limit` 下的严重事故比例。
+4. 绘制 `vulnerable_casualties` 的零值分布。
 
 ## Advanced
 
-1. 计算每个 borough 每月的受伤人数。
-2. 比较机动车、行人、骑行者三类受伤人数。
-3. 找出 `contributing_factor_vehicle_1` 中最常见的 10 类原因。
-4. 构造 `high_injury_rate` 二分类变量，并解释它的含义。
-5. 拟合泊松回归模型，解释一个发生率比。
+1. 拟合逻辑回归模型，解释一个 odds ratio。
+2. 拟合泊松回归模型，解释一个 incidence rate ratio。
+3. 计算泊松模型的离散统计量。
+4. 比较泊松回归和负二项回归的 AIC。
 
 ## Challenge
 
-1. 构造一个平衡面板，保证每个 borough 都有 12 个月。
-2. 计算每个 borough 的月度事故环比变化。
-3. 设计一个简单的事故风险指标，并解释它的局限。
-4. 比较泊松回归和负二项回归的 AIC，说明为什么负二项模型可能更合适。
-5. 用 `persons_killed` 拟合零膨胀模型，并说明零膨胀部分和计数部分分别回答什么问题。
+1. 拟合零膨胀泊松模型，并解释零膨胀部分和计数部分的含义。
+2. 选择一个自变量，写出至少三个可能的混杂因素。
+3. 设计一个更接近因果识别的研究方案，例如匹配、双重差分、断点回归或固定效应模型。
+4. 写一段 300-500 字分析结论，必须包含模型结果、解释边界和改进方向。

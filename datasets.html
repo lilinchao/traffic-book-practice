@@ -39,32 +39,32 @@
       <section class="section muted" id="chapter-04">
         <div class="section-heading">
           <p class="eyebrow">Chapter 04</p>
-          <h2>交通面板数据分析</h2>
-          <p>适合做城市、州、省或国家级别的横截面时间序列分析。</p>
+          <h2>交通表格型数据分析</h2>
+          <p>适合围绕因变量、自变量和控制变量，分析交通安全和出行行为中的变量影响。</p>
         </div>
         <div class="dataset-grid">
           <article class="dataset-card recommended">
             <span class="tag">推荐主数据集</span>
+            <h3>UK DfT STATS19 Road Safety Data</h3>
+            <p>英国交通事故、车辆和伤亡开放表格数据，字段包含速度限制、照明、天气、路面、城乡属性和事故严重程度，适合做回归和因果导向建模。</p>
+            <a href="https://data.dft.gov.uk/road-accidents-safety-data/" target="_blank" rel="noreferrer">打开数据源</a>
+          </article>
+          <article class="dataset-card">
+            <span class="tag">出行调查</span>
+            <h3>National Household Travel Survey</h3>
+            <p>美国家庭出行调查数据，适合分析出行方式选择、出行距离、通勤、周末出行和家庭属性对出行行为的影响。</p>
+            <a href="https://nhts.ornl.gov/" target="_blank" rel="noreferrer">打开数据源</a>
+          </article>
+          <article class="dataset-card">
+            <span class="tag">事故备选</span>
             <h3>NYC Motor Vehicle Collisions Crashes</h3>
-            <p>纽约官方交通事故数据，每行是一条事故记录，包含日期、行政区、位置、伤亡人数和事故原因。适合聚合成行政区-月份面板。</p>
+            <p>纽约官方交通事故事件数据，可作为城市事故记录备选数据源，但本章主案例不再使用它。</p>
             <a href="https://data.cityofnewyork.us/Public-Safety/Motor-Vehicle-Collisions-Crashes/h9gi-nx95" target="_blank" rel="noreferrer">打开数据源</a>
           </article>
           <article class="dataset-card">
-            <span class="tag">年度面板</span>
-            <h3>FHWA Highway Statistics Series</h3>
-            <p>美国联邦公路管理局年度公路统计，适合构造州-年份面板，分析 VMT、道路里程、车辆注册和交通财政指标。</p>
-            <a href="https://www.fhwa.dot.gov/policyinformation/statistics.cfm" target="_blank" rel="noreferrer">打开数据源</a>
-          </article>
-          <article class="dataset-card">
-            <span class="tag">城市出行</span>
-            <h3>NYC Open Data Traffic Volume Counts</h3>
-            <p>纽约道路交通量观测数据，可按道路、区域、月份或年份聚合，适合做城市内部面板分析。</p>
-            <a href="https://data.cityofnewyork.us/Transportation/Traffic-Volume-Counts/btm5-ppia" target="_blank" rel="noreferrer">打开数据源</a>
-          </article>
-          <article class="dataset-card">
-            <span class="tag">安全分析</span>
+            <span class="tag">严重事故</span>
             <h3>NHTSA FARS</h3>
-            <p>美国 Fatality Analysis Reporting System，适合构建事故、死亡人数、道路类型、天气、车辆和驾驶人相关的年度面板。</p>
+            <p>美国 Fatality Analysis Reporting System，适合专门研究死亡事故，但样本只覆盖致死事故，不适合作为一般事故严重程度模型的唯一数据。</p>
             <a href="https://www.nhtsa.gov/research-data/fatality-analysis-reporting-system-fars" target="_blank" rel="noreferrer">打开数据源</a>
           </article>
         </div>

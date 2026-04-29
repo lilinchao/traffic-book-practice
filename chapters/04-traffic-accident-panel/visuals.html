@@ -14,7 +14,7 @@
       </a>
       <nav class="site-nav" aria-label="章节导航">
         <a href="index.html">第 4 章</a>
-        <a href="../../datasets.html">数据集</a>
+        <a href="practice-guide.html">实践讲义</a>
         <a href="../../notebooks/chapter-04/traffic_accident_panel_analysis.ipynb">Notebook</a>
       </nav>
     </header>
@@ -22,43 +22,43 @@
     <main>
       <section class="section">
         <p class="eyebrow">Chapter 04 Visuals</p>
-        <h1>交通事故面板数据可视化</h1>
+        <h1>交通表格型数据可视化</h1>
         <p class="hero-text">
-          这些图由第 4 章的本地数据生成，用来快速预览描述性分析和模型结果的呈现效果。
+          这些图展示 STATS19 表格数据中的自变量、因变量和模型结果，用于快速预览案例效果。
         </p>
       </section>
 
       <section class="section muted">
         <div class="visual-grid">
           <article class="visual-card">
-            <img src="../../assets/chapter-04/01_monthly_crash_trends.png" alt="纽约各行政区月度事故数量趋势">
-            <h3>月度事故趋势</h3>
-            <p>展示不同 borough 在 2023 年的事故数量变化。</p>
+            <img src="../../assets/chapter-04/01_severity_by_speed_limit.png" alt="不同速度限制下严重事故比例">
+            <h3>速度限制与严重事故</h3>
+            <p>比较不同速度限制道路上的严重或死亡事故比例。</p>
           </article>
           <article class="visual-card">
-            <img src="../../assets/chapter-04/02_crash_heatmap.png" alt="行政区和月份事故数量热力图">
-            <h3>事故热力图</h3>
-            <p>把 borough-month 面板转换为宽表，观察高事故月份和区域。</p>
+            <img src="../../assets/chapter-04/02_severity_area_lighting_heatmap.png" alt="城乡与照明条件下严重事故比例热力图">
+            <h3>城乡与照明</h3>
+            <p>观察城乡属性和照明条件与事故严重程度的关系。</p>
           </article>
           <article class="visual-card">
-            <img src="../../assets/chapter-04/03_injury_rate_trends.png" alt="每百起事故受伤人数趋势">
-            <h3>受伤率趋势</h3>
-            <p>比较每 100 起事故对应的受伤人数，弱化事故规模差异。</p>
+            <img src="../../assets/chapter-04/03_casualty_count_by_area.png" alt="城乡地区伤亡人数分布">
+            <h3>伤亡人数分布</h3>
+            <p>比较城市和乡村地区碰撞事故的伤亡人数分布。</p>
           </article>
           <article class="visual-card">
-            <img src="../../assets/chapter-04/04_injury_structure.png" alt="不同交通参与者受伤结构">
-            <h3>伤亡结构</h3>
-            <p>比较行人、骑行者和机动车使用者在样本中的受伤人数。</p>
+            <img src="../../assets/chapter-04/04_vulnerable_zero_distribution.png" alt="弱势交通参与者伤亡数零值分布">
+            <h3>零值较多的计数</h3>
+            <p>弱势交通参与者伤亡数中有大量 0，适合引出零膨胀模型。</p>
           </article>
           <article class="visual-card">
-            <img src="../../assets/chapter-04/05_poisson_observed_vs_predicted.png" alt="泊松回归预测事故数与观测事故数对比">
+            <img src="../../assets/chapter-04/05_logistic_odds_ratios.png" alt="逻辑回归 odds ratio">
+            <h3>逻辑回归结果</h3>
+            <p>用 odds ratio 展示自变量与严重事故概率之间的关系。</p>
+          </article>
+          <article class="visual-card">
+            <img src="../../assets/chapter-04/06_poisson_observed_vs_predicted.png" alt="泊松回归预测伤亡人数与观测值对比">
             <h3>泊松回归预测</h3>
-            <p>比较泊松模型预测事故次数与实际事故次数。</p>
-          </article>
-          <article class="visual-card">
-            <img src="../../assets/chapter-04/06_death_zero_distribution.png" alt="月度死亡事故计数分布">
-            <h3>零值分布</h3>
-            <p>展示死亡事故计数中的零值，为零膨胀模型建立直觉。</p>
+            <p>比较泊松模型预测的伤亡人数与实际观测值。</p>
           </article>
         </div>
       </section>

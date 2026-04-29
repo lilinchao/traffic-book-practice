@@ -4,14 +4,16 @@
 
 正式使用前请再次核对各数据集的许可证、引用要求、账号申请要求和再分发规则。
 
-## 第 4 章 交通面板数据分析
+## 第 4 章 交通表格型数据分析
 
 推荐主数据集：
 
-- NYC Motor Vehicle Collisions Crashes: https://data.cityofnewyork.us/Public-Safety/Motor-Vehicle-Collisions-Crashes/h9gi-nx95
+- UK DfT STATS19 Road Safety Data: https://data.dft.gov.uk/road-accidents-safety-data/
 
 可选扩展：
 
+- National Household Travel Survey: https://nhts.ornl.gov/
+- NYC Motor Vehicle Collisions Crashes: https://data.cityofnewyork.us/Public-Safety/Motor-Vehicle-Collisions-Crashes/h9gi-nx95
 - FHWA Highway Statistics Series: https://www.fhwa.dot.gov/policyinformation/statistics.cfm
 - NHTSA FARS: https://www.nhtsa.gov/research-data/fatality-analysis-reporting-system-fars
 - NYC Open Data Traffic Volume Counts: https://data.cityofnewyork.us/Transportation/Traffic-Volume-Counts/btm5-ppia

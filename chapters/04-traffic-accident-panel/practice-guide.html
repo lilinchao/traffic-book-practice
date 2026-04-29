@@ -22,9 +22,9 @@
     <main>
       <section class="section">
         <p class="eyebrow">Practice Guide</p>
-        <h1>交通事故面板数据分析</h1>
+        <h1>交通表格型数据分析</h1>
         <p class="hero-text">
-          这份讲义面向学生上机实践使用，配合第 4 章 Notebook 完成数据理解、面板构造、可视化和回归建模。
+          使用 STATS19 交通事故表格数据，学习如何通过逻辑回归、泊松回归、负二项回归和零膨胀模型分析自变量对因变量的影响。
         </p>
         <div class="hero-actions">
           <a class="button primary" href="../../notebooks/chapter-04/traffic_accident_panel_analysis.ipynb">打开 Notebook</a>
@@ -37,134 +37,106 @@
         <div class="guide-layout">
           <aside class="guide-toc">
             <a href="#goals">实践目标</a>
-            <a href="#data">数据背景</a>
-            <a href="#workflow">实践流程</a>
-            <a href="#visuals">可视化解读</a>
+            <a href="#data">数据集</a>
+            <a href="#variables">变量设计</a>
             <a href="#models">模型案例</a>
+            <a href="#causal">因果边界</a>
             <a href="#tasks">学生任务</a>
-            <a href="#submit">提交要求</a>
           </aside>
 
           <article class="guide-content">
             <section id="goals">
               <p class="eyebrow">01</p>
               <h2>实践目标</h2>
-              <p>完成本实践后，学生应该能够从事件级交通事故记录出发，构造行政区-月份面板数据，并使用可视化和回归模型解释交通安全现象。</p>
+              <p>本实践训练学生从交通事故表格数据中定义因变量、自变量和控制变量，并使用统计模型分析变量之间的关系。</p>
               <ul>
-                <li>解释事件级事故数据与面板数据的区别。</li>
-                <li>检查事故数据的缺失值、事故原因和伤亡字段。</li>
-                <li>构造并解释 `borough-month` 面板。</li>
-                <li>使用逻辑回归、泊松回归、负二项回归和零膨胀模型完成案例建模。</li>
-                <li>说明模型结果的解释边界。</li>
+                <li>识别表格数据中的建模目标。</li>
+                <li>解释严重事故概率、伤亡人数和弱势交通参与者伤亡数。</li>
+                <li>理解 odds ratio、incidence rate ratio 和零膨胀模型。</li>
+                <li>区分相关性模型与严格因果识别。</li>
               </ul>
             </section>
 
             <section id="data">
               <p class="eyebrow">02</p>
-              <h2>数据背景</h2>
-              <p>本实践使用 NYC Motor Vehicle Collisions Crashes 开放数据。原始样本是一条事故一行，面板数据是按 borough 和 month 聚合后的结果。</p>
+              <h2>数据集</h2>
+              <p>主案例使用 UK Department for Transport 的 STATS19 Road Safety Data。扩展案例推荐使用 National Household Travel Survey 出行调查数据。</p>
               <div class="table-wrap">
                 <table>
                   <thead>
                     <tr>
-                      <th>文件</th>
+                      <th>数据</th>
                       <th>用途</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr>
-                      <td><code>data/raw/nyc_motor_vehicle_collisions_crashes_2023_sample.csv</code></td>
-                      <td>字段理解、缺失值检查、事故原因分析</td>
+                      <td><code>stats19_collision_casualty_tabular_2023_sample.csv</code></td>
+                      <td>事故严重程度、伤亡人数、道路条件建模</td>
                     </tr>
                     <tr>
-                      <td><code>data/processed/nyc_crash_borough_month_panel_2023.csv</code></td>
-                      <td>趋势分析、风险指标、回归建模</td>
+                      <td>National Household Travel Survey</td>
+                      <td>出行方式、出行距离、通勤和家庭出行行为分析</td>
                     </tr>
                   </tbody>
                 </table>
               </div>
             </section>
 
-            <section id="workflow">
+            <section id="variables">
               <p class="eyebrow">03</p>
-              <h2>实践流程</h2>
-              <ol>
-                <li>读取事故记录样本，观察时间、地点、伤亡人数和事故原因字段。</li>
-                <li>检查关键字段缺失率，讨论缺失 borough、经纬度和事故原因的影响。</li>
-                <li>统计最常见事故原因，建立对数据内容的直觉。</li>
-                <li>读取 `borough-month` 面板数据，检查每个 borough 是否都有 12 个月。</li>
-                <li>绘制月度趋势图、热力图、受伤率趋势图和伤亡结构图。</li>
-                <li>构造风险指标，并进入逻辑回归和计数回归模型。</li>
-              </ol>
-            </section>
-
-            <section id="visuals">
-              <p class="eyebrow">04</p>
-              <h2>可视化解读</h2>
-              <p>可视化先帮助学生形成直觉，再进入模型。事故数量图用于比较规模，受伤率图用于弱化规模差异，零值分布图用于引出零膨胀模型。</p>
-              <div class="guide-image-row">
-                <img src="../../assets/chapter-04/01_monthly_crash_trends.png" alt="月度事故趋势">
-                <img src="../../assets/chapter-04/02_crash_heatmap.png" alt="事故热力图">
+              <h2>变量设计</h2>
+              <p>本案例围绕三个因变量展开：严重事故概率、伤亡人数、弱势交通参与者伤亡数。</p>
+              <div class="model-list">
+                <article>
+                  <h3>因变量</h3>
+                  <p><code>severe_or_fatal</code>、<code>number_of_casualties</code>、<code>vulnerable_casualties</code></p>
+                </article>
+                <article>
+                  <h3>自变量</h3>
+                  <p><code>speed_limit</code>、<code>rural</code>、<code>darkness</code>、<code>adverse_weather</code>、<code>wet_or_icy</code></p>
+                </article>
               </div>
             </section>
 
             <section id="models">
-              <p class="eyebrow">05</p>
+              <p class="eyebrow">04</p>
               <h2>模型案例</h2>
               <div class="model-list">
                 <article>
                   <h3>逻辑回归</h3>
-                  <p>用于回答“某个 borough-month 是否属于高受伤率月份”。因变量是 `high_injury_rate`，结果重点解释 odds ratio。</p>
+                  <p>分析自变量对严重或死亡事故概率的影响，重点解释 odds ratio。</p>
                 </article>
                 <article>
                   <h3>泊松回归</h3>
-                  <p>用于建模事故次数 `crashes`。结果重点解释 incidence rate ratio，并检查是否存在过度离散。</p>
+                  <p>分析自变量对伤亡人数的影响，重点解释 incidence rate ratio。</p>
                 </article>
                 <article>
                   <h3>负二项回归</h3>
-                  <p>当事故次数的方差明显大于均值时，负二项模型通常比泊松模型更合适。</p>
+                  <p>作为泊松回归的替代方案，用于讨论计数数据的离散性。</p>
                 </article>
                 <article>
                   <h3>零膨胀模型</h3>
-                  <p>用于解释 `persons_killed` 这类有大量零值的稀有计数结果，把结构性零值和计数过程分开。</p>
+                  <p>分析弱势交通参与者伤亡数中的大量零值。</p>
                 </article>
               </div>
+            </section>
+
+            <section id="causal">
+              <p class="eyebrow">05</p>
+              <h2>因果解释边界</h2>
+              <p>当前模型可以训练因果导向的问题表达，但不能直接证明因果关系。更严格的研究需要明确处理变量、控制混杂因素，并使用匹配、双重差分、断点回归或固定效应等识别策略。</p>
             </section>
 
             <section id="tasks">
               <p class="eyebrow">06</p>
               <h2>学生任务</h2>
-              <h3>基础任务</h3>
               <ul>
-                <li>读取原始事故样本。</li>
-                <li>统计每个 borough 的事故数量。</li>
-                <li>读取面板数据并检查是否平衡。</li>
-                <li>绘制月度事故趋势图。</li>
-              </ul>
-              <h3>进阶任务</h3>
-              <ul>
-                <li>构造 `injury_rate_per_100_crashes`。</li>
-                <li>构造 `high_injury_rate` 并拟合逻辑回归。</li>
-                <li>拟合泊松回归并解释一个 IRR。</li>
-                <li>比较泊松回归和负二项回归的 AIC。</li>
-              </ul>
-              <h3>挑战任务</h3>
-              <ul>
-                <li>用 `persons_killed` 拟合零膨胀泊松模型。</li>
-                <li>比较有无 `crashes` 作为 exposure 的结果差异。</li>
-                <li>写一段 300 字以内的结果解读，包含结论和局限。</li>
-              </ul>
-            </section>
-
-            <section id="submit">
-              <p class="eyebrow">07</p>
-              <h2>提交要求</h2>
-              <ul>
-                <li>执行完成的 Notebook。</li>
-                <li>至少 3 张图表。</li>
-                <li>一个模型结果表。</li>
-                <li>300-500 字分析说明。</li>
-                <li>一段局限性说明。</li>
+                <li>比较不同速度限制下的严重事故比例。</li>
+                <li>拟合逻辑回归并解释一个 odds ratio。</li>
+                <li>拟合泊松回归并解释一个 incidence rate ratio。</li>
+                <li>比较泊松回归和负二项回归。</li>
+                <li>拟合零膨胀泊松模型并解释两个组成部分。</li>
               </ul>
             </section>
           </article>

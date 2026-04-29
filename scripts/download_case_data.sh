@@ -3,6 +3,14 @@ set -euo pipefail
 
 mkdir -p data/raw
 
+curl -L --fail \
+  --output data/raw/stats19_collision_2023.csv \
+  'https://data.dft.gov.uk/road-accidents-safety-data/dft-road-casualty-statistics-collision-2023.csv'
+
+curl -L --fail \
+  --output data/raw/stats19_casualty_2023.csv \
+  'https://data.dft.gov.uk/road-accidents-safety-data/dft-road-casualty-statistics-casualty-2023.csv'
+
 curl -L --fail -G \
   'https://data.cityofnewyork.us/resource/h9gi-nx95.csv' \
   --data-urlencode '$limit=5000' \
@@ -36,3 +44,5 @@ curl -L --fail \
 curl -L --fail \
   --output data/raw/capital_bikeshare_station_status.json \
   'https://gbfs.lyft.com/gbfs/2.3/dca-cabi/en/station_status.json'
+
+python3 scripts/build_stats19_tabular_case.py
