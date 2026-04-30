@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>第 6 章 交通时序数据分析</title>
+    <link rel="stylesheet" href="../../styles.css">
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="../../index.html">
+        <span class="brand-mark">交通</span>
+        <span>数据挖掘实践</span>
+      </a>
+      <nav class="site-nav" aria-label="章节导航">
+        <a href="../../index.html#chapters">章节</a>
+        <a href="../../datasets.html">数据集</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="section two-column">
+        <div>
+          <p class="eyebrow">Chapter 06</p>
+          <h1>交通时序数据分析</h1>
+          <p class="hero-text">
+            掌握交通流量短时预测方法：从 ARIMA 到 LSTM，建立由简到繁的模型比较框架。
+          </p>
+          <div class="hero-actions">
+            <a class="button primary" href="practice-guide.md">实践讲义</a>
+            <a class="button secondary" href="exercises.md">练习任务</a>
+            <a class="button secondary" href="starter/timeseries_practice.py">起始代码</a>
+          </div>
+        </div>
+        <div class="checklist">
+          <label><input type="checkbox" checked disabled> 预处理时序数据：缺失、异常、重采样</label>
+          <label><input type="checkbox" checked disabled> 绘制 ACF/PACF 并进行平稳性检验</label>
+          <label><input type="checkbox" checked disabled> 建立 ARIMA 模型并进行滚动预测</label>
+          <label><input type="checkbox" checked disabled> 构造 LSTM 滑动窗口并训练模型</label>
+          <label><input type="checkbox" checked disabled> 使用 DTW 比较日流量模式</label>
+        </div>
+      </section>
+
+      <section class="section muted">
+        <div class="section-heading">
+          <p class="eyebrow">Validation</p>
+          <h2>验证命令</h2>
+        </div>
+        <pre><code>pip install -r requirements.txt
+python scripts/generate_synthetic_flow.py
+python starter/timeseries_practice.py</code></pre>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <span>第 6 章 交通时序数据分析</span>
+      <a href="../../index.html">返回首页</a>
+    </footer>
+    <script src="../../script.js"></script>
+  </body>
+</html>

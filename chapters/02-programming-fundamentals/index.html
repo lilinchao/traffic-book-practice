@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>第 2 章 编程实践基础</title>
+    <link rel="stylesheet" href="../../styles.css">
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="../../index.html">
+        <span class="brand-mark">交通</span>
+        <span>数据挖掘实践</span>
+      </a>
+      <nav class="site-nav" aria-label="章节导航">
+        <a href="../../index.html#chapters">章节</a>
+        <a href="../../datasets.html">数据集</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="section two-column">
+        <div>
+          <p class="eyebrow">Chapter 02</p>
+          <h1>编程实践基础</h1>
+          <p class="hero-text">
+            掌握数据库操作、Python 数据处理与可视化，把原始交通数据转化为可分析的整洁数据。
+          </p>
+          <div class="hero-actions">
+            <a class="button primary" href="practice-guide.md">实践讲义</a>
+            <a class="button secondary" href="exercises.md">练习任务</a>
+            <a class="button secondary" href="starter/traffic_db_practice.py">起始代码</a>
+          </div>
+        </div>
+        <div class="checklist">
+          <label><input type="checkbox" checked disabled> 创建交通数据库并执行 SQL 查询</label>
+          <label><input type="checkbox" checked disabled> 读取、清洗和转换交通数据</label>
+          <label><input type="checkbox" checked disabled> 绘制时间序列与统计图形</label>
+          <label><input type="checkbox" checked disabled> 使用 Pandas 完成分组聚合与合并</label>
+        </div>
+      </section>
+
+      <section class="section muted">
+        <div class="section-heading">
+          <p class="eyebrow">Validation</p>
+          <h2>验证命令</h2>
+        </div>
+        <pre><code>pip install -r requirements.txt
+python starter/traffic_db_practice.py
+python starter/traffic_eda_practice.py</code></pre>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <span>第 2 章 编程实践基础</span>
+      <a href="../../index.html">返回首页</a>
+    </footer>
+    <script src="../../script.js"></script>
+  </body>
+</html>

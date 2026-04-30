@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>第 7 章 交通时空数据分析</title>
+    <link rel="stylesheet" href="../../styles.css">
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="../../index.html">
+        <span class="brand-mark">交通</span>
+        <span>数据挖掘实践</span>
+      </a>
+      <nav class="site-nav" aria-label="章节导航">
+        <a href="../../index.html#chapters">章节</a>
+        <a href="../../datasets.html">数据集</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="section two-column">
+        <div>
+          <p class="eyebrow">Chapter 07</p>
+          <h1>交通时空数据分析</h1>
+          <p class="hero-text">
+            同时处理时间依赖和空间关联：从数据组织、邻接矩阵构建到时空预测与拥堵传播分析。
+          </p>
+          <div class="hero-actions">
+            <a class="button primary" href="practice-guide.md">实践讲义</a>
+            <a class="button secondary" href="exercises.md">练习任务</a>
+            <a class="button secondary" href="starter/spatiotemporal_practice.py">起始代码</a>
+          </div>
+        </div>
+        <div class="checklist">
+          <label><input type="checkbox" checked disabled> 组织时空数据：长表 → 矩阵 → 张量 → 图</label>
+          <label><input type="checkbox" checked disabled> 构建多种邻接矩阵</label>
+          <label><input type="checkbox" checked disabled> 分析时滞互相关与拥堵传播</label>
+          <label><input type="checkbox" checked disabled> 建立 VAR 和 XGBoost 预测模型</label>
+          <label><input type="checkbox" checked disabled> 比较模型并分区域评价误差</label>
+        </div>
+      </section>
+
+      <section class="section muted">
+        <div class="section-heading">
+          <p class="eyebrow">Validation</p>
+          <h2>验证命令</h2>
+        </div>
+        <pre><code>pip install -r requirements.txt
+python scripts/generate_synthetic_network.py
+python starter/spatiotemporal_practice.py</code></pre>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <span>第 7 章 交通时空数据分析</span>
+      <a href="../../index.html">返回首页</a>
+    </footer>
+    <script src="../../script.js"></script>
+  </body>
+</html>

@@ -1,38 +1,65 @@
 # Notebooks
 
-This directory contains executable chapter notebooks.
+各章可执行 Notebook。
 
-## Setup
-
-From the repository root:
+## 安装依赖
 
 ```bash
 pip install -r requirements.txt
 ```
 
-## Chapter 4
+## 第 2 章
 
-Traffic accident panel analysis:
+数据库操作与 Python 数据处理：
+
+```bash
+jupyter notebook notebooks/chapter-02/
+```
+
+## 第 4 章
+
+交通事故面板分析：
 
 ```bash
 jupyter notebook notebooks/chapter-04/traffic_accident_panel_analysis.ipynb
 ```
 
-Execute the whole notebook and write outputs back:
+## 第 5 章
+
+交通空间分析：
 
 ```bash
-bash scripts/execute_chapter04_notebook.sh
+jupyter notebook notebooks/chapter-05/
 ```
 
-The notebook uses:
+## 第 6 章
 
-- `data/raw/nyc_motor_vehicle_collisions_crashes_2023_sample.csv`
-- `data/processed/nyc_crash_borough_month_panel_2023.csv`
+交通时序分析：
 
-## Data Refresh
+```bash
+jupyter notebook notebooks/chapter-06/
+```
 
-To refresh the downloaded case data:
+## 第 7 章
+
+交通时空分析：
+
+```bash
+jupyter notebook notebooks/chapter-07/
+```
+
+## 第 8 章
+
+交通影像分析：
+
+```bash
+jupyter notebook notebooks/chapter-08/
+```
+
+## 数据刷新
 
 ```bash
 bash scripts/download_case_data.sh
+python scripts/generate_synthetic_flow.py
+python scripts/generate_synthetic_network.py
 ```

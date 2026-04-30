@@ -1,96 +1,83 @@
-# AI Engineering Book Practice
+# 交通数据挖掘理论与应用 — 实践材料
 
-This repository contains the open-source practice materials for a programming, AI, data, and engineering practice book.
+本仓库是教材《交通数据挖掘理论与应用》的开源配套实践材料。
 
-## What Is Inside
+## 章节目录
 
-- Chapter practice guides
-- Starter projects and reference solutions
-- Datasets and experiment notes
-- Engineering checklists
-- Extra reading and errata
+| 章 | 主题 | 实践状态 |
+|---|---|---|
+| 01 | 绪论 | 已完成 |
+| 02 | 编程实践基础 | 已完成 |
+| 03 | 数理理论基础 | 已完成 |
+| 04 | 交通表格型数据分析 | 已完成 |
+| 05 | 交通空间与位置数据分析 | 已完成 |
+| 06 | 交通时序数据分析 | 已完成 |
+| 07 | 交通时空数据分析 | 已完成 |
+| 08 | 交通影像数据分析 | 已完成 |
 
-## Dataset Catalog
+## 每章包含
 
-Traffic data sources for chapters 4-8 are listed in:
+- `README.md` — 学习目标与文件说明
+- `practice-guide.md` — 实践讲义（面向学生上机）
+- `exercises.md` — 分层练习（基础 / 进阶 / 挑战）
+- `starter/` — 起始代码
+- `solution/` — 参考实现
+
+## 数据集
+
+交通数据源和字段说明见：
 
 - `datasets.html`
 - `DATASETS.md`
 
-Small downloaded case datasets are stored in `data/raw/`.
+小规模教学样本存放在 `data/processed/` 和 `data/results/`。
 
-To refresh them:
+原始数据需通过脚本下载：
 
 ```bash
 bash scripts/download_case_data.sh
 ```
 
+部分章节使用合成数据，由脚本生成：
+
+```bash
+python scripts/generate_synthetic_flow.py
+python scripts/generate_synthetic_network.py
+```
+
 ## Notebooks
 
-Chapter notebooks are stored in `notebooks/`.
+各章 Notebook 存放在 `notebooks/`。
 
-Install dependencies:
+安装依赖：
 
 ```bash
 pip install -r requirements.txt
 ```
 
-Run chapter 4:
+## 网站
 
-```bash
-jupyter notebook notebooks/chapter-04/traffic_accident_panel_analysis.ipynb
-```
+本仓库支持 GitHub Pages 部署。推送后：
 
-## Website
+1. `Settings` → `Pages`
+2. `Build and deployment` → `Deploy from a branch`
+3. 选择 `main` 分支，`/root`
+4. 保存
 
-This repository is designed to work directly with GitHub Pages.
-
-After pushing to GitHub:
-
-1. Open the repository on GitHub.
-2. Go to `Settings` -> `Pages`.
-3. Under `Build and deployment`, choose `Deploy from a branch`.
-4. Select the `main` branch and `/root`.
-5. Save the setting.
-
-Your site will be available at:
+访问地址：
 
 ```text
 https://<your-github-username>.github.io/<repository-name>/
 ```
 
-## Local Preview
-
-Open `index.html` in your browser, or run a simple local server:
+## 本地预览
 
 ```bash
 python3 -m http.server 8000
 ```
 
-Then visit:
+访问 `http://localhost:8000`
 
-```text
-http://localhost:8000
-```
+## 许可证
 
-## Suggested Structure
-
-```text
-chapters/
-  01-getting-started/
-    README.md
-    exercises.md
-    starter/
-    solution/
-assets/
-  datasets/
-  images/
-templates/
-  chapter/
-```
-
-## License
-
-Code examples are released under the MIT License.
-
-Text and learning materials are released under CC BY 4.0 unless otherwise noted.
+代码采用 MIT License。教学材料采用 CC BY 4.0。

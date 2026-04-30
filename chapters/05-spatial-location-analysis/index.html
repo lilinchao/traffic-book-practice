@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>第 5 章 交通空间与位置数据分析</title>
+    <link rel="stylesheet" href="../../styles.css">
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="../../index.html">
+        <span class="brand-mark">交通</span>
+        <span>数据挖掘实践</span>
+      </a>
+      <nav class="site-nav" aria-label="章节导航">
+        <a href="../../index.html#chapters">章节</a>
+        <a href="../../datasets.html">数据集</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="section two-column">
+        <div>
+          <p class="eyebrow">Chapter 05</p>
+          <h1>交通空间与位置数据分析</h1>
+          <p class="hero-text">
+            分析交通现象的空间分布、空间自相关与空间回归，识别事故热点和黑点。
+          </p>
+          <div class="hero-actions">
+            <a class="button primary" href="practice-guide.md">实践讲义</a>
+            <a class="button secondary" href="exercises.md">练习任务</a>
+            <a class="button secondary" href="starter/spatial_analysis_practice.py">起始代码</a>
+          </div>
+        </div>
+        <div class="checklist">
+          <label><input type="checkbox" checked disabled> 创建 GeoDataFrame 并转换坐标系统</label>
+          <label><input type="checkbox" checked disabled> 构建空间权重矩阵</label>
+          <label><input type="checkbox" checked disabled> 计算全局和局部 Moran's I</label>
+          <label><input type="checkbox" checked disabled> 使用 DBSCAN 识别事故热点</label>
+          <label><input type="checkbox" checked disabled> 估计空间回归模型</label>
+        </div>
+      </section>
+
+      <section class="section muted">
+        <div class="section-heading">
+          <p class="eyebrow">Validation</p>
+          <h2>验证命令</h2>
+        </div>
+        <pre><code>pip install -r requirements.txt
+python starter/spatial_analysis_practice.py</code></pre>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <span>第 5 章 交通空间与位置数据分析</span>
+      <a href="../../index.html">返回首页</a>
+    </footer>
+    <script src="../../script.js"></script>
+  </body>
+</html>

@@ -14,3 +14,12 @@ __pycache__/
 .venv/
 node_modules/
 dist/
+
+# Large raw data — download via scripts/download_case_data.sh
+data/raw/
+
+# Model checkpoints
+*.pt
+*.pth
+*.h5
+*.pkl
