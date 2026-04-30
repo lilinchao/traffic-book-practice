@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>第 8 章模型结果展示</title>
+    <link rel="stylesheet" href="../../styles.css">
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="../../index.html">
+        <span class="brand-mark">交通</span>
+        <span>数据挖掘实践</span>
+      </a>
+      <nav class="site-nav" aria-label="章节导航">
+        <a href="index.html">第 8 章</a>
+        <a href="practice-guide.md">实践讲义</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="section">
+        <p class="eyebrow">Model Results</p>
+        <h1>交通影像数据分析结果展示</h1>
+        <p class="hero-text">
+          这一页展示影像分析的典型结果：图像质量控制、目标检测评价、跟踪评价和流量统计精度。
+        </p>
+        <div class="hero-actions">
+          <a class="button primary" href="../../data/results/chapter-08/detection_evaluation.csv">检测评价表</a>
+          <a class="button secondary" href="../../data/results/chapter-08/tracking_evaluation.csv">跟踪评价表</a>
+          <a class="button secondary" href="../../data/results/chapter-08/counting_accuracy.csv">计数精度表</a>
+        </div>
+      </section>
+
+      <section class="section muted">
+        <div class="section-heading">
+          <p class="eyebrow">01</p>
+          <h2>图像预处理与质量控制</h2>
+          <p>影像分析的第一步是保证输入图像质量。模糊检测和图像增广是最常用的预处理手段。</p>
+        </div>
+        <div class="visual-grid">
+          <article class="visual-card">
+            <img src="../../assets/chapter-08/01_blur_detection.png" alt="模糊检测示例">
+            <h3>模糊检测</h3>
+            <p>通过 Laplacian 方差区分清晰与模糊图像，方差越低越模糊。</p>
+          </article>
+          <article class="visual-card">
+            <img src="../../assets/chapter-08/02_augmentation_examples.png" alt="数据增广效果">
+            <h3>数据增广</h3>
+            <p>翻转、亮度调整、噪声注入和随机裁剪，扩充训练样本多样性。</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <p class="eyebrow">02</p>
+          <h2>目标检测评价</h2>
+          <p>IoU 定义预测框与真实框的重叠度，NMS 去除冗余检测框，P-R 曲线和 AP 衡量检测质量。</p>
+        </div>
+        <div class="visual-grid">
+          <article class="visual-card">
+            <img src="../../assets/chapter-08/03_iou_diagram.png" alt="IoU 计算示意">
+            <h3>IoU 示意</h3>
+            <p>交并比（Intersection over Union）衡量预测框与真实框的重叠程度。</p>
+          </article>
+          <article class="visual-card">
+            <img src="../../assets/chapter-08/04_nms_process.png" alt="NMS 去重过程">
+            <h3>NMS 过程</h3>
+            <p>非极大值抑制去除同一目标上的重复检测框，保留置信度最高的。</p>
+          </article>
+          <article class="visual-card">
+            <img src="../../assets/chapter-08/05_precision_recall_curve.png" alt="Precision-Recall 曲线">
+            <h3>P-R 曲线</h3>
+            <p>不同置信度阈值下的 Precision 和 Recall 权衡关系。</p>
+          </article>
+          <article class="visual-card">
+            <img src="../../assets/chapter-08/06_ap_interpolation.png" alt="AP 11 点插值">
+            <h3>AP 插值计算</h3>
+            <p>11 点插值法计算 Average Precision，平滑 P-R 曲线的波动。</p>
+          </article>
+        </div>
+        <div class="explain-grid">
+          <article class="explain-card">
+            <h3>IoU 阈值如何选择</h3>
+            <p>通常 IoU ≥ 0.5 视为正确检测（COCO 标准使用 0.50:0.95 多个阈值）。阈值越高要求定位越精确，AP 值越低。</p>
+          </article>
+          <article class="explain-card">
+            <h3>mAP 的含义</h3>
+            <p>mAP（mean Average Precision）是所有类别 AP 的平均值，综合反映检测器在不同类别上的表现。mAP@0.5 使用 IoU=0.5 阈值。</p>
+          </article>
+        </div>
+        <div class="table-wrap result-table">
+          <table>
+            <caption>各类别检测评价结果</caption>
+            <thead>
+              <tr>
+                <th>类别</th>
+                <th>Precision</th>
+                <th>Recall</th>
+                <th>AP</th>
+                <th>F1</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Car（小汽车）</td><td>0.85</td><td>0.80</td><td>0.82</td><td>0.82</td></tr>
+              <tr><td>Bus（公交车）</td><td>0.78</td><td>0.70</td><td>0.74</td><td>0.74</td></tr>
+              <tr><td>Truck（卡车）</td><td>0.72</td><td>0.66</td><td>0.69</td><td>0.69</td></tr>
+              <tr><td>Pedestrian（行人）</td><td>0.65</td><td>0.58</td><td>0.61</td><td>0.61</td></tr>
+              <tr><td>Cyclist（骑行者）</td><td>0.60</td><td>0.50</td><td>0.55</td><td>0.55</td></tr>
+              <tr><td>Motorcycle（摩托车）</td><td>0.52</td><td>0.45</td><td>0.48</td><td>0.48</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="section muted">
+        <div class="section-heading">
+          <p class="eyebrow">03</p>
+          <h2>目标跟踪与流量统计</h2>
+          <p>目标跟踪为检测框分配跨帧 ID，计数线穿越逻辑统计流量。MOTA 衡量跟踪质量，IDF1 衡量身份保持一致性。</p>
+        </div>
+        <div class="visual-grid">
+          <article class="visual-card">
+            <img src="../../assets/chapter-08/08_counting_line_logic.png" alt="计数线穿越逻辑">
+            <h3>计数线穿越</h3>
+            <p>目标中心点穿越预设计数线时触发计数，支持方向判别。</p>
+          </article>
+          <article class="visual-card">
+            <img src="../../assets/chapter-08/09_tracking_id_switch.png" alt="跟踪 ID 切换示例">
+            <h3>ID 切换示例</h3>
+            <p>目标被遮挡后重新出现时可能分配新 ID，ID 切换是跟踪常见错误。</p>
+          </article>
+          <article class="visual-card">
+            <img src="../../assets/chapter-08/10_tracking_quality_metrics.png" alt="MOTA/IDF1 随跟踪质量变化">
+            <h3>跟踪质量曲线</h3>
+            <p>随着检测质量提升，MOTA 和 IDF1 均上升，IDF1 对身份一致性更敏感。</p>
+          </article>
+        </div>
+        <div class="table-wrap result-table">
+          <table>
+            <caption>跟踪评价结果（按检测质量等级）</caption>
+            <thead>
+              <tr>
+                <th>检测质量</th>
+                <th>MOTA</th>
+                <th>MOTP</th>
+                <th>IDF1</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>0.3（低）</td><td>0.051</td><td>0.635</td><td>0.415</td></tr>
+              <tr><td>0.5（中）</td><td>0.275</td><td>0.725</td><td>0.562</td></tr>
+              <tr><td>0.7（中高）</td><td>0.491</td><td>0.815</td><td>0.714</td></tr>
+              <tr><td>0.9（高）</td><td>0.699</td><td>0.905</td><td>0.870</td></tr>
+              <tr><td>1.0（完美）</td><td>0.800</td><td>0.950</td><td>0.950</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <p class="eyebrow">04</p>
+          <h2>各类别 AP 比较</h2>
+          <p>不同类别的检测难度差异显著，小目标和遮挡目标（行人、骑行者）的 AP 通常低于车辆类别。</p>
+        </div>
+        <div class="visual-grid">
+          <article class="visual-card">
+            <img src="../../assets/chapter-08/07_per_class_ap.png" alt="各类别 AP 对比">
+            <h3>各类别 AP</h3>
+            <p>Car 类别 AP 最高（0.82），Motorcycle 最低（0.48），小目标检测仍是难点。</p>
+          </article>
+        </div>
+        <div class="table-wrap result-table">
+          <table>
+            <caption>计数精度（按置信度阈值）</caption>
+            <thead>
+              <tr>
+                <th>置信度阈值</th>
+                <th>实际数量</th>
+                <th>估计数量</th>
+                <th>绝对误差</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>0.3</td><td>120</td><td>145</td><td>25</td></tr>
+              <tr><td>0.5</td><td>120</td><td>125</td><td>5</td></tr>
+              <tr><td>0.6</td><td>120</td><td>120</td><td>0</td></tr>
+              <tr><td>0.7</td><td>120</td><td>115</td><td>5</td></tr>
+              <tr><td>0.9</td><td>120</td><td>85</td><td>35</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="section muted">
+        <div class="section-heading">
+          <p class="eyebrow">05</p>
+          <h2>可下载结果表</h2>
+        </div>
+        <div class="project-grid">
+          <article class="project-card">
+            <h3>检测评价</h3>
+            <p>各类别的 Precision、Recall、AP 和 F1。</p>
+            <a href="../../data/results/chapter-08/detection_evaluation.csv">下载 CSV</a>
+          </article>
+          <article class="project-card">
+            <h3>跟踪评价</h3>
+            <p>不同检测质量下的 MOTA、MOTP 和 IDF1。</p>
+            <a href="../../data/results/chapter-08/tracking_evaluation.csv">下载 CSV</a>
+          </article>
+          <article class="project-card">
+            <h3>计数精度</h3>
+            <p>不同置信度阈值下的流量计数误差。</p>
+            <a href="../../data/results/chapter-08/counting_accuracy.csv">下载 CSV</a>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <span>Chapter 08 model results</span>
+      <a href="index.html">返回第 8 章</a>
+    </footer>
+    <script src="../../script.js"></script>
+  </body>
+</html>

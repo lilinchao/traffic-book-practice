@@ -1,0 +1,2 @@
+adf_statistic,adf_pvalue,adf_statistic_diff1,adf_pvalue_diff1,arima_order,ljung_box_stat,ljung_box_pvalue
+-10.945943235590791,9.047024072800003e-20,-19.122970794447447,0.0,"(1, 1, 1)",429.30350503348484,7.056409028344511e-76

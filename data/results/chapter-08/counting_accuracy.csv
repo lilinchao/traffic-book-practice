@@ -1,0 +1,8 @@
+confidence_threshold,true_count,estimated_count,absolute_error
+0.3,120,145,25
+0.4,120,135,15
+0.5,120,125,5
+0.6,120,120,0
+0.7,120,115,5
+0.8,120,105,15
+0.9,120,85,35

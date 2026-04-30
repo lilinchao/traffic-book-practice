@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>第 7 章模型结果展示</title>
+    <link rel="stylesheet" href="../../styles.css">
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="../../index.html">
+        <span class="brand-mark">交通</span>
+        <span>数据挖掘实践</span>
+      </a>
+      <nav class="site-nav" aria-label="章节导航">
+        <a href="index.html">第 7 章</a>
+        <a href="practice-guide.md">实践讲义</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="section">
+        <p class="eyebrow">Model Results</p>
+        <h1>交通时空数据分析结果展示</h1>
+        <p class="hero-text">
+          这一页展示时空分析的典型结果：路网拓扑、时空相关性、路段运行模式聚类和多模型预测比较。
+        </p>
+        <div class="hero-actions">
+          <a class="button primary" href="../../data/results/chapter-07/model_comparison.csv">模型比较表</a>
+          <a class="button secondary" href="../../data/results/chapter-07/time_lagged_correlation.csv">时滞互相关表</a>
+          <a class="button secondary" href="../../data/results/chapter-07/dtw_clusters.csv">DTW 聚类表</a>
+        </div>
+      </section>
+
+      <section class="section muted">
+        <div class="section-heading">
+          <p class="eyebrow">01</p>
+          <h2>路网数据组织</h2>
+          <p>时空分析的第一步是理解路网结构和邻接关系，这是后续空间建模的基础。</p>
+        </div>
+        <div class="visual-grid">
+          <article class="visual-card">
+            <img src="../../assets/chapter-07/01_network_topology.png" alt="路网拓扑图">
+            <h3>路网拓扑</h3>
+            <p>15 个节点按中心—中间—外围三层区域分布，边表示路段连接。</p>
+          </article>
+          <article class="visual-card">
+            <img src="../../assets/chapter-07/02_adjacency_heatmap.png" alt="邻接矩阵热力图">
+            <h3>邻接矩阵</h3>
+            <p>邻接矩阵的热力图展示节点间的连接关系，对角线为自身，非零元素表示相邻。</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <p class="eyebrow">02</p>
+          <h2>时空相关性分析</h2>
+          <p>时空速度热力图展示速度随时间和空间的联合变化，时滞互相关揭示交通波传播方向。</p>
+        </div>
+        <div class="visual-grid">
+          <article class="visual-card">
+            <img src="../../assets/chapter-07/03_speed_heatmap.png" alt="时空速度热力图">
+            <h3>时空速度热力图</h3>
+            <p>节点 × 时间的速度矩阵，颜色深浅表示速度高低，可观察早晚高峰的时空传播。</p>
+          </article>
+          <article class="visual-card">
+            <img src="../../assets/chapter-07/04_time_lagged_cross_correlation.png" alt="时滞互相关热力图">
+            <h3>时滞互相关</h3>
+            <p>节点对之间的时滞相关性，最大相关对应的时滞表示交通波传播时间。</p>
+          </article>
+          <article class="visual-card">
+            <img src="../../assets/chapter-07/05_daily_speed_by_region.png" alt="各区域日均速度曲线">
+            <h3>区域日均速度</h3>
+            <p>中心区域速度最低、波动最大，外围区域速度最高、波动最小。</p>
+          </article>
+        </div>
+        <div class="explain-grid">
+          <article class="explain-card">
+            <h3>时滞互相关如何解读</h3>
+            <p>互相关峰值对应的时滞步数表示信号传播延迟。例如 N01→N02 在 0 步时相关最高，说明两节点速度几乎同步变化；N03→N07 在 1-2 步时相关较高，说明从中心到中间区域有 5-10 分钟的传播延迟。</p>
+          </article>
+          <article class="explain-card">
+            <h3>为什么区域差异重要</h3>
+            <p>不同区域的速度水平和波动模式差异显著，这为后续聚类和分区建模提供了依据。中心区域受拥堵影响大，适合用更复杂的模型。</p>
+          </article>
+        </div>
+        <div class="table-wrap result-table">
+          <table>
+            <caption>时滞互相关 Top 10</caption>
+            <thead>
+              <tr>
+                <th>节点对</th>
+                <th>时滞（步）</th>
+                <th>时滞（分钟）</th>
+                <th>相关系数</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>N01 → N02</td><td>0</td><td>0</td><td>0.888</td></tr>
+              <tr><td>N00 → N01</td><td>0</td><td>0</td><td>0.887</td></tr>
+              <tr><td>N01 → N02</td><td>1</td><td>5</td><td>0.879</td></tr>
+              <tr><td>N00 → N01</td><td>1</td><td>5</td><td>0.879</td></tr>
+              <tr><td>N03 → N07</td><td>0</td><td>0</td><td>0.872</td></tr>
+              <tr><td>N01 → N02</td><td>2</td><td>10</td><td>0.865</td></tr>
+              <tr><td>N00 → N05</td><td>0</td><td>0</td><td>0.865</td></tr>
+              <tr><td>N00 → N01</td><td>2</td><td>10</td><td>0.863</td></tr>
+              <tr><td>N03 → N07</td><td>1</td><td>5</td><td>0.862</td></tr>
+              <tr><td>N00 → N05</td><td>1</td><td>5</td><td>0.857</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="section muted">
+        <div class="section-heading">
+          <p class="eyebrow">03</p>
+          <h2>路段运行模式聚类</h2>
+          <p>DTW 距离衡量不同路段速度曲线的形态相似性，层次聚类将运行模式相近的路段归为一组。</p>
+        </div>
+        <div class="visual-grid">
+          <article class="visual-card">
+            <img src="../../assets/chapter-07/06_dtw_clustering.png" alt="DTW 聚类结果">
+            <h3>DTW 聚类</h3>
+            <p>DTW 距离矩阵 + 层次聚类树状图，将 15 个节点聚为 3 类运行模式。</p>
+          </article>
+        </div>
+        <div class="table-wrap result-table">
+          <table>
+            <caption>DTW 聚类结果</caption>
+            <thead>
+              <tr>
+                <th>节点</th>
+                <th>聚类</th>
+                <th>区域</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>N00</td><td>1</td><td>center</td></tr>
+              <tr><td>N01</td><td>1</td><td>center</td></tr>
+              <tr><td>N02</td><td>1</td><td>center</td></tr>
+              <tr><td>N03</td><td>1</td><td>center</td></tr>
+              <tr><td>N04</td><td>1</td><td>center</td></tr>
+              <tr><td>N05</td><td>1</td><td>middle</td></tr>
+              <tr><td>N06</td><td>1</td><td>middle</td></tr>
+              <tr><td>N07</td><td>1</td><td>middle</td></tr>
+              <tr><td>N08</td><td>3</td><td>middle</td></tr>
+              <tr><td>N09</td><td>1</td><td>middle</td></tr>
+              <tr><td>N10</td><td>2</td><td>outer</td></tr>
+              <tr><td>N11</td><td>2</td><td>outer</td></tr>
+              <tr><td>N12</td><td>2</td><td>outer</td></tr>
+              <tr><td>N13</td><td>2</td><td>outer</td></tr>
+              <tr><td>N14</td><td>2</td><td>outer</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <p class="eyebrow">04</p>
+          <h2>多模型预测比较</h2>
+          <p>比较历史均值、VAR 和 XGBoost 三种模型的速度预测效果，VAR 和 XGBoost 显著优于历史均值基线。</p>
+        </div>
+        <div class="visual-grid">
+          <article class="visual-card">
+            <img src="../../assets/chapter-07/07_var_forecast.png" alt="VAR 预测 vs 实际值">
+            <h3>VAR 预测</h3>
+            <p>向量自回归模型捕捉多变量间的动态关系，适合短期预测。</p>
+          </article>
+          <article class="visual-card">
+            <img src="../../assets/chapter-07/08_xgboost_forecast.png" alt="XGBoost 预测 vs 实际值">
+            <h3>XGBoost 预测</h3>
+            <p>梯度提升树利用滞后特征、邻域信息和时间特征进行预测。</p>
+          </article>
+          <article class="visual-card">
+            <img src="../../assets/chapter-07/09_model_comparison.png" alt="模型误差比较">
+            <h3>模型 MAE/RMSE 比较</h3>
+            <p>XGBoost 的 MAE 和 RMSE 均最低，VAR 次之，历史均值误差最大。</p>
+          </article>
+        </div>
+        <div class="table-wrap result-table">
+          <table>
+            <caption>模型预测精度比较</caption>
+            <thead>
+              <tr>
+                <th>模型</th>
+                <th>MAE</th>
+                <th>RMSE</th>
+                <th>说明</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>历史均值</td><td>4.58</td><td>5.89</td><td>基线模型，仅用历史同时段均值</td></tr>
+              <tr><td>VAR</td><td>1.32</td><td>1.74</td><td>捕捉多变量动态，适合短期预测</td></tr>
+              <tr><td>XGBoost</td><td>1.27</td><td>1.60</td><td>利用多源特征，精度最高</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="section muted">
+        <div class="section-heading">
+          <p class="eyebrow">05</p>
+          <h2>误差分析</h2>
+          <p>从空间分布、预测步长和区域分组三个维度分析模型误差，帮助理解模型局限和改进方向。</p>
+        </div>
+        <div class="visual-grid">
+          <article class="visual-card">
+            <img src="../../assets/chapter-07/10_error_spatial_distribution.png" alt="误差空间分布">
+            <h3>误差空间分布</h3>
+            <p>各节点的 MAE 空间分布，中心区域误差通常较高。</p>
+          </article>
+          <article class="visual-card">
+            <img src="../../assets/chapter-07/11_multi_horizon_errors.png" alt="多步预测误差">
+            <h3>多步预测误差</h3>
+            <p>预测步长从 5 分钟到 60 分钟，误差随步长增加而上升。</p>
+          </article>
+          <article class="visual-card">
+            <img src="../../assets/chapter-07/12_center_vs_edge_errors.png" alt="中心 vs 边缘误差">
+            <h3>区域误差对比</h3>
+            <p>中心、中间、外围三区域的误差对比，中心区域误差最高。</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <p class="eyebrow">06</p>
+          <h2>可下载结果表</h2>
+        </div>
+        <div class="project-grid">
+          <article class="project-card">
+            <h3>模型比较</h3>
+            <p>历史均值、VAR、XGBoost 的 MAE 和 RMSE。</p>
+            <a href="../../data/results/chapter-07/model_comparison.csv">下载 CSV</a>
+          </article>
+          <article class="project-card">
+            <h3>时滞互相关</h3>
+            <p>节点对之间的时滞步数、时间和相关系数。</p>
+            <a href="../../data/results/chapter-07/time_lagged_correlation.csv">下载 CSV</a>
+          </article>
+          <article class="project-card">
+            <h3>DTW 聚类</h3>
+            <p>各节点的聚类分配和区域标签。</p>
+            <a href="../../data/results/chapter-07/dtw_clusters.csv">下载 CSV</a>
+          </article>
+          <article class="project-card">
+            <h3>区域误差</h3>
+            <p>各区域、各模型、各预测步长的误差。</p>
+            <a href="../../data/results/chapter-07/regional_errors.csv">下载 CSV</a>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <span>Chapter 07 model results</span>
+      <a href="index.html">返回第 7 章</a>
+    </footer>
+    <script src="../../script.js"></script>
+  </body>
+</html>

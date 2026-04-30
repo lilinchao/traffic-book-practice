@@ -1,0 +1,6 @@
+borough,lisa_value,cluster_type
+Bronx,0.07466380408837393,Low-Low
+Brooklyn,-0.4935043461111895,High-Low
+Manhattan,-0.10050896704204183,Low-High
+Queens,0.9668656576872284,High-High
+Staten Island,-2.171696957848339,Low-High

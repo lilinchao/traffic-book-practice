@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>第 5 章模型结果展示</title>
+    <link rel="stylesheet" href="../../styles.css">
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="../../index.html">
+        <span class="brand-mark">交通</span>
+        <span>数据挖掘实践</span>
+      </a>
+      <nav class="site-nav" aria-label="章节导航">
+        <a href="index.html">第 5 章</a>
+        <a href="practice-guide.md">实践讲义</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="section">
+        <p class="eyebrow">Model Results</p>
+        <h1>交通空间与位置数据分析结果展示</h1>
+        <p class="hero-text">
+          这一页展示空间分析的典型结果：事故空间分布、空间自相关检验、热点识别和空间回归模型比较。
+        </p>
+        <div class="hero-actions">
+          <a class="button primary" href="../../data/results/chapter-05/morans_i_results.csv">Moran's I 结果表</a>
+          <a class="button secondary" href="../../data/results/chapter-05/spatial_regression_comparison.csv">空间回归比较表</a>
+          <a class="button secondary" href="../../data/results/chapter-05/dbscan_clusters.csv">DBSCAN 聚类表</a>
+        </div>
+      </section>
+
+      <section class="section muted">
+        <div class="section-heading">
+          <p class="eyebrow">01</p>
+          <h2>描述性空间分析</h2>
+          <p>从空间分布入手，观察事故在不同区域的聚集情况，再通过分级设色图对比各行政区的事故率差异。</p>
+        </div>
+        <div class="visual-grid">
+          <article class="visual-card">
+            <img src="../../assets/chapter-05/01_borough_crash_bar.png" alt="各行政区事故数量柱状图">
+            <h3>各行政区事故数量</h3>
+            <p>柱状图展示纽约五区的事故总量差异，Brooklyn 和 Manhattan 事故数最高。</p>
+          </article>
+          <article class="visual-card">
+            <img src="../../assets/chapter-05/02_crash_rate_choropleth.png" alt="事故率分级设色图">
+            <h3>事故率分级设色图</h3>
+            <p>按事故率着色的行政区地图，直观展示高事故率区域的空间分布。</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <p class="eyebrow">02</p>
+          <h2>空间自相关分析</h2>
+          <p>空间自相关检验回答"事故在空间上是否聚集"。全局 Moran's I 检验整体集聚趋势，局部 LISA 识别具体热点和冷点区域。</p>
+        </div>
+        <div class="visual-grid">
+          <article class="visual-card">
+            <img src="../../assets/chapter-05/05_spatial_weights_heatmap.png" alt="Queen 邻接权重矩阵热力图">
+            <h3>空间权重矩阵</h3>
+            <p>Queen 邻接权重矩阵的热力图表示各行政区之间的空间邻接关系。</p>
+          </article>
+          <article class="visual-card">
+            <img src="../../assets/chapter-05/03_morans_i_scatter.png" alt="全局 Moran's I 散点图">
+            <h3>全局 Moran's I 散点图</h3>
+            <p>散点图的斜率即为 Moran's I 统计量，用于检验空间自相关是否显著。</p>
+          </article>
+          <article class="visual-card">
+            <img src="../../assets/chapter-05/04_lisa_cluster.png" alt="LISA 集聚图">
+            <h3>LISA 集聚图</h3>
+            <p>局部 Moran's I 识别四类集聚：高-高（热点）、低-低（冷点）、高-低和低-高（空间异常）。</p>
+          </article>
+        </div>
+        <div class="explain-grid">
+          <article class="explain-card">
+            <h3>如何解读 Moran's I</h3>
+            <p>Moran's I 取值范围约 [-1, 1]，正值表示空间正相关（相似值聚集），负值表示空间负相关（相异值聚集），0 表示空间随机。本例中 I = -0.345，p = 0.798，统计上不显著——这在仅有 5 个行政区的小样本中是正常结果。</p>
+          </article>
+          <article class="explain-card">
+            <h3>LISA 集聚类型</h3>
+            <p>High-High 表示该区域值高且周围也高（热点），Low-Low 表示值低且周围也低（冷点），High-Low 和 Low-High 是空间异常值——自身值与周围相反。</p>
+          </article>
+        </div>
+        <div class="table-wrap result-table">
+          <table>
+            <caption>全局 Moran's I 检验结果</caption>
+            <thead>
+              <tr>
+                <th>统计量</th>
+                <th>值</th>
+                <th>解释</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Moran's I</td><td>-0.345</td><td>负值，提示空间负相关趋势</td></tr>
+              <tr><td>期望值 E[I]</td><td>-0.250</td><td>零假设下的期望值 = -1/(n-1)</td></tr>
+              <tr><td>z 得分</td><td>-0.256</td><td>绝对值小于 1.96，不显著</td></tr>
+              <tr><td>p 值</td><td>0.798</td><td>远大于 0.05，不能拒绝空间随机假设</td></tr>
+              <tr><td>样本量 n</td><td>5</td><td>样本量较小，检验功效有限</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="table-wrap result-table">
+          <table>
+            <caption>LISA 局部集聚结果</caption>
+            <thead>
+              <tr>
+                <th>行政区</th>
+                <th>LISA 值</th>
+                <th>集聚类型</th>
+                <th>解释</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Queens</td><td>0.967</td><td>High-High</td><td>高事故率区域被高事故率邻居包围</td></tr>
+              <tr><td>Bronx</td><td>0.075</td><td>Low-Low</td><td>低事故率区域被低事故率邻居包围</td></tr>
+              <tr><td>Brooklyn</td><td>-0.494</td><td>High-Low</td><td>高事故率但邻居事故率较低</td></tr>
+              <tr><td>Manhattan</td><td>-0.101</td><td>Low-High</td><td>自身低但邻居事故率较高</td></tr>
+              <tr><td>Staten Island</td><td>-2.172</td><td>Low-High</td><td>空间异常值，自身极低但邻居较高</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="section muted">
+        <div class="section-heading">
+          <p class="eyebrow">03</p>
+          <h2>事故热点识别</h2>
+          <p>DBSCAN 和核密度估计（KDE）是两种常用的事故热点识别方法。前者基于密度聚类，后者基于连续密度面。</p>
+        </div>
+        <div class="visual-grid">
+          <article class="visual-card">
+            <img src="../../assets/chapter-05/06_dbscan_simulation.png" alt="DBSCAN 事故热点聚类">
+            <h3>DBSCAN 聚类</h3>
+            <p>基于密度聚类识别事故密集区域，噪声点不归属任何簇。</p>
+          </article>
+          <article class="visual-card">
+            <img src="../../assets/chapter-05/07_kde_density.png" alt="核密度估计事故黑点图">
+            <h3>核密度估计</h3>
+            <p>KDE 生成连续密度面，直观展示事故黑点的空间位置和强度。</p>
+          </article>
+        </div>
+        <div class="table-wrap result-table">
+          <table>
+            <caption>DBSCAN 聚类统计</caption>
+            <thead>
+              <tr>
+                <th>簇编号</th>
+                <th>点数</th>
+                <th>主要行政区</th>
+                <th>中心经度</th>
+                <th>中心纬度</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>0</td><td>300</td><td>Bronx</td><td>-73.87</td><td>40.84</td></tr>
+              <tr><td>1</td><td>600</td><td>Brooklyn</td><td>-73.94</td><td>40.68</td></tr>
+              <tr><td>2</td><td>500</td><td>Manhattan</td><td>-73.97</td><td>40.78</td></tr>
+              <tr><td>3</td><td>450</td><td>Queens</td><td>-73.79</td><td>40.73</td></tr>
+              <tr><td>4</td><td>150</td><td>Staten Island</td><td>-74.15</td><td>40.58</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <p class="eyebrow">04</p>
+          <h2>空间回归模型</h2>
+          <p>当因变量存在空间依赖时，普通最小二乘（OLS）估计可能偏误。空间滞后模型（SLM）和空间误差模型（SEM）通过引入空间项来捕捉空间效应。</p>
+        </div>
+        <div class="visual-grid">
+          <article class="visual-card">
+            <img src="../../assets/chapter-05/08_ols_vs_spatial.png" alt="OLS 与空间模型系数比较">
+            <h3>OLS vs 空间模型</h3>
+            <p>对比三种模型的回归系数，空间项的引入可能改变系数的大小和方向。</p>
+          </article>
+          <article class="visual-card">
+            <img src="../../assets/chapter-05/09_residual_morans_i.png" alt="OLS 残差 Moran's I 诊断">
+            <h3>OLS 残差空间诊断</h3>
+            <p>对 OLS 残差做 Moran's I 检验，判断残差是否仍存在空间自相关。</p>
+          </article>
+          <article class="visual-card">
+            <img src="../../assets/chapter-05/10_spatial_model_comparison.png" alt="空间模型 AIC/R² 比较">
+            <h3>模型拟合比较</h3>
+            <p>用 AIC 和 R² 比较 OLS、SLM、SEM，SEM 在本例中拟合最优。</p>
+          </article>
+        </div>
+        <div class="table-wrap result-table">
+          <table>
+            <caption>空间回归模型比较</caption>
+            <thead>
+              <tr>
+                <th>模型</th>
+                <th>AIC</th>
+                <th>R²</th>
+                <th>BIC</th>
+                <th>解释</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>OLS</td><td>-123.2</td><td>0.988</td><td>-117.0</td><td>基准模型，未考虑空间依赖</td></tr>
+              <tr><td>SLM</td><td>-128.9</td><td>0.989</td><td>-120.6</td><td>引入空间滞后项，AIC 改善</td></tr>
+              <tr><td>SEM</td><td>-136.3</td><td>0.990</td><td>-127.9</td><td>引入空间误差项，AIC 最优</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="section muted">
+        <div class="section-heading">
+          <p class="eyebrow">05</p>
+          <h2>可下载结果表</h2>
+        </div>
+        <div class="project-grid">
+          <article class="project-card">
+            <h3>Moran's I 检验</h3>
+            <p>全局 Moran's I 统计量、z 得分和 p 值。</p>
+            <a href="../../data/results/chapter-05/morans_i_results.csv">下载 CSV</a>
+          </article>
+          <article class="project-card">
+            <h3>空间回归比较</h3>
+            <p>OLS、SLM、SEM 的 AIC、R²、BIC 比较。</p>
+            <a href="../../data/results/chapter-05/spatial_regression_comparison.csv">下载 CSV</a>
+          </article>
+          <article class="project-card">
+            <h3>DBSCAN 聚类</h3>
+            <p>各簇的点数、主要行政区和中心坐标。</p>
+            <a href="../../data/results/chapter-05/dbscan_clusters.csv">下载 CSV</a>
+          </article>
+          <article class="project-card">
+            <h3>LISA 集聚</h3>
+            <p>各行政区的 LISA 值和集聚类型。</p>
+            <a href="../../data/results/chapter-05/lisa_clusters.csv">下载 CSV</a>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <span>Chapter 05 model results</span>
+      <a href="index.html">返回第 5 章</a>
+    </footer>
+    <script src="../../script.js"></script>
+  </body>
+</html>

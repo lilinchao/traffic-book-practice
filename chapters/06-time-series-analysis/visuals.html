@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>第 6 章模型结果展示</title>
+    <link rel="stylesheet" href="../../styles.css">
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="../../index.html">
+        <span class="brand-mark">交通</span>
+        <span>数据挖掘实践</span>
+      </a>
+      <nav class="site-nav" aria-label="章节导航">
+        <a href="index.html">第 6 章</a>
+        <a href="practice-guide.md">实践讲义</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="section">
+        <p class="eyebrow">Model Results</p>
+        <h1>交通时序数据分析结果展示</h1>
+        <p class="hero-text">
+          这一页展示时序分析的典型结果：描述性分析、平稳性检验、ARIMA/LSTM 预测和 DTW 模式聚类。
+        </p>
+        <div class="hero-actions">
+          <a class="button primary" href="../../data/results/chapter-06/model_comparison.csv">模型比较表</a>
+          <a class="button secondary" href="../../data/results/chapter-06/arima_diagnostics.csv">ARIMA 诊断表</a>
+          <a class="button secondary" href="../../data/results/chapter-06/peak_offpeak_errors.csv">分时段误差表</a>
+        </div>
+      </section>
+
+      <section class="section muted">
+        <div class="section-heading">
+          <p class="eyebrow">01</p>
+          <h2>描述性时序分析</h2>
+          <p>先观察流量数据的基本形态：时间趋势、日周期、工作日与周末差异，为后续建模提供直觉。</p>
+        </div>
+        <div class="visual-grid">
+          <article class="visual-card">
+            <img src="../../assets/chapter-06/01_7day_flow_timeseries.png" alt="7 天交通流量时间序列">
+            <h3>7 天流量时间序列</h3>
+            <p>展示一周内流量的日周期波动，工作日高峰明显，周末流量较低。</p>
+          </article>
+          <article class="visual-card">
+            <img src="../../assets/chapter-06/02_daily_profile_weekday_weekend.png" alt="工作日 vs 周末日均流量">
+            <h3>工作日 vs 周末</h3>
+            <p>日均流量曲线对比，工作日呈现早高峰和晚高峰双峰，周末流量平缓。</p>
+          </article>
+          <article class="visual-card">
+            <img src="../../assets/chapter-06/03_flow_heatmap.png" alt="流量时间热力图">
+            <h3>流量时间热力图</h3>
+            <p>小时 × 日期的热力图，直观展示每日高峰时段和周末模式差异。</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <p class="eyebrow">02</p>
+          <h2>平稳性检验与 ARIMA</h2>
+          <p>ARIMA 建模前需检验序列平稳性。ACF/PACF 帮助识别模型阶数，ADF 检验判断是否需要差分。</p>
+        </div>
+        <div class="visual-grid">
+          <article class="visual-card">
+            <img src="../../assets/chapter-06/04_acf_pacf.png" alt="ACF/PACF 图">
+            <h3>ACF / PACF</h3>
+            <p>自相关和偏自相关图帮助识别 AR 和 MA 的阶数，周期性衰减提示日周期。</p>
+          </article>
+          <article class="visual-card">
+            <img src="../../assets/chapter-06/05_adf_before_after.png" alt="ADF 检验前后对比">
+            <h3>ADF 平稳性检验</h3>
+            <p>原始序列可能非平稳，一阶差分后通过 ADF 检验，支持使用 ARIMA(p,d,q) 中 d=1。</p>
+          </article>
+          <article class="visual-card">
+            <img src="../../assets/chapter-06/06_arima_residual_diagnostics.png" alt="ARIMA 残差诊断">
+            <h3>ARIMA 残差诊断</h3>
+            <p>残差 ACF 和分布检验模型是否充分提取了信息。Ljung-Box 检验判断残差是否仍有自相关。</p>
+          </article>
+          <article class="visual-card">
+            <img src="../../assets/chapter-06/07_arima_rolling_forecast.png" alt="ARIMA 滚动预测">
+            <h3>ARIMA 滚动预测</h3>
+            <p>滚动一步预测 vs 实际值，评估 ARIMA 的短期预测能力。</p>
+          </article>
+        </div>
+        <div class="explain-grid">
+          <article class="explain-card">
+            <h3>ADF 检验结果解读</h3>
+            <p>原始序列 ADF 统计量 = -10.95，p &lt; 0.001，已拒绝非平稳假设。差分后统计量 = -19.12，进一步确认平稳。本例中 d=1 适合，但 d=0 也可能可行——这是教学中值得讨论的点。</p>
+          </article>
+          <article class="explain-card">
+            <h3>Ljung-Box 检验</h3>
+            <p>Ljung-Box 统计量 = 429.3，p &lt; 0.001，残差仍存在显著自相关。说明 ARIMA(1,1,1) 未能完全捕捉序列的周期性，教学中可引导学生考虑 SARIMA 或引入外部变量。</p>
+          </article>
+        </div>
+        <div class="table-wrap result-table">
+          <table>
+            <caption>ARIMA 诊断结果</caption>
+            <thead>
+              <tr>
+                <th>检验</th>
+                <th>统计量</th>
+                <th>p 值</th>
+                <th>结论</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>ADF（原始序列）</td><td>-10.95</td><td>&lt;0.001</td><td>原始序列已平稳</td></tr>
+              <tr><td>ADF（一阶差分）</td><td>-19.12</td><td>&lt;0.001</td><td>差分后更平稳</td></tr>
+              <tr><td>Ljung-Box(24)</td><td>429.30</td><td>&lt;0.001</td><td>残差仍有自相关</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="section muted">
+        <div class="section-heading">
+          <p class="eyebrow">03</p>
+          <h2>LSTM 预测与模型比较</h2>
+          <p>LSTM 利用滑动窗口捕捉序列的长期依赖，梯度提升树利用历史特征进行预测。三个模型由简到繁比较。</p>
+        </div>
+        <div class="visual-grid">
+          <article class="visual-card">
+            <img src="../../assets/chapter-06/08_lstm_forecast.png" alt="LSTM 预测 vs 实际值">
+            <h3>LSTM 预测</h3>
+            <p>LSTM 利用过去 1 小时的滑动窗口预测下一时刻流量。</p>
+          </article>
+          <article class="visual-card">
+            <img src="../../assets/chapter-06/09_model_comparison.png" alt="三模型误差比较">
+            <h3>模型 MAE/RMSE/MAPE 比较</h3>
+            <p>Baseline（历史同时段均值）、ARIMA、LSTM 三个模型的误差对比。</p>
+          </article>
+        </div>
+        <div class="table-wrap result-table">
+          <table>
+            <caption>模型预测精度比较</caption>
+            <thead>
+              <tr>
+                <th>模型</th>
+                <th>MAE</th>
+                <th>RMSE</th>
+                <th>MAPE (%)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Baseline（历史均值）</td><td>12.48</td><td>16.46</td><td>30.27</td></tr>
+              <tr><td>ARIMA(1,1,1)</td><td>26.97</td><td>36.12</td><td>62.33</td></tr>
+              <tr><td>LSTM</td><td>—</td><td>—</td><td>—</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <p class="eyebrow">04</p>
+          <h2>分时段误差分析</h2>
+          <p>不同时段的预测难度不同：早高峰和晚高峰波动大、误差高，平峰和夜间误差低。</p>
+        </div>
+        <div class="visual-grid">
+          <article class="visual-card">
+            <img src="../../assets/chapter-06/10_peak_offpeak_errors.png" alt="分时段误差">
+            <h3>分时段 MAE</h3>
+            <p>按早高峰、平峰、晚高峰、夜间分组，比较各模型的 MAE。</p>
+          </article>
+        </div>
+        <div class="table-wrap result-table">
+          <table>
+            <caption>分时段预测误差</caption>
+            <thead>
+              <tr>
+                <th>时段</th>
+                <th>模型</th>
+                <th>MAE</th>
+                <th>RMSE</th>
+                <th>MAPE (%)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Early morning</td><td>Baseline</td><td>8.55</td><td>11.04</td><td>47.74</td></tr>
+              <tr><td>Early morning</td><td>ARIMA</td><td>18.65</td><td>22.46</td><td>126.30</td></tr>
+              <tr><td>Morning peak</td><td>Baseline</td><td>23.47</td><td>27.75</td><td>30.98</td></tr>
+              <tr><td>Morning peak</td><td>ARIMA</td><td>56.12</td><td>64.67</td><td>51.12</td></tr>
+              <tr><td>Midday</td><td>Baseline</td><td>11.24</td><td>14.00</td><td>21.22</td></tr>
+              <tr><td>Midday</td><td>ARIMA</td><td>21.26</td><td>26.98</td><td>30.86</td></tr>
+              <tr><td>Evening peak</td><td>Baseline</td><td>18.12</td><td>21.92</td><td>24.78</td></tr>
+              <tr><td>Evening peak</td><td>ARIMA</td><td>46.90</td><td>54.70</td><td>47.60</td></tr>
+              <tr><td>Night</td><td>Baseline</td><td>9.05</td><td>11.43</td><td>19.32</td></tr>
+              <tr><td>Night</td><td>ARIMA</td><td>14.73</td><td>17.03</td><td>25.66</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="section muted">
+        <div class="section-heading">
+          <p class="eyebrow">05</p>
+          <h2>DTW 模式聚类</h2>
+          <p>DTW 距离衡量不同检测器日流量曲线的形态相似性，将运行模式相近的检测器归为一组。</p>
+        </div>
+        <div class="visual-grid">
+          <article class="visual-card">
+            <img src="../../assets/chapter-06/11_dtw_distance_matrix.png" alt="DTW 距离矩阵">
+            <h3>DTW 距离矩阵</h3>
+            <p>检测器之间的 DTW 距离热力图，距离越近表示日模式越相似。</p>
+          </article>
+          <article class="visual-card">
+            <img src="../../assets/chapter-06/12_dtw_daily_patterns.png" alt="DTW 聚类日模式">
+            <h3>聚类日模式曲线</h3>
+            <p>按 DTW 聚类分组的日均流量曲线，同一聚类的检测器具有相似的时间模式。</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <p class="eyebrow">06</p>
+          <h2>可下载结果表</h2>
+        </div>
+        <div class="project-grid">
+          <article class="project-card">
+            <h3>模型比较</h3>
+            <p>Baseline、ARIMA、LSTM 的 MAE、RMSE 和 MAPE。</p>
+            <a href="../../data/results/chapter-06/model_comparison.csv">下载 CSV</a>
+          </article>
+          <article class="project-card">
+            <h3>ARIMA 诊断</h3>
+            <p>ADF 检验和 Ljung-Box 检验结果。</p>
+            <a href="../../data/results/chapter-06/arima_diagnostics.csv">下载 CSV</a>
+          </article>
+          <article class="project-card">
+            <h3>分时段误差</h3>
+            <p>各时段、各模型的 MAE、RMSE 和 MAPE。</p>
+            <a href="../../data/results/chapter-06/peak_offpeak_errors.csv">下载 CSV</a>
+          </article>
+          <article class="project-card">
+            <h3>DTW 聚类</h3>
+            <p>检测器之间的 DTW 距离和聚类分配。</p>
+            <a href="../../data/results/chapter-06/dtw_cluster_summary.csv">下载 CSV</a>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <span>Chapter 06 model results</span>
+      <a href="index.html">返回第 6 章</a>
+    </footer>
+    <script src="../../script.js"></script>
+  </body>
+</html>
