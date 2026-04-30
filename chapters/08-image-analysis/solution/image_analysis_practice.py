@@ -554,12 +554,15 @@ def check_line_crossing(prev_pos: Tuple[float, float], curr_pos: Tuple[float, fl
 
 
 def count_crossings(track_positions: Dict[int, List[Tuple[float, float]]],
-                    line_y: float) -> Dict[str, int]:
+                    line_y: float, cooldown_frames: int = 5,
+                    min_cross_distance: float = 5.0) -> Dict[str, int]:
     """统计穿越计数线的目标数量。
 
     参数：
         track_positions: {track_id: [(x_t, y_t), ...]}，目标中心坐标时间序列
         line_y: 计数线的 y 坐标
+        cooldown_frames: 穿越后需要等待多少帧才能再次计数，避免计数线附近来回移动导致误计
+        min_cross_distance: 最小穿越距离（像素），小于此距离的穿越被忽略
 
     返回：
         {'down': 穿越数, 'up': 穿越数, 'total': 总穿越数}
@@ -570,18 +573,21 @@ def count_crossings(track_positions: Dict[int, List[Tuple[float, float]]],
     for track_id, positions in track_positions.items():
         if len(positions) < 2:
             continue
-        # 记录该目标是否已经穿越（避免重复计数）
-        crossed = False
+        cooldown = 0
         for i in range(1, len(positions)):
+            if cooldown > 0:
+                cooldown -= 1
+                continue
             direction = check_line_crossing(positions[i - 1], positions[i], line_y)
-            if direction is not None and not crossed:
+            if direction is not None:
+                dist = abs(positions[i][1] - positions[i - 1][1])
+                if dist < min_cross_distance:
+                    continue
                 if direction == 'down':
                     down_count += 1
                 else:
                     up_count += 1
-                crossed = True
-                # 注意：此处简单处理，一个目标只计一次穿越
-                # 实际应用中可设置冷却期或距离约束
+                cooldown = cooldown_frames
 
     return {'down': down_count, 'up': up_count, 'total': down_count + up_count}
 
@@ -719,6 +725,216 @@ def pixel_to_world(dx_pixel: float, dy_pixel: float,
     speed_mps = displacement_meter * fps  # 米/秒
     speed_kmph = speed_mps * 3.6  # 转换为 km/h
     return speed_kmph
+
+
+# ============================================================
+# 第八部分：综合案例 — 路口视频车辆检测与流量统计管线
+# ============================================================
+
+def simulate_video_pipeline(
+    n_frames: int = 50,
+    n_vehicles: int = 8,
+    frame_size: Tuple[int, int] = (640, 480),
+    line_y: int = 240,
+    iou_threshold: float = 0.5,
+    nms_threshold: float = 0.5,
+    time_window_sec: int = 300,
+    fps: float = 25.0,
+) -> Dict:
+    """模拟从视频到交通流量统计的完整管线（使用合成数据）。
+
+    管线步骤：
+    1. 模拟视频帧中的车辆位置
+    2. 模拟检测结果（含误检和漏检）
+    3. 对检测结果执行 NMS
+    4. 使用卡尔曼滤波 + 匈牙利匹配的简化跟踪
+    5. 计数线穿越判定
+    6. 按时间窗汇总流量
+
+    参数：
+        n_frames: 帧数
+        n_vehicles: 真实车辆数
+        frame_size: (W, H)
+        line_y: 计数线 y 坐标
+        iou_threshold: 检测匹配 IoU 阈值
+        nms_threshold: NMS IoU 阈值
+        time_window_sec: 流量汇总时间窗（秒）
+        fps: 帧率
+
+    返回：
+        字典，包含 flow_summary, tracking_metrics, detection_metrics
+    """
+    rng = np.random.RandomState(42)
+    W, H = frame_size
+
+    # --- 1. 模拟车辆轨迹 ---
+    tracks = {}  # vehicle_id -> list of (x, y, w, h)
+    for vid in range(n_vehicles):
+        x = rng.uniform(50, W - 50)
+        y = rng.uniform(50, H - 50)
+        vx = rng.uniform(-3, 3)
+        vy = rng.uniform(1, 5)  # 大部分向下移动
+        positions = []
+        for f in range(n_frames):
+            x_f = x + vx * f + rng.normal(0, 0.5)
+            y_f = y + vy * f + rng.normal(0, 0.5)
+            w_f = rng.uniform(30, 60)
+            h_f = rng.uniform(25, 50)
+            if 0 <= x_f <= W and 0 <= y_f <= H:
+                positions.append((x_f, y_f, w_f, h_f))
+        if len(positions) >= 2:
+            tracks[vid] = positions
+
+    # --- 2. 模拟检测结果 ---
+    det_tp = 0
+    det_fp = 0
+    det_fn = 0
+    all_detections = []  # list of (frame, x1, y1, x2, y2, score, is_tp)
+
+    for f in range(n_frames):
+        frame_dets = []
+        for vid, pos_list in tracks.items():
+            if f < len(pos_list):
+                x, y, w, h = pos_list[f]
+                # 漏检概率 10%
+                if rng.random() < 0.1:
+                    det_fn += 1
+                    continue
+                # 加入位置噪声
+                x1 = x - w / 2 + rng.normal(0, 3)
+                y1 = y - h / 2 + rng.normal(0, 3)
+                x2 = x + w / 2 + rng.normal(0, 3)
+                y2 = y + h / 2 + rng.normal(0, 3)
+                score = rng.uniform(0.6, 0.99)
+                frame_dets.append((f, x1, y1, x2, y2, score, True))
+                det_tp += 1
+
+        # 添加误检
+        n_fp = rng.poisson(0.5)
+        for _ in range(n_fp):
+            fx = rng.uniform(0, W - 50)
+            fy = rng.uniform(0, H - 50)
+            fw = rng.uniform(20, 50)
+            fh = rng.uniform(20, 40)
+            fs = rng.uniform(0.3, 0.7)
+            frame_dets.append((f, fx, fy, fx + fw, fy + fh, fs, False))
+            det_fp += 1
+
+        all_detections.extend(frame_dets)
+
+    # --- 3. NMS（按帧处理）---
+    nms_detections = []
+    for f in range(n_frames):
+        frame_dets = [(d[1], d[2], d[3], d[4], d[5], d[6])
+                      for d in all_detections if d[0] == f]
+        if not frame_dets:
+            continue
+        boxes = np.array([[d[0], d[1], d[2], d[3]] for d in frame_dets])
+        scores = np.array([d[4] for d in frame_dets])
+        keep = nms(boxes, scores, nms_threshold)
+        for idx in keep:
+            d = frame_dets[idx]
+            nms_detections.append((f, d[0], d[1], d[2], d[3], d[4], d[5]))
+
+    # --- 4. 简化跟踪（基于最近邻匹配）---
+    tracked = {}  # track_id -> list of (frame, cx, cy)
+    next_id = 0
+    active = {}  # track_id -> (cx, cy, last_frame)
+    max_gap = 3  # 最大允许帧间隔
+
+    for f in range(n_frames):
+        frame_centers = []
+        for d in nms_detections:
+            if d[0] != f:
+                continue
+            cx = (d[1] + d[3]) / 2
+            cy = (d[2] + d[4]) / 2
+            frame_centers.append((cx, cy))
+
+        matched_tracks = set()
+        matched_dets = set()
+        # 对每个活跃轨迹找最近的检测
+        assignments = []
+        for tid, (tcx, tcy, last_f) in active.items():
+            if f - last_f > max_gap:
+                continue
+            best_dist = float('inf')
+            best_di = -1
+            for di, (dcx, dcy) in enumerate(frame_centers):
+                if di in matched_dets:
+                    continue
+                dist = np.sqrt((tcx - dcx) ** 2 + (tcy - dcy) ** 2)
+                if dist < best_dist and dist < 50:
+                    best_dist = dist
+                    best_di = di
+            if best_di >= 0:
+                assignments.append((tid, best_di))
+                matched_tracks.add(tid)
+                matched_dets.add(best_di)
+
+        for tid, di in assignments:
+            cx, cy = frame_centers[di]
+            tracked[tid].append((f, cx, cy))
+            active[tid] = (cx, cy, f)
+
+        # 未匹配的检测 → 新轨迹
+        for di, (cx, cy) in enumerate(frame_centers):
+            if di not in matched_dets:
+                tracked[next_id] = [(f, cx, cy)]
+                active[next_id] = (cx, cy, f)
+                next_id += 1
+
+    # 清理过期的活跃轨迹
+    active = {tid: v for tid, v in active.items()
+              if f - v[2] <= max_gap}
+
+    # --- 5. 计数线穿越 ---
+    track_positions = {}
+    for tid, traj in tracked.items():
+        track_positions[tid] = [(x, y) for _, x, y in traj]
+
+    flow = count_crossings(track_positions, line_y)
+
+    # --- 6. 按时间窗汇总流量 ---
+    frames_per_window = int(time_window_sec * fps)
+    n_windows = max(1, n_frames // frames_per_window)
+    flow_by_window = {"down": [0] * n_windows, "up": [0] * n_windows}
+
+    for tid, traj in tracked.items():
+        for i in range(1, len(traj)):
+            prev_f, prev_x, prev_y = traj[i - 1]
+            curr_f, curr_x, curr_y = traj[i]
+            direction = check_line_crossing((prev_x, prev_y), (curr_x, curr_y), line_y)
+            if direction is not None:
+                win = min(prev_f // frames_per_window, n_windows - 1)
+                if direction == 'down':
+                    flow_by_window["down"][win] += 1
+                else:
+                    flow_by_window["up"][win] += 1
+
+    # --- 计算跟踪指标 ---
+    total_gt = sum(len(pos) for pos in tracks.values())
+    num_fn_est = int(total_gt * 0.1)
+    num_fp_est = det_fp
+    num_idsw = sum(1 for tid in tracked if len(tracked[tid]) > 1 and
+                   any(abs(traj[i][2] - traj[i-1][2]) > 30
+                       for i in range(1, len(traj))))
+    mota = compute_mota(total_gt, num_fn_est, num_fp_est, num_idsw)
+
+    return {
+        "flow_summary": flow,
+        "flow_by_window": flow_by_window,
+        "detection_metrics": {
+            "TP": det_tp, "FP": det_fp, "FN": det_fn,
+            "precision": det_tp / max(det_tp + det_fp, 1),
+            "recall": det_tp / max(det_tp + det_fn, 1),
+        },
+        "tracking_metrics": {
+            "MOTA": mota,
+            "n_tracks": len(tracked),
+            "n_id_switches": num_idsw,
+        },
+    }
 
 
 # ============================================================
@@ -1039,6 +1255,36 @@ def main():
     print(f"    4. 使用 cv2.findHomography 或 cv2.getPerspectiveTransform")
 
     # ========================================
+    # 第八部分：综合案例
+    # ========================================
+    print("\n" + "=" * 40)
+    print("[第八部分] 综合案例：路口视频车辆检测与流量统计")
+    print("=" * 40)
+
+    result = simulate_video_pipeline(
+        n_frames=50, n_vehicles=8, frame_size=(640, 480),
+        line_y=240, time_window_sec=300, fps=25.0,
+    )
+
+    dm = result["detection_metrics"]
+    print(f"  检测效果: TP={dm['TP']}, FP={dm['FP']}, FN={dm['FN']}")
+    print(f"    Precision={dm['precision']:.3f}, Recall={dm['recall']:.3f}")
+
+    tm = result["tracking_metrics"]
+    print(f"  跟踪效果: MOTA={tm['MOTA']:.3f}, 轨迹数={tm['n_tracks']}, ID切换={tm['n_id_switches']}")
+
+    fs = result["flow_summary"]
+    print(f"  流量统计: 下行={fs['down']}, 上行={fs['up']}, 总计={fs['total']}")
+
+    fbw = result["flow_by_window"]
+    print(f"  按时间窗汇总 (5 分钟):")
+    for i, (d, u) in enumerate(zip(fbw["down"], fbw["up"])):
+        print(f"    窗口 {i+1}: 下行={d}, 上行={u}, 总计={d+u}")
+
+    print(f"\n  管线流程: 视频帧 -> 检测 -> NMS -> 跟踪 -> 计数线穿越 -> 流量汇总")
+    print(f"  实际部署需额外考虑: ROI 设置、车道映射、相机标定、异常场景")
+
+    # ========================================
     # 总结
     # ========================================
     print("\n" + "=" * 60)
@@ -1048,7 +1294,7 @@ def main():
     print("  1. 下载 BDD100K 或 UA-DETRAC 数据集，替换合成数据")
     print("  2. 使用真实标注计算 mAP@0.5 和 mAP@0.5:0.95")
     print("  3. 在 MOT Challenge 上评测 MOTA 和 IDF1")
-    print("  4. 实现完整视频检测+跟踪+计数流水线")
+    print("  4. 使用真实视频运行 simulate_video_pipeline 的完整流程")
     print("  5. 讨论夜间、雨天、遮挡等部署挑战")
 
 

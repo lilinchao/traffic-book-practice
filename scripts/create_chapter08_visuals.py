@@ -510,6 +510,146 @@ def csv_counting_accuracy() -> None:
 
 
 # ---------------------------------------------------------------------------
+# Figure 11: Segmentation methods comparison
+# ---------------------------------------------------------------------------
+
+def fig_segmentation_comparison() -> None:
+    """Compare semantic segmentation vs instance segmentation on a synthetic scene."""
+    rng = np.random.RandomState(7)
+    scene = make_synthetic_traffic_scene(seed=7)
+
+    # Semantic segmentation: colour by class
+    sem_seg = np.zeros_like(scene)
+    # road = gray
+    sem_seg[40:160, :, :] = [128, 128, 128]
+    # vehicles = red
+    vehicle_specs = [
+        (50, 30, 80, 50),
+        (60, 160, 100, 50),
+        (40, 100, 50, 50),
+        (55, 220, 130, 50),
+    ]
+    for h, x, y, w in vehicle_specs:
+        sem_seg[y:min(y + h, 200), x:min(x + w, 300)] = [200, 60, 60]
+
+    # Instance segmentation: each vehicle gets a different colour
+    inst_seg = np.zeros_like(scene)
+    inst_seg[40:160, :, :] = [128, 128, 128]  # road
+    inst_colors = [
+        [200, 60, 60], [60, 60, 200], [200, 180, 60], [60, 180, 60],
+    ]
+    for (h, x, y, w), col in zip(vehicle_specs, inst_colors):
+        inst_seg[y:min(y + h, 200), x:min(x + w, 300)] = col
+
+    fig, axes = plt.subplots(1, 3, figsize=(18, 5))
+    for ax, img, title in [
+        (axes[0], scene, "Original Scene"),
+        (axes[1], sem_seg, "Semantic Segmentation\n(all vehicles = same colour)"),
+        (axes[2], inst_seg, "Instance Segmentation\n(each vehicle = different colour)"),
+    ]:
+        ax.imshow(img)
+        ax.set_title(title, fontsize=13)
+        ax.axis("off")
+    fig.suptitle("Semantic vs Instance Segmentation", fontsize=16, fontweight="bold")
+    savefig("11_segmentation_comparison.png")
+
+
+# ---------------------------------------------------------------------------
+# Figure 12: Camera calibration & speed estimation diagram
+# ---------------------------------------------------------------------------
+
+def fig_camera_calibration() -> None:
+    """Diagram showing perspective effect and IPM for speed estimation."""
+    fig, axes = plt.subplots(1, 2, figsize=(16, 6))
+
+    # Left: perspective view (trapezoid road)
+    ax = axes[0]
+    ax.set_title("Perspective View\n(equal real distances ≠ equal pixel distances)", fontsize=13)
+    # Draw road as trapezoid
+    road_pts = np.array([[150, 50], [250, 50], [320, 200], [80, 200]])
+    road_patch = mpatches.Polygon(road_pts, closed=True, facecolor="#cccccc",
+                                  edgecolor="#333333", linewidth=2)
+    ax.add_patch(road_patch)
+    # Mark two equal-distance segments (near vs far)
+    ax.annotate("", xy=(115, 150), xytext=(100, 200),
+                arrowprops=dict(arrowstyle="<->", color="#d62728", lw=2.5))
+    ax.text(60, 175, "50 px\n(=10 m)", fontsize=10, color="#d62728", ha="center", fontweight="bold")
+    ax.annotate("", xy=(200, 72), xytext=(190, 100),
+                arrowprops=dict(arrowstyle="<->", color="#176b5b", lw=2.5))
+    ax.text(230, 86, "28 px\n(=10 m)", fontsize=10, color=PRIMARY, ha="center", fontweight="bold")
+    ax.set_xlim(0, 400)
+    ax.set_ylim(220, 30)
+    ax.set_aspect("equal")
+    ax.axis("off")
+
+    # Right: bird's-eye view (rectangle road)
+    ax = axes[1]
+    ax.set_title("Bird's-Eye View (IPM)\n(equal real distances = equal pixel distances)", fontsize=13)
+    road_rect = mpatches.Rectangle((50, 30), 200, 170, facecolor="#cccccc",
+                                    edgecolor="#333333", linewidth=2)
+    ax.add_patch(road_rect)
+    # Equal segments
+    ax.annotate("", xy=(150, 80), xytext=(150, 130),
+                arrowprops=dict(arrowstyle="<->", color="#d62728", lw=2.5))
+    ax.text(175, 105, "40 px\n(=10 m)", fontsize=10, color="#d62728", ha="left", fontweight="bold")
+    ax.annotate("", xy=(150, 130), xytext=(150, 180),
+                arrowprops=dict(arrowstyle="<->", color="#176b5b", lw=2.5))
+    ax.text(175, 155, "40 px\n(=10 m)", fontsize=10, color=PRIMARY, ha="left", fontweight="bold")
+    ax.set_xlim(0, 300)
+    ax.set_ylim(220, 10)
+    ax.set_aspect("equal")
+    ax.axis("off")
+
+    fig.suptitle("Perspective Effect and Inverse Perspective Mapping (IPM)",
+                 fontsize=16, fontweight="bold")
+    savefig("12_camera_calibration.png")
+
+
+# ---------------------------------------------------------------------------
+# Figure 13: Case study pipeline flowchart
+# ---------------------------------------------------------------------------
+
+def fig_case_study_pipeline() -> None:
+    """Flowchart of the video-to-traffic-metrics pipeline."""
+    fig, ax = plt.subplots(figsize=(14, 4))
+    ax.set_xlim(0, 14)
+    ax.set_ylim(0, 4)
+    ax.axis("off")
+
+    steps = [
+        ("视频\n采集", 0.5),
+        ("帧\n抽取", 2.3),
+        ("车辆\n检测", 4.1),
+        ("NMS\n去重", 5.9),
+        ("多目标\n跟踪", 7.7),
+        ("计数线\n穿越", 9.5),
+        ("流量\n汇总", 11.3),
+        ("误差\n分析", 13.1),
+    ]
+
+    colors = [PRIMARY] * 7 + ["#c0392b"]
+    for (label, x), color in zip(steps, colors):
+        box = mpatches.FancyBboxPatch((x - 0.7, 1.2), 1.4, 1.6,
+                                       boxstyle="round,pad=0.15",
+                                       facecolor=color, edgecolor="white",
+                                       alpha=0.85, linewidth=2)
+        ax.add_patch(box)
+        ax.text(x, 2.0, label, ha="center", va="center",
+                fontsize=11, fontweight="bold", color="white")
+
+    # Arrows between boxes
+    for i in range(len(steps) - 1):
+        x_start = steps[i][1] + 0.7
+        x_end = steps[i + 1][1] - 0.7
+        ax.annotate("", xy=(x_end, 2.0), xytext=(x_start, 2.0),
+                     arrowprops=dict(arrowstyle="->", color="#333333", lw=2))
+
+    ax.set_title("Case Study Pipeline: Video → Traffic Metrics",
+                 fontsize=16, fontweight="bold", pad=15)
+    savefig("13_case_study_pipeline.png")
+
+
+# ---------------------------------------------------------------------------
 # main
 # ---------------------------------------------------------------------------
 
@@ -561,6 +701,15 @@ def main() -> None:
 
     csv_counting_accuracy()
     print("  counting_accuracy.csv")
+
+    fig_segmentation_comparison()
+    print("  11_segmentation_comparison.png")
+
+    fig_camera_calibration()
+    print("  12_camera_calibration.png")
+
+    fig_case_study_pipeline()
+    print("  13_case_study_pipeline.png")
 
     n_fig = len(list(OUT_DIR.glob("*.png")))
     n_csv = len(list(RESULTS_DIR.glob("*.csv")))

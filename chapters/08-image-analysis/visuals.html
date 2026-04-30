@@ -197,6 +197,71 @@
       <section class="section muted">
         <div class="section-heading">
           <p class="eyebrow">05</p>
+          <h2>语义分割与实例分割</h2>
+          <p>语义分割为每个像素分配类别标签，实例分割进一步区分同一类别中的不同对象。交通场景中两者各有适用场景。</p>
+        </div>
+        <div class="visual-grid">
+          <article class="visual-card">
+            <img src="../../assets/chapter-08/11_segmentation_comparison.png" alt="语义分割 vs 实例分割">
+            <h3>语义分割 vs 实例分割</h3>
+            <p>左：原始场景；中：语义分割（所有车辆同色）；右：实例分割（每辆车不同色）。</p>
+          </article>
+        </div>
+        <div class="explain-grid">
+          <article class="explain-card">
+            <h3>何时用分割而非检测</h3>
+            <p>若只需统计车辆流量，边界框检测通常已足够；若需估计占用面积、精确道路边界或可行驶区域，则分割更有价值。分割标注成本高于检测。</p>
+          </article>
+          <article class="explain-card">
+            <h3>实例分割的价值</h3>
+            <p>拥堵排队场景中，语义分割只能知道哪些像素属于车辆，无法区分具体是哪一辆；实例分割为每辆车生成独立掩膜，可直接计数。</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <p class="eyebrow">06</p>
+          <h2>相机标定与速度估计</h2>
+          <p>视频速度估计的核心难点是透视效应：同样的像素距离在近处和远处代表不同真实距离。逆透视映射（IPM）将透视图像转换为鸟瞰图，使像素距离与真实距离成正比。</p>
+        </div>
+        <div class="visual-grid">
+          <article class="visual-card">
+            <img src="../../assets/chapter-08/12_camera_calibration.png" alt="透视效应与 IPM">
+            <h3>透视效应与 IPM</h3>
+            <p>左：透视视图中相同真实距离对应不同像素距离；右：IPM 后像素距离一致。</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section muted">
+        <div class="section-heading">
+          <p class="eyebrow">07</p>
+          <h2>综合案例：视频到交通指标的管线</h2>
+          <p>路口交通视频车辆检测与流量统计的完整管线：从视频采集到流量汇总和误差分析，每一步都可能引入误差。</p>
+        </div>
+        <div class="visual-grid">
+          <article class="visual-card">
+            <img src="../../assets/chapter-08/13_case_study_pipeline.png" alt="综合案例管线">
+            <h3>完整管线流程</h3>
+            <p>视频采集 → 帧抽取 → 车辆检测 → NMS 去重 → 多目标跟踪 → 计数线穿越 → 流量汇总 → 误差分析。</p>
+          </article>
+        </div>
+        <div class="explain-grid">
+          <article class="explain-card">
+            <h3>误差传播</h3>
+            <p>检测漏检会导致流量低估，误检导致高估。跟踪 ID 切换可能导致重复计数。计数线位置不当可能导致误计。若 mAP 较高但流量误差仍大，应检查跟踪和计数线逻辑。</p>
+          </article>
+          <article class="explain-card">
+            <h3>结果评价三层级</h3>
+            <p>第一层（视觉算法层）：检测和跟踪是否准确？第二层（交通指标层）：流量和速度是否接近真值？第三层（管理应用层）：结果能否支持信号配时和拥堵预警？</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <p class="eyebrow">08</p>
           <h2>可下载结果表</h2>
         </div>
         <div class="project-grid">
