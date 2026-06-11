@@ -1,0 +1,4 @@
+-r requirements.txt
+opencv-python>=4.9
+ultralytics>=8.2
+

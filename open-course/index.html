@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="交通数据挖掘理论与应用开放课程：开源数据、实践代码与方法讲解。">
+  <title>交通数据挖掘开放课程</title>
+  <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#home" aria-label="返回课程首页">
+      <span class="brand-mark">TD</span>
+      <span><strong>交通数据挖掘</strong><small>开放课程与实践</small></span>
+    </a>
+    <nav class="topnav" aria-label="顶部导航">
+      <a href="#modules">实践模块</a>
+      <a href="#start">开始学习</a>
+      <a href="https://github.com/lilinchao/traffic-book-practice" data-repo-link>GitHub</a>
+    </nav>
+    <button class="menu-button" aria-label="打开菜单" aria-expanded="false">菜单</button>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar" aria-label="课程目录">
+      <p class="sidebar-label">课程目录</p>
+      <a class="active" href="#home">课程概览</a>
+      <a href="#start">学习准备</a>
+      <a href="#ch03"><span>03</span>数学与优化</a>
+      <a href="#ch04"><span>04</span>表格型数据</a>
+      <a href="#ch05"><span>05</span>位置数据</a>
+      <a href="#ch06"><span>06</span>时序数据</a>
+      <a href="#ch07"><span>07</span>时空数据</a>
+      <a href="#ch08"><span>08</span>影像数据</a>
+      <div class="sidebar-note">
+        <strong>开放教学资源</strong>
+        <p>案例代码与数据说明可用于课堂演示、自学和课程作业。</p>
+      </div>
+    </aside>
+
+    <main>
+      <section class="hero" id="home">
+        <div class="hero-copy">
+          <p class="eyebrow">OPEN COURSE · 2026</p>
+          <h1>从真实交通数据<br>走向可解释的分析</h1>
+          <p class="hero-lead">配套《交通数据挖掘理论与应用》，使用开放数据完成从数学基础、统计建模到时空预测与交通视频分析的全过程。</p>
+          <div class="hero-actions">
+            <a class="button primary" href="#start">开始第一项实践</a>
+            <a class="button secondary" href="https://github.com/lilinchao/traffic-book-practice" data-repo-link>查看全部代码</a>
+          </div>
+          <dl class="hero-stats">
+            <div><dt>6</dt><dd>实践模块</dd></div>
+            <div><dt>4</dt><dd>开放数据源</dd></div>
+            <div><dt>Python</dt><dd>统一实践环境</dd></div>
+          </dl>
+        </div>
+        <div class="hero-visual" aria-label="交通数据分析流程示意图">
+          <div class="grid-lines"></div>
+          <div class="route route-a"></div>
+          <div class="route route-b"></div>
+          <span class="node n1"></span><span class="node n2"></span>
+          <span class="node n3"></span><span class="node n4"></span>
+          <div class="metric-card card-a"><small>模型评价</small><strong>MAE ↓</strong><span>基线对比优先</span></div>
+          <div class="metric-card card-b"><small>学习路径</small><strong>DATA → MODEL</strong><span>理论 · 代码 · 解释</span></div>
+          <div class="axis-label">SPATIOTEMPORAL NETWORK</div>
+        </div>
+      </section>
+
+      <section class="section intro" id="start">
+        <div class="section-heading">
+          <p class="eyebrow">LEARNING PATH</p>
+          <h2>先建立环境，再运行案例</h2>
+          <p>所有基础实践都可以在普通电脑上运行。影像分析需要单独安装深度学习依赖。</p>
+        </div>
+        <div class="start-grid">
+          <article class="step-card"><span>01</span><h3>下载课程代码</h3><p>克隆仓库，进入 <code>practice</code> 目录。</p></article>
+          <article class="step-card"><span>02</span><h3>安装基础依赖</h3><p>建立隔离环境，安装数据分析工具。</p></article>
+          <article class="step-card"><span>03</span><h3>运行与解释</h3><p>先看基线，再评价模型，最后解释交通含义。</p></article>
+        </div>
+        <div class="terminal" aria-label="安装命令">
+          <div class="terminal-bar"><i></i><i></i><i></i><span>PowerShell</span><button data-copy-target="setup-code">复制</button></div>
+          <pre id="setup-code"><code>python -m venv .venv
+.venv\Scripts\Activate.ps1
+python -m pip install -r requirements.txt
+python ch03_linear_regression.py</code></pre>
+        </div>
+      </section>
+
+      <section class="section" id="modules">
+        <div class="section-heading row-heading">
+          <div><p class="eyebrow">PRACTICE MODULES</p><h2>六个可复现实践</h2></div>
+          <p>每个模块包含问题定义、数据说明、方法步骤、完整脚本和结果解释。代码首次运行时自动获取允许直接下载的数据。</p>
+        </div>
+        <div class="module-list">
+          <article class="module" id="ch03">
+            <div class="module-number">03</div>
+            <div class="module-body"><p class="module-tag">数学基础 · UCI Bike Sharing</p><h3>用梯度下降预测小时租车需求</h3><p>从均方误差出发，手工实现梯度下降，观察损失函数收敛，并用 MAE、RMSE 评价测试集。</p><ul><li>标准化与设计矩阵</li><li>梯度计算与参数更新</li><li>训练集和测试集划分</li></ul></div>
+            <div class="module-action"><span>约 5 分钟</span><a href="practice/ch03_linear_regression.py" download>下载代码</a></div>
+          </article>
+          <article class="module" id="ch04">
+            <div class="module-number">04</div>
+            <div class="module-body"><p class="module-tag">计数回归 · UCI Bike Sharing</p><h3>泊松模型与负二项模型比较</h3><p>以小时出行次数为因变量，诊断过度离散，比较两个计数模型并解释发生率比。</p><ul><li>类别变量编码</li><li>过度离散诊断</li><li>发生率比解释</li></ul></div>
+            <div class="module-action"><span>约 8 分钟</span><a href="practice/ch04_count_regression.py" download>下载代码</a></div>
+          </article>
+          <article class="module" id="ch05">
+            <div class="module-number">05</div>
+            <div class="module-body"><p class="module-tag">空间分析 · NYC Open Data</p><h3>纽约交通事故空间热点识别</h3><p>调用城市开放数据 API，完成坐标质量控制、核密度估计和 DBSCAN 聚类。</p><ul><li>开放数据 API</li><li>KDE 相对密度</li><li>基于球面距离的聚类</li></ul></div>
+            <div class="module-action"><span>约 10 分钟</span><a href="practice/ch05_spatial_hotspots.py" download>下载代码</a></div>
+          </article>
+          <article class="module" id="ch06">
+            <div class="module-number">06</div>
+            <div class="module-body"><p class="module-tag">时序预测 · UCI Bike Sharing</p><h3>周期基线与 SARIMA 预测</h3><p>构建“上周同期”基线，训练季节 ARIMA，并通过一周测试数据比较预测误差。</p><ul><li>时间索引与缺失补全</li><li>周期基线</li><li>滚动预测评价</li></ul></div>
+            <div class="module-action"><span>约 10 分钟</span><a href="practice/ch06_time_series.py" download>下载代码</a></div>
+          </article>
+          <article class="module" id="ch07">
+            <div class="module-number">07</div>
+            <div class="module-body"><p class="module-tag">时空预测 · UCI PeMS-SF</p><h3>多检测器滞后特征预测</h3><p>把多个道路检测器的历史状态组织为时空特征，并与上一时刻基线进行严格比较。</p><ul><li>检测器—时间矩阵</li><li>多变量滞后窗口</li><li>基线模型的重要性</li></ul></div>
+            <div class="module-action"><span>约 15 分钟</span><a href="practice/ch07_spatiotemporal.py" download>下载代码</a></div>
+          </article>
+          <article class="module" id="ch08">
+            <div class="module-number">08</div>
+            <div class="module-body"><p class="module-tag">计算机视觉 · UA-DETRAC</p><h3>车辆检测、跟踪与过线计数</h3><p>使用 YOLO 检测交通参与者，通过目标 ID 跟踪车辆并统计穿越虚拟计数线的交通量。</p><ul><li>视频逐帧处理</li><li>检测与跟踪</li><li>重复计数控制</li></ul></div>
+            <div class="module-action"><span>需要视觉环境</span><a href="practice/ch08_vehicle_counting.py" download>下载代码</a></div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section data-section">
+        <div class="section-heading"><p class="eyebrow">OPEN DATA</p><h2>数据来源与使用边界</h2></div>
+        <div class="data-grid">
+          <a href="https://archive.ics.uci.edu/dataset/275/bike+sharing+dataset"><strong>UCI Bike Sharing</strong><span>小时租车需求 · CC BY 4.0</span></a>
+          <a href="https://data.cityofnewyork.us/d/h9gi-nx95"><strong>NYC Crash Data</strong><span>官方事故开放数据 API</span></a>
+          <a href="https://archive.ics.uci.edu/dataset/204/pems+sf"><strong>UCI PeMS-SF</strong><span>963个检测器 · CC BY 4.0</span></a>
+          <a href="https://detrac-db.rit.albany.edu/"><strong>UA-DETRAC</strong><span>视频需按官方网站条款下载</span></a>
+        </div>
+      </section>
+
+      <footer><p>交通数据挖掘开放课程 · 教学版</p><p>代码强调可复现、基线比较与交通含义解释。</p></footer>
+    </main>
+  </div>
+  <script src="assets/app.js"></script>
+</body>
+</html>
