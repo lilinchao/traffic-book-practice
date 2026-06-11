@@ -3,141 +3,201 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="交通数据挖掘理论与应用开放课程：开源数据、实践代码与方法讲解。">
+  <meta name="description" content="交通数据挖掘理论与应用开放课程：开放数据、可复现实践与交互式方法讲解。">
   <title>交通数据挖掘开放课程</title>
-  <link rel="stylesheet" href="assets/styles.css">
+  <link rel="stylesheet" href="assets/styles.css?v=2">
+  <link rel="stylesheet" href="assets/overrides.css?v=2">
 </head>
 <body>
   <header class="topbar">
     <a class="brand" href="#home" aria-label="返回课程首页">
-      <span class="brand-mark">TD</span>
-      <span><strong>交通数据挖掘</strong><small>开放课程与实践</small></span>
+      <span class="brand-mark" aria-hidden="true">交</span>
+      <span><strong>交通数据挖掘</strong><small>开放课程</small></span>
     </a>
     <nav class="topnav" aria-label="顶部导航">
-      <a href="#modules">实践模块</a>
-      <a href="#start">开始学习</a>
-      <a href="https://github.com/lilinchao/traffic-book-practice" data-repo-link>GitHub</a>
+      <a href="#learn">课程内容</a>
+      <a href="#start">运行代码</a>
+      <a href="#open">开放资源</a>
+      <a class="github-link" href="https://github.com/lilinchao/traffic-book-practice">GitHub <span>↗</span></a>
     </nav>
     <button class="menu-button" aria-label="打开菜单" aria-expanded="false">菜单</button>
   </header>
 
-  <div class="layout">
+  <div class="page-shell">
     <aside class="sidebar" aria-label="课程目录">
-      <p class="sidebar-label">课程目录</p>
-      <a class="active" href="#home">课程概览</a>
-      <a href="#start">学习准备</a>
+      <p class="sidebar-label">探索课程</p>
+      <a class="active" href="#home">课程首页</a>
+      <a href="#start">快速开始</a>
       <a href="#ch03"><span>03</span>数学与优化</a>
       <a href="#ch04"><span>04</span>表格型数据</a>
       <a href="#ch05"><span>05</span>位置数据</a>
       <a href="#ch06"><span>06</span>时序数据</a>
       <a href="#ch07"><span>07</span>时空数据</a>
       <a href="#ch08"><span>08</span>影像数据</a>
-      <div class="sidebar-note">
-        <strong>开放教学资源</strong>
-        <p>案例代码与数据说明可用于课堂演示、自学和课程作业。</p>
+      <div class="sidebar-meta">
+        <span class="open-dot"></span>
+        <p><strong>开放教育资源</strong><br>免费阅读、运行与改进</p>
       </div>
     </aside>
 
     <main>
       <section class="hero" id="home">
         <div class="hero-copy">
-          <p class="eyebrow">OPEN COURSE · 2026</p>
-          <h1>从真实交通数据<br>走向可解释的分析</h1>
-          <p class="hero-lead">配套《交通数据挖掘理论与应用》，使用开放数据完成从数学基础、统计建模到时空预测与交通视频分析的全过程。</p>
+          <div class="open-label"><span>OPEN SOURCE</span><span>开放数据</span><span>可复现</span></div>
+          <h1>用数据理解<br>城市如何流动</h1>
+          <p class="hero-lead">《交通数据挖掘理论与应用》的开放实践课程。通过真实交通数据、可运行的 Python 代码和交互图表，连接理论、方法与城市问题。</p>
           <div class="hero-actions">
-            <a class="button primary" href="#start">开始第一项实践</a>
-            <a class="button secondary" href="https://github.com/lilinchao/traffic-book-practice" data-repo-link>查看全部代码</a>
+            <a class="button primary" href="#learn">浏览实践课程</a>
+            <a class="button text-button" href="https://github.com/lilinchao/traffic-book-practice">查看源代码 <span>→</span></a>
           </div>
-          <dl class="hero-stats">
-            <div><dt>6</dt><dd>实践模块</dd></div>
-            <div><dt>4</dt><dd>开放数据源</dd></div>
-            <div><dt>Python</dt><dd>统一实践环境</dd></div>
-          </dl>
+          <p class="hero-note">无需注册 · 无广告 · 不收集学习数据</p>
         </div>
-        <div class="hero-visual" aria-label="交通数据分析流程示意图">
-          <div class="grid-lines"></div>
-          <div class="route route-a"></div>
-          <div class="route route-b"></div>
-          <span class="node n1"></span><span class="node n2"></span>
-          <span class="node n3"></span><span class="node n4"></span>
-          <div class="metric-card card-a"><small>模型评价</small><strong>MAE ↓</strong><span>基线对比优先</span></div>
-          <div class="metric-card card-b"><small>学习路径</small><strong>DATA → MODEL</strong><span>理论 · 代码 · 解释</span></div>
-          <div class="axis-label">SPATIOTEMPORAL NETWORK</div>
+
+        <div class="live-example" aria-labelledby="chart-title">
+          <div class="example-head">
+            <div><span class="example-kicker">LIVE EXAMPLE</span><h2 id="chart-title">一天中的共享单车需求</h2></div>
+            <span class="data-source">UCI 数据</span>
+          </div>
+          <div class="chart-controls" role="group" aria-label="选择日期类型">
+            <button class="chart-toggle active" data-series="weekday" aria-pressed="true">工作日</button>
+            <button class="chart-toggle" data-series="weekend" aria-pressed="false">周末</button>
+          </div>
+          <div class="chart-wrap">
+            <svg id="demand-chart" viewBox="0 0 640 310" role="img" aria-label="每小时共享单车需求折线图">
+              <g class="chart-grid" aria-hidden="true">
+                <line x1="54" y1="40" x2="614" y2="40"></line>
+                <line x1="54" y1="100" x2="614" y2="100"></line>
+                <line x1="54" y1="160" x2="614" y2="160"></line>
+                <line x1="54" y1="220" x2="614" y2="220"></line>
+                <line x1="54" y1="270" x2="614" y2="270"></line>
+              </g>
+              <g class="chart-labels" aria-hidden="true">
+                <text x="54" y="295">0时</text><text x="190" y="295">6时</text>
+                <text x="330" y="295">12时</text><text x="470" y="295">18时</text><text x="603" y="295">24时</text>
+              </g>
+              <path id="chart-area" class="chart-area" d=""></path>
+              <path id="chart-line" class="chart-line" d=""></path>
+              <g id="chart-points"></g>
+            </svg>
+            <div class="chart-tooltip" id="chart-tooltip" hidden></div>
+          </div>
+          <div class="example-foot">
+            <p><strong id="chart-insight">早晚高峰形成两个清晰峰值。</strong><span>切换日期类型，观察出行节律如何改变。</span></p>
+            <span class="run-mark">交互图表</span>
+          </div>
         </div>
       </section>
 
-      <section class="section intro" id="start">
-        <div class="section-heading">
-          <p class="eyebrow">LEARNING PATH</p>
-          <h2>先建立环境，再运行案例</h2>
-          <p>所有基础实践都可以在普通电脑上运行。影像分析需要单独安装深度学习依赖。</p>
+      <section class="principles" aria-label="课程特点">
+        <div><strong>01</strong><span>真实问题</span><p>从需求预测、事故热点到车辆计数。</p></div>
+        <div><strong>02</strong><span>开放数据</span><p>明确数据来源、许可与使用边界。</p></div>
+        <div><strong>03</strong><span>完整代码</span><p>每个案例都能下载、运行和修改。</p></div>
+        <div><strong>04</strong><span>基线优先</span><p>先建立简单基线，再讨论复杂模型。</p></div>
+      </section>
+
+      <section class="section start-section" id="start">
+        <div class="section-intro">
+          <p class="eyebrow">QUICK START</p>
+          <h2>四行命令，开始第一项实践</h2>
+          <p>课程采用普通 Python 环境。代码首次运行时会获取允许直接下载的数据，并把结果保存到本地。</p>
         </div>
-        <div class="start-grid">
-          <article class="step-card"><span>01</span><h3>下载课程代码</h3><p>克隆仓库，进入 <code>practice</code> 目录。</p></article>
-          <article class="step-card"><span>02</span><h3>安装基础依赖</h3><p>建立隔离环境，安装数据分析工具。</p></article>
-          <article class="step-card"><span>03</span><h3>运行与解释</h3><p>先看基线，再评价模型，最后解释交通含义。</p></article>
-        </div>
-        <div class="terminal" aria-label="安装命令">
-          <div class="terminal-bar"><i></i><i></i><i></i><span>PowerShell</span><button data-copy-target="setup-code">复制</button></div>
-          <pre id="setup-code"><code>python -m venv .venv
-.venv\Scripts\Activate.ps1
+        <div class="code-example">
+          <div class="code-head"><span>PowerShell</span><button data-copy-target="setup-code">复制代码</button></div>
+          <pre id="setup-code"><code><span class="code-muted"># 获取课程与安装依赖</span>
+git clone https://github.com/lilinchao/traffic-book-practice.git
+cd traffic-book-practice/open-course/practice
 python -m pip install -r requirements.txt
 python ch03_linear_regression.py</code></pre>
         </div>
       </section>
 
-      <section class="section" id="modules">
-        <div class="section-heading row-heading">
-          <div><p class="eyebrow">PRACTICE MODULES</p><h2>六个可复现实践</h2></div>
-          <p>每个模块包含问题定义、数据说明、方法步骤、完整脚本和结果解释。代码首次运行时自动获取允许直接下载的数据。</p>
+      <section class="section course-section" id="learn">
+        <div class="section-intro course-heading">
+          <div><p class="eyebrow">LEARN BY DOING</p><h2>六个可复现的交通数据实践</h2></div>
+          <p>每章从一个可以观察的问题开始，以可运行代码验证方法，并用交通含义解释结果。</p>
         </div>
-        <div class="module-list">
-          <article class="module" id="ch03">
-            <div class="module-number">03</div>
-            <div class="module-body"><p class="module-tag">数学基础 · UCI Bike Sharing</p><h3>用梯度下降预测小时租车需求</h3><p>从均方误差出发，手工实现梯度下降，观察损失函数收敛，并用 MAE、RMSE 评价测试集。</p><ul><li>标准化与设计矩阵</li><li>梯度计算与参数更新</li><li>训练集和测试集划分</li></ul></div>
-            <div class="module-action"><span>约 5 分钟</span><a href="practice/ch03_linear_regression.py" download>下载代码</a></div>
+
+        <div class="lesson-grid">
+          <article class="lesson-card" id="ch03">
+            <div class="lesson-visual visual-line" aria-hidden="true">
+              <svg viewBox="0 0 320 150"><path class="mini-grid" d="M0 120H320M0 80H320M0 40H320"></path><path d="M8 124 C42 116,58 102,86 104 S135 86,160 78 S205 68,230 48 S276 30,312 22"></path><circle cx="86" cy="104" r="4"></circle><circle cx="230" cy="48" r="4"></circle></svg>
+              <span>损失函数逐步收敛</span>
+            </div>
+            <div class="lesson-content"><div class="lesson-meta"><span>第 03 章</span><span>约 5 分钟</span></div><h3>用梯度下降预测小时租车需求</h3><p>从均方误差出发，手工实现梯度下降，并用 MAE、RMSE 评价测试集。</p><div class="lesson-tags"><span>NumPy</span><span>回归</span><span>模型评价</span></div><a href="practice/ch03_linear_regression.py" download>打开实践代码 <span>→</span></a></div>
           </article>
-          <article class="module" id="ch04">
-            <div class="module-number">04</div>
-            <div class="module-body"><p class="module-tag">计数回归 · UCI Bike Sharing</p><h3>泊松模型与负二项模型比较</h3><p>以小时出行次数为因变量，诊断过度离散，比较两个计数模型并解释发生率比。</p><ul><li>类别变量编码</li><li>过度离散诊断</li><li>发生率比解释</li></ul></div>
-            <div class="module-action"><span>约 8 分钟</span><a href="practice/ch04_count_regression.py" download>下载代码</a></div>
+
+          <article class="lesson-card" id="ch04">
+            <div class="lesson-visual visual-bars" aria-hidden="true">
+              <div class="bar-set"><i style="--h:32%"></i><i style="--h:46%"></i><i style="--h:64%"></i><i style="--h:88%"></i><i style="--h:72%"></i><i style="--h:52%"></i><i style="--h:38%"></i></div>
+              <span>计数分布与过度离散</span>
+            </div>
+            <div class="lesson-content"><div class="lesson-meta"><span>第 04 章</span><span>约 8 分钟</span></div><h3>泊松模型与负二项模型比较</h3><p>诊断小时出行次数的过度离散，比较计数模型并解释发生率比。</p><div class="lesson-tags"><span>Statsmodels</span><span>计数回归</span></div><a href="practice/ch04_count_regression.py" download>打开实践代码 <span>→</span></a></div>
           </article>
-          <article class="module" id="ch05">
-            <div class="module-number">05</div>
-            <div class="module-body"><p class="module-tag">空间分析 · NYC Open Data</p><h3>纽约交通事故空间热点识别</h3><p>调用城市开放数据 API，完成坐标质量控制、核密度估计和 DBSCAN 聚类。</p><ul><li>开放数据 API</li><li>KDE 相对密度</li><li>基于球面距离的聚类</li></ul></div>
-            <div class="module-action"><span>约 10 分钟</span><a href="practice/ch05_spatial_hotspots.py" download>下载代码</a></div>
+
+          <article class="lesson-card" id="ch05">
+            <div class="lesson-visual visual-map" aria-hidden="true">
+              <div class="street s1"></div><div class="street s2"></div><div class="street s3"></div><div class="street s4"></div>
+              <i class="hotspot h1"></i><i class="hotspot h2"></i><i class="hotspot h3"></i><i class="hotspot h4"></i>
+              <span>事故热点的空间分布</span>
+            </div>
+            <div class="lesson-content"><div class="lesson-meta"><span>第 05 章</span><span>约 10 分钟</span></div><h3>纽约交通事故空间热点识别</h3><p>调用城市开放数据 API，完成坐标质检、核密度估计和 DBSCAN 聚类。</p><div class="lesson-tags"><span>GeoPandas</span><span>DBSCAN</span><span>开放 API</span></div><a href="practice/ch05_spatial_hotspots.py" download>打开实践代码 <span>→</span></a></div>
           </article>
-          <article class="module" id="ch06">
-            <div class="module-number">06</div>
-            <div class="module-body"><p class="module-tag">时序预测 · UCI Bike Sharing</p><h3>周期基线与 SARIMA 预测</h3><p>构建“上周同期”基线，训练季节 ARIMA，并通过一周测试数据比较预测误差。</p><ul><li>时间索引与缺失补全</li><li>周期基线</li><li>滚动预测评价</li></ul></div>
-            <div class="module-action"><span>约 10 分钟</span><a href="practice/ch06_time_series.py" download>下载代码</a></div>
+
+          <article class="lesson-card" id="ch06">
+            <div class="lesson-visual visual-series" aria-hidden="true">
+              <svg viewBox="0 0 320 150"><path class="mini-grid" d="M0 120H320M0 80H320M0 40H320"></path><path class="series-a" d="M4 104 C22 76,36 110,54 82 S84 58,102 92 S134 112,152 76 S184 40,204 84 S238 108,258 70 S292 46,316 72"></path><path class="series-b" d="M4 114 C28 90,38 104,58 90 S88 70,106 98 S136 104,156 84 S186 54,208 92 S240 98,262 78 S294 58,316 82"></path></svg>
+              <span>预测值与真实值</span>
+            </div>
+            <div class="lesson-content"><div class="lesson-meta"><span>第 06 章</span><span>约 10 分钟</span></div><h3>周期基线与 SARIMA 预测</h3><p>构建“上周同期”基线，训练季节 ARIMA，并比较一周预测误差。</p><div class="lesson-tags"><span>时间序列</span><span>SARIMA</span><span>基线</span></div><a href="practice/ch06_time_series.py" download>打开实践代码 <span>→</span></a></div>
           </article>
-          <article class="module" id="ch07">
-            <div class="module-number">07</div>
-            <div class="module-body"><p class="module-tag">时空预测 · UCI PeMS-SF</p><h3>多检测器滞后特征预测</h3><p>把多个道路检测器的历史状态组织为时空特征，并与上一时刻基线进行严格比较。</p><ul><li>检测器—时间矩阵</li><li>多变量滞后窗口</li><li>基线模型的重要性</li></ul></div>
-            <div class="module-action"><span>约 15 分钟</span><a href="practice/ch07_spatiotemporal.py" download>下载代码</a></div>
+
+          <article class="lesson-card" id="ch07">
+            <div class="lesson-visual visual-matrix" aria-hidden="true">
+              <div class="matrix" id="matrix-visual"></div>
+              <span>检测器 × 时间状态矩阵</span>
+            </div>
+            <div class="lesson-content"><div class="lesson-meta"><span>第 07 章</span><span>约 15 分钟</span></div><h3>多检测器滞后特征预测</h3><p>把道路检测器的历史状态组织为时空特征，并与上一时刻基线比较。</p><div class="lesson-tags"><span>时空数据</span><span>滞后特征</span></div><a href="practice/ch07_spatiotemporal.py" download>打开实践代码 <span>→</span></a></div>
           </article>
-          <article class="module" id="ch08">
-            <div class="module-number">08</div>
-            <div class="module-body"><p class="module-tag">计算机视觉 · UA-DETRAC</p><h3>车辆检测、跟踪与过线计数</h3><p>使用 YOLO 检测交通参与者，通过目标 ID 跟踪车辆并统计穿越虚拟计数线的交通量。</p><ul><li>视频逐帧处理</li><li>检测与跟踪</li><li>重复计数控制</li></ul></div>
-            <div class="module-action"><span>需要视觉环境</span><a href="practice/ch08_vehicle_counting.py" download>下载代码</a></div>
+
+          <article class="lesson-card" id="ch08">
+            <div class="lesson-visual visual-video" aria-hidden="true">
+              <div class="road-line"></div><div class="vehicle v1"><span>car 0.92</span></div><div class="vehicle v2"><span>car 0.87</span></div><div class="counter">COUNT <b>18</b></div>
+              <span>车辆检测与过线计数</span>
+            </div>
+            <div class="lesson-content"><div class="lesson-meta"><span>第 08 章</span><span>需配置视觉环境</span></div><h3>车辆检测、跟踪与过线计数</h3><p>使用 YOLO 检测车辆，通过目标 ID 跟踪并统计穿越虚拟线的交通量。</p><div class="lesson-tags"><span>YOLO</span><span>目标跟踪</span><span>视频</span></div><a href="practice/ch08_vehicle_counting.py" download>打开实践代码 <span>→</span></a></div>
           </article>
         </div>
       </section>
 
-      <section class="section data-section">
-        <div class="section-heading"><p class="eyebrow">OPEN DATA</p><h2>数据来源与使用边界</h2></div>
-        <div class="data-grid">
-          <a href="https://archive.ics.uci.edu/dataset/275/bike+sharing+dataset"><strong>UCI Bike Sharing</strong><span>小时租车需求 · CC BY 4.0</span></a>
-          <a href="https://data.cityofnewyork.us/d/h9gi-nx95"><strong>NYC Crash Data</strong><span>官方事故开放数据 API</span></a>
-          <a href="https://archive.ics.uci.edu/dataset/204/pems+sf"><strong>UCI PeMS-SF</strong><span>963个检测器 · CC BY 4.0</span></a>
-          <a href="https://detrac-db.rit.albany.edu/"><strong>UA-DETRAC</strong><span>视频需按官方网站条款下载</span></a>
+      <section class="section open-section" id="open">
+        <div class="open-copy">
+          <p class="eyebrow">OPEN EDUCATION</p>
+          <h2>这是一间开放的课堂</h2>
+          <p>课程内容面向学生、教师和交通领域学习者免费开放。你可以在遵守原始数据许可的前提下学习、复现、引用和改进案例。</p>
+          <div class="open-actions"><a class="button primary" href="https://github.com/lilinchao/traffic-book-practice">参与课程建设</a><a class="button text-button" href="https://github.com/lilinchao/traffic-book-practice/issues">报告问题 <span>→</span></a></div>
+        </div>
+        <div class="open-list">
+          <div><span>代码</span><strong>公开源代码</strong><p>脚本、页面与更新记录均在 GitHub 可查。</p></div>
+          <div><span>教学</span><strong>允许课堂使用</strong><p>适合课堂演示、自学和课程作业。</p></div>
+          <div><span>数据</span><strong>来源透明</strong><p>每个案例注明数据出处和使用边界。</p></div>
+          <div><span>隐私</span><strong>无学习追踪</strong><p>不注册账号，不嵌入广告和用户分析。</p></div>
         </div>
       </section>
 
-      <footer><p>交通数据挖掘开放课程 · 教学版</p><p>代码强调可复现、基线比较与交通含义解释。</p></footer>
+      <section class="data-strip" aria-label="开放数据来源">
+        <p>课程使用的开放数据</p>
+        <a href="https://archive.ics.uci.edu/dataset/275/bike+sharing+dataset">UCI Bike Sharing ↗</a>
+        <a href="https://data.cityofnewyork.us/d/h9gi-nx95">NYC Crash Data ↗</a>
+        <a href="https://archive.ics.uci.edu/dataset/204/pems+sf">UCI PeMS-SF ↗</a>
+        <a href="https://detrac-db.rit.albany.edu/">UA-DETRAC ↗</a>
+      </section>
+
+      <footer>
+        <div><strong>交通数据挖掘开放课程</strong><p>代码采用 MIT 许可，课程内容采用 CC BY-SA 4.0 许可。</p></div>
+        <div class="footer-links"><a href="#home">返回顶部 ↑</a><a href="https://github.com/lilinchao/traffic-book-practice">GitHub</a></div>
+      </footer>
     </main>
   </div>
-  <script src="assets/app.js"></script>
+  <script src="assets/app.js?v=2"></script>
 </body>
 </html>
