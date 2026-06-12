@@ -30,6 +30,13 @@ import io
 import json
 import traceback
 
+def _json_default(value):
+    if hasattr(value, "item"):
+        return value.item()
+    if hasattr(value, "tolist"):
+        return value.tolist()
+    raise TypeError(f"{type(value).__name__} 不能转换为网页结果")
+
 _stdout = io.StringIO()
 _namespace = {"__name__": "__main__"}
 try:
@@ -40,7 +47,7 @@ try:
     _payload = {"ok": True, "stdout": _stdout.getvalue(), "result": _namespace["result"]}
 except Exception:
     _payload = {"ok": False, "stdout": _stdout.getvalue(), "error": traceback.format_exc()}
-json.dumps(_payload, ensure_ascii=False)
+json.dumps(_payload, ensure_ascii=False, default=_json_default)
     `);
     const parsed = JSON.parse(payload);
     if (!parsed.ok) {
