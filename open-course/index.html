@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="交通数据挖掘理论与应用开放课程：开放数据、可复现实践与交互式方法讲解。">
   <title>交通数据挖掘开放课程</title>
-  <link rel="stylesheet" href="assets/styles.css?v=2">
-  <link rel="stylesheet" href="assets/overrides.css?v=2">
+  <link rel="stylesheet" href="assets/styles.css?v=3">
+  <link rel="stylesheet" href="assets/overrides.css?v=3">
 </head>
 <body>
   <header class="topbar">
@@ -27,6 +27,7 @@
     <aside class="sidebar" aria-label="课程目录">
       <p class="sidebar-label">探索课程</p>
       <a class="active" href="#home">课程首页</a>
+      <a href="#lab">在线实验室</a>
       <a href="#start">快速开始</a>
       <a href="#ch03"><span>03</span>数学与优化</a>
       <a href="#ch04"><span>04</span>表格型数据</a>
@@ -95,6 +96,60 @@
         <div><strong>04</strong><span>基线优先</span><p>先建立简单基线，再讨论复杂模型。</p></div>
       </section>
 
+      <section class="section lab-section" id="lab">
+        <div class="section-intro lab-heading">
+          <div>
+            <p class="eyebrow">PYTHON IN YOUR BROWSER</p>
+            <h2>修改代码，立即看到结果</h2>
+          </div>
+          <p>这是适合课堂演示的轻量实验。Python 代码只在当前浏览器中运行，不上传代码、不保存学习记录。首次运行需要下载浏览器 Python 环境。</p>
+        </div>
+
+        <div class="lab-example-tabs" role="tablist" aria-label="选择在线实验">
+          <button class="lab-example-tab active" data-lab-example="regression" role="tab" aria-selected="true">梯度下降</button>
+          <button class="lab-example-tab" data-lab-example="timeseries" role="tab" aria-selected="false">时序平滑</button>
+          <button class="lab-example-tab" data-lab-example="clusters" role="tab" aria-selected="false">空间聚类</button>
+        </div>
+
+        <div class="lab-workspace">
+          <div class="lab-editor-panel">
+            <div class="lab-panel-head">
+              <div><span class="lab-language">Python</span><strong id="lab-example-title">梯度下降拟合交通需求</strong></div>
+              <button id="lab-reset" class="lab-quiet-button" type="button">恢复示例</button>
+            </div>
+            <textarea id="lab-code" class="lab-code" aria-label="可编辑 Python 代码" spellcheck="false"></textarea>
+            <div class="lab-runbar">
+              <button id="lab-run" class="lab-run-button" type="button"><span>▶</span> 运行代码</button>
+              <button id="lab-stop" class="lab-stop-button" type="button" disabled>停止</button>
+              <span id="lab-status" class="lab-status" role="status">Python 尚未启动</span>
+            </div>
+          </div>
+
+          <div class="lab-result-panel">
+            <div class="lab-panel-head">
+              <div><span class="lab-language">RESULT</span><strong>运行结果</strong></div>
+              <span class="lab-local-badge">仅在本机运行</span>
+            </div>
+            <div id="lab-metrics" class="lab-metrics" aria-label="模型指标">
+              <div><span>等待运行</span><strong>--</strong></div>
+            </div>
+            <div class="lab-chart-stage">
+              <svg id="lab-chart" viewBox="0 0 640 350" role="img" aria-label="Python 代码运行结果图"></svg>
+              <div id="lab-chart-empty" class="lab-chart-empty"><span>▶</span><p>点击“运行代码”生成图表</p></div>
+            </div>
+            <details class="lab-console-wrap">
+              <summary>查看 Python 输出</summary>
+              <pre id="lab-console" class="lab-console">等待运行...</pre>
+            </details>
+          </div>
+        </div>
+
+        <div class="lab-notes">
+          <p><strong>可以尝试：</strong>修改 <code>learning_rate</code>、<code>window</code> 或 <code>k</code>，比较图表和指标的变化。</p>
+          <p>完整数据下载、模型训练和文件输出仍保留在各章实践脚本中。</p>
+        </div>
+      </section>
+
       <section class="section start-section" id="start">
         <div class="section-intro">
           <p class="eyebrow">QUICK START</p>
@@ -123,7 +178,7 @@ python ch03_linear_regression.py</code></pre>
               <svg viewBox="0 0 320 150"><path class="mini-grid" d="M0 120H320M0 80H320M0 40H320"></path><path d="M8 124 C42 116,58 102,86 104 S135 86,160 78 S205 68,230 48 S276 30,312 22"></path><circle cx="86" cy="104" r="4"></circle><circle cx="230" cy="48" r="4"></circle></svg>
               <span>损失函数逐步收敛</span>
             </div>
-            <div class="lesson-content"><div class="lesson-meta"><span>第 03 章</span><span>约 5 分钟</span></div><h3>用梯度下降预测小时租车需求</h3><p>从均方误差出发，手工实现梯度下降，并用 MAE、RMSE 评价测试集。</p><div class="lesson-tags"><span>NumPy</span><span>回归</span><span>模型评价</span></div><a href="practice/ch03_linear_regression.py" download>打开实践代码 <span>→</span></a></div>
+            <div class="lesson-content"><div class="lesson-meta"><span>第 03 章</span><span>约 5 分钟</span></div><h3>用梯度下降预测小时租车需求</h3><p>从均方误差出发，手工实现梯度下降，并用 MAE、RMSE 评价测试集。</p><div class="lesson-tags"><span>NumPy</span><span>回归</span><span>模型评价</span></div><div class="lesson-actions"><a class="lesson-online" href="#lab" data-open-lab="regression">在线运行 <span>→</span></a><a href="practice/ch03_linear_regression.py" download>下载代码</a></div></div>
           </article>
 
           <article class="lesson-card" id="ch04">
@@ -140,7 +195,7 @@ python ch03_linear_regression.py</code></pre>
               <i class="hotspot h1"></i><i class="hotspot h2"></i><i class="hotspot h3"></i><i class="hotspot h4"></i>
               <span>事故热点的空间分布</span>
             </div>
-            <div class="lesson-content"><div class="lesson-meta"><span>第 05 章</span><span>约 10 分钟</span></div><h3>纽约交通事故空间热点识别</h3><p>调用城市开放数据 API，完成坐标质检、核密度估计和 DBSCAN 聚类。</p><div class="lesson-tags"><span>GeoPandas</span><span>DBSCAN</span><span>开放 API</span></div><a href="practice/ch05_spatial_hotspots.py" download>打开实践代码 <span>→</span></a></div>
+            <div class="lesson-content"><div class="lesson-meta"><span>第 05 章</span><span>约 10 分钟</span></div><h3>纽约交通事故空间热点识别</h3><p>调用城市开放数据 API，完成坐标质检、核密度估计和 DBSCAN 聚类。</p><div class="lesson-tags"><span>GeoPandas</span><span>DBSCAN</span><span>开放 API</span></div><div class="lesson-actions"><a class="lesson-online" href="#lab" data-open-lab="clusters">在线运行 <span>→</span></a><a href="practice/ch05_spatial_hotspots.py" download>下载代码</a></div></div>
           </article>
 
           <article class="lesson-card" id="ch06">
@@ -148,7 +203,7 @@ python ch03_linear_regression.py</code></pre>
               <svg viewBox="0 0 320 150"><path class="mini-grid" d="M0 120H320M0 80H320M0 40H320"></path><path class="series-a" d="M4 104 C22 76,36 110,54 82 S84 58,102 92 S134 112,152 76 S184 40,204 84 S238 108,258 70 S292 46,316 72"></path><path class="series-b" d="M4 114 C28 90,38 104,58 90 S88 70,106 98 S136 104,156 84 S186 54,208 92 S240 98,262 78 S294 58,316 82"></path></svg>
               <span>预测值与真实值</span>
             </div>
-            <div class="lesson-content"><div class="lesson-meta"><span>第 06 章</span><span>约 10 分钟</span></div><h3>周期基线与 SARIMA 预测</h3><p>构建“上周同期”基线，训练季节 ARIMA，并比较一周预测误差。</p><div class="lesson-tags"><span>时间序列</span><span>SARIMA</span><span>基线</span></div><a href="practice/ch06_time_series.py" download>打开实践代码 <span>→</span></a></div>
+            <div class="lesson-content"><div class="lesson-meta"><span>第 06 章</span><span>约 10 分钟</span></div><h3>周期基线与 SARIMA 预测</h3><p>构建“上周同期”基线，训练季节 ARIMA，并比较一周预测误差。</p><div class="lesson-tags"><span>时间序列</span><span>SARIMA</span><span>基线</span></div><div class="lesson-actions"><a class="lesson-online" href="#lab" data-open-lab="timeseries">在线运行 <span>→</span></a><a href="practice/ch06_time_series.py" download>下载代码</a></div></div>
           </article>
 
           <article class="lesson-card" id="ch07">
@@ -198,6 +253,7 @@ python ch03_linear_regression.py</code></pre>
       </footer>
     </main>
   </div>
-  <script src="assets/app.js?v=2"></script>
+  <script src="assets/app.js?v=3"></script>
+  <script src="assets/lab.js?v=2"></script>
 </body>
 </html>
