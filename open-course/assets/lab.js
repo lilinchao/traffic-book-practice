@@ -1,140 +1,113 @@
-const labExamples = {
-  regression: {
-    title: '梯度下降拟合交通需求',
-    code: `import numpy as np
-
-# 小时与对应的共享单车需求指数
-hours = np.array([6, 7, 8, 9, 10, 16, 17, 18, 19, 20], dtype=float)
-demand = np.array([72, 145, 286, 230, 168, 210, 355, 430, 318, 226], dtype=float)
-
-# 尝试修改这两个参数
-learning_rate = 0.08
-steps = 120
-
-x = (hours - hours.mean()) / hours.std()
-y = (demand - demand.mean()) / demand.std()
-w, b = 0.0, 0.0
-losses = []
-
-for step in range(steps):
-    prediction = w * x + b
-    error = prediction - y
-    losses.append(float(np.mean(error ** 2)))
-    w -= learning_rate * float(2 * np.mean(error * x))
-    b -= learning_rate * float(2 * np.mean(error))
-
-fitted = (w * x + b) * demand.std() + demand.mean()
-mae = float(np.mean(np.abs(demand - fitted)))
-
-print(f"训练 {steps} 步，最终损失 {losses[-1]:.4f}")
-result = {
-    "chart": "regression",
-    "x": hours.tolist(),
-    "y": demand.tolist(),
-    "prediction": fitted.tolist(),
-    "metrics": {"MAE": round(mae, 1), "斜率": round(w, 3), "最终损失": round(losses[-1], 4)}
-}`
-  },
-  timeseries: {
-    title: '滑动平均观察需求趋势',
-    code: `import numpy as np
-
-# 连续 24 小时的需求指数
-demand = np.array([
-    22, 15, 11, 9, 13, 36, 96, 218, 348, 226, 158, 172,
-    188, 181, 170, 186, 246, 382, 438, 325, 218, 148, 91, 48
-], dtype=float)
-
-# 尝试改为 3、5 或 7
-window = 5
-
-kernel = np.ones(window) / window
-smoothed = np.convolve(demand, kernel, mode="same")
-residual = demand - smoothed
-
-print(f"窗口宽度: {window}")
-print(f"原始峰值出现在 {int(np.argmax(demand))} 时")
-result = {
-    "chart": "series",
-    "x": list(range(24)),
-    "series": [
-        {"name": "原始需求", "values": demand.tolist()},
-        {"name": "平滑趋势", "values": smoothed.tolist()}
-    ],
-    "metrics": {
-        "窗口": window,
-        "峰值时刻": f"{int(np.argmax(demand))}:00",
-        "残差均值": round(float(np.mean(np.abs(residual))), 1)
-    }
-}`
-  },
-  clusters: {
-    title: 'K-means 识别事故热点',
-    code: `import numpy as np
-
-# 模拟的城市事故点坐标，三片区域具有不同密度
-points = np.array([
-    [1.0, 1.2], [1.3, 1.0], [0.8, 0.9], [1.5, 1.4], [1.1, 1.6],
-    [4.6, 4.8], [5.1, 5.2], [4.8, 5.5], [5.4, 4.7], [5.6, 5.3],
-    [8.2, 2.0], [8.6, 2.4], [7.8, 2.6], [8.9, 1.8], [8.1, 3.0],
-    [3.0, 2.8], [6.5, 3.8], [2.2, 5.7]
-], dtype=float)
-
-# 尝试改为 2、3 或 4
-k = 3
-iterations = 12
-centers = points[np.linspace(0, len(points) - 1, k, dtype=int)].copy()
-
-for _ in range(iterations):
-    distance = ((points[:, None, :] - centers[None, :, :]) ** 2).sum(axis=2)
-    labels = distance.argmin(axis=1)
-    centers = np.array([
-        points[labels == group].mean(axis=0) if np.any(labels == group) else centers[group]
-        for group in range(k)
-    ])
-
-compactness = float(np.mean(np.min(distance, axis=1)))
-print(f"识别出 {k} 个候选热点")
-result = {
-    "chart": "clusters",
-    "x": points[:, 0].tolist(),
-    "y": points[:, 1].tolist(),
-    "labels": labels.tolist(),
-    "centers": centers.tolist(),
-    "metrics": {"热点数量": k, "事故点": len(points), "紧凑度": round(compactness, 2)}
-}`
-  }
-};
+const labExamples = window.LAB_EXAMPLES || [];
+const labById = new Map(labExamples.map((example) => [example.id, example]));
 
 const labCode = document.getElementById('lab-code');
 const labTitle = document.getElementById('lab-example-title');
+const labGoal = document.getElementById('lab-goal');
+const labChallenge = document.getElementById('lab-challenge');
+const labConcepts = document.getElementById('lab-concepts');
+const labFilters = document.getElementById('lab-chapter-filters');
+const labCatalog = document.getElementById('lab-catalog');
+const labCatalogCount = document.getElementById('lab-catalog-count');
 const labRun = document.getElementById('lab-run');
 const labStop = document.getElementById('lab-stop');
 const labReset = document.getElementById('lab-reset');
+const labDownload = document.getElementById('lab-download');
 const labStatus = document.getElementById('lab-status');
 const labConsole = document.getElementById('lab-console');
 const labMetrics = document.getElementById('lab-metrics');
 const labChart = document.getElementById('lab-chart');
 const labChartEmpty = document.getElementById('lab-chart-empty');
-let activeLab = 'regression';
+
+let activeLab = labExamples[0]?.id || '';
+let activeChapter = 1;
 let labWorker = null;
 let labRunning = false;
 
-function selectLab(name, resetCode = true) {
-  activeLab = name;
-  const example = labExamples[name];
+const chartColors = ['#4965f5', '#ff6b42', '#0b756b', '#9b51e0', '#d1a600'];
+
+function renderChapterFilters() {
+  const filters = [
+    {value: 0, label: '全部'},
+    ...Array.from({length: 8}, (_, index) => ({value: index + 1, label: `第${index + 1}章`}))
+  ];
+  labFilters.replaceChildren(...filters.map((filter) => {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'lab-chapter-filter';
+    button.classList.toggle('active', filter.value === activeChapter);
+    button.textContent = filter.label;
+    button.addEventListener('click', () => {
+      activeChapter = filter.value;
+      if (activeChapter !== 0 && labById.get(activeLab)?.chapter !== activeChapter) {
+        const firstInChapter = labExamples.find((example) => example.chapter === activeChapter);
+        if (firstInChapter) {
+          selectLab(firstInChapter.id);
+          return;
+        }
+      }
+      renderChapterFilters();
+      renderCatalog();
+    });
+    return button;
+  }));
+}
+
+function renderCatalog() {
+  const visible = activeChapter === 0
+    ? labExamples
+    : labExamples.filter((example) => example.chapter === activeChapter);
+
+  labCatalogCount.textContent = activeChapter === 0
+    ? `全部章节 · ${visible.length}项实践`
+    : `第${activeChapter}章 · ${visible.length}项实践`;
+
+  labCatalog.replaceChildren(...visible.map((example) => {
+    const card = document.createElement('button');
+    card.type = 'button';
+    card.className = 'lab-catalog-card';
+    card.classList.toggle('active', example.id === activeLab);
+    card.dataset.labId = example.id;
+
+    const meta = document.createElement('span');
+    meta.className = 'lab-card-meta';
+    const level = document.createElement('span');
+    level.textContent = `第${example.chapter}章 · ${example.level}`;
+    const duration = document.createElement('span');
+    duration.textContent = example.duration;
+    meta.append(level, duration);
+
+    const title = document.createElement('strong');
+    title.textContent = example.title;
+    const summary = document.createElement('p');
+    summary.textContent = example.summary;
+    card.append(meta, title, summary);
+    card.addEventListener('click', () => selectLab(example.id));
+    return card;
+  }));
+}
+
+function selectLab(id, options = {}) {
+  const example = labById.get(id);
+  if (!example) return;
+  activeLab = id;
+  if (options.reveal) activeChapter = example.chapter;
   labTitle.textContent = example.title;
-  if (resetCode) labCode.value = example.code;
-  document.querySelectorAll('.lab-example-tab').forEach((button) => {
-    const active = button.dataset.labExample === name;
-    button.classList.toggle('active', active);
-    button.setAttribute('aria-selected', String(active));
-  });
+  labGoal.textContent = example.goal;
+  labChallenge.textContent = example.challenge;
+  labConcepts.replaceChildren(...example.concepts.map((concept) => {
+    const tag = document.createElement('span');
+    tag.textContent = concept;
+    return tag;
+  }));
+  if (options.resetCode !== false) labCode.value = example.code;
+  renderChapterFilters();
+  renderCatalog();
 }
 
 function createWorker() {
   if (labWorker) return labWorker;
-  labWorker = new Worker('assets/python-worker.js?v=2');
+  labWorker = new Worker('assets/python-worker.js?v=3');
   labWorker.addEventListener('message', handleWorkerMessage);
   labWorker.addEventListener('error', (event) => finishWithError(event.message || '浏览器 Python 环境加载失败'));
   return labWorker;
@@ -157,8 +130,12 @@ function handleWorkerMessage(event) {
     setRunning(false);
     labStatus.textContent = `完成 · ${message.elapsed} 秒`;
     labConsole.textContent = message.stdout || '代码运行完成，没有 print 输出。';
-    renderMetrics(message.result.metrics || {});
-    renderLabChart(message.result);
+    try {
+      renderMetrics(message.result?.metrics || {});
+      renderLabChart(message.result || {});
+    } catch (error) {
+      finishWithError(`结果可视化失败：${error.message}`);
+    }
     return;
   }
   if (message.type === 'error') finishWithError(message.error);
@@ -204,17 +181,21 @@ function scales(xValues, yValues) {
 }
 
 function drawGrid() {
-  [50, 113, 176, 239, 302].forEach((y) => labChart.append(svgElement('line', {x1: 58, y1: y, x2: 610, y2: y, class: 'lab-gridline'})));
+  [50, 113, 176, 239, 302].forEach((y) => {
+    labChart.append(svgElement('line', {x1: 58, y1: y, x2: 610, y2: y, class: 'lab-gridline'}));
+  });
 }
 
 function renderLabChart(result) {
   labChart.replaceChildren();
   labChartEmpty.hidden = true;
-  drawGrid();
+  if (result.chart !== 'heatmap') drawGrid();
   if (result.chart === 'regression') renderRegression(result);
   else if (result.chart === 'series') renderSeries(result);
   else if (result.chart === 'clusters') renderClusters(result);
-  else throw new Error('result.chart 必须是 regression、series 或 clusters');
+  else if (result.chart === 'bar') renderBar(result);
+  else if (result.chart === 'heatmap') renderHeatmap(result);
+  else throw new Error('result.chart 必须是 regression、series、clusters、bar 或 heatmap');
 }
 
 function renderRegression(result) {
@@ -222,7 +203,9 @@ function renderRegression(result) {
   const ordered = result.x.map((x, index) => ({x, y: result.prediction[index]})).sort((a, b) => a.x - b.x);
   const path = ordered.map((point, index) => `${index ? 'L' : 'M'}${scale.x(point.x)},${scale.y(point.y)}`).join(' ');
   labChart.append(svgElement('path', {d: path, class: 'lab-result-line'}));
-  result.x.forEach((x, index) => labChart.append(svgElement('circle', {cx: scale.x(x), cy: scale.y(result.y[index]), r: 6, class: 'lab-result-point'})));
+  result.x.forEach((x, index) => {
+    labChart.append(svgElement('circle', {cx: scale.x(x), cy: scale.y(result.y[index]), r: 6, class: 'lab-result-point'}));
+  });
 }
 
 function renderSeries(result) {
@@ -230,36 +213,158 @@ function renderSeries(result) {
   const scale = scales(result.x, allValues);
   result.series.forEach((series, seriesIndex) => {
     const path = result.x.map((x, index) => `${index ? 'L' : 'M'}${scale.x(x)},${scale.y(series.values[index])}`).join(' ');
-    labChart.append(svgElement('path', {d: path, class: `lab-series-line series-${seriesIndex}`}));
-    const legend = svgElement('text', {x: 70 + seriesIndex * 115, y: 28, class: `lab-legend series-${seriesIndex}`});
+    labChart.append(svgElement('path', {
+      d: path,
+      class: 'lab-series-line',
+      style: `stroke:${chartColors[seriesIndex % chartColors.length]}`
+    }));
+    const legend = svgElement('text', {
+      x: 70 + seriesIndex * 145,
+      y: 28,
+      class: 'lab-legend',
+      style: `fill:${chartColors[seriesIndex % chartColors.length]}`
+    });
     legend.textContent = `● ${series.name}`;
     labChart.append(legend);
   });
 }
 
 function renderClusters(result) {
-  const centerX = result.centers.map((center) => center[0]);
-  const centerY = result.centers.map((center) => center[1]);
-  const scale = scales([...result.x, ...centerX], [...result.y, ...centerY]);
-  result.x.forEach((x, index) => labChart.append(svgElement('circle', {
-    cx: scale.x(x), cy: scale.y(result.y[index]), r: 7, class: `lab-cluster-point cluster-${result.labels[index] % 5}`
-  })));
-  result.centers.forEach((center, index) => {
-    const marker = svgElement('text', {x: scale.x(center[0]), y: scale.y(center[1]) + 7, class: `lab-center cluster-${index % 5}`});
+  const centers = result.centers || [];
+  const referenceX = result.reference?.x || [];
+  const referenceY = result.reference?.y || [];
+  const allX = [...result.x, ...centers.map((center) => center[0]), ...referenceX];
+  const allY = [...result.y, ...centers.map((center) => center[1]), ...referenceY];
+  const scale = scales(allX, allY);
+
+  if (referenceX.length) {
+    const path = referenceX.map((x, index) => `${index ? 'L' : 'M'}${scale.x(x)},${scale.y(referenceY[index])}`).join(' ');
+    labChart.append(svgElement('path', {d: path, class: 'lab-reference-line'}));
+  }
+
+  result.x.forEach((x, index) => {
+    labChart.append(svgElement('circle', {
+      cx: scale.x(x), cy: scale.y(result.y[index]), r: 7,
+      class: `lab-cluster-point cluster-${(result.labels?.[index] || 0) % 5}`
+    }));
+  });
+  centers.forEach((center, index) => {
+    const marker = svgElement('text', {
+      x: scale.x(center[0]), y: scale.y(center[1]) + 7,
+      class: `lab-center cluster-${index % 5}`
+    });
     marker.textContent = '×';
     labChart.append(marker);
   });
 }
 
-document.querySelectorAll('.lab-example-tab').forEach((button) => {
-  button.addEventListener('click', () => selectLab(button.dataset.labExample));
-});
+function renderBar(result) {
+  const series = result.series || [];
+  const allValues = series.flatMap((item) => item.values);
+  const minValue = Math.min(0, ...allValues);
+  const maxValue = Math.max(1, ...allValues);
+  const left = 62;
+  const top = 54;
+  const width = 542;
+  const height = 226;
+  const groupWidth = width / result.labels.length;
+  const barWidth = Math.min(38, groupWidth * 0.72 / Math.max(series.length, 1));
+  const valueY = (value) => top + (maxValue - value) / (maxValue - minValue || 1) * height;
+  const zeroY = valueY(0);
+
+  series.forEach((item, seriesIndex) => {
+    item.values.forEach((value, index) => {
+      const x = left + index * groupWidth + groupWidth / 2
+        + (seriesIndex - (series.length - 1) / 2) * (barWidth + 3) - barWidth / 2;
+      const y = Math.min(valueY(value), zeroY);
+      const rect = svgElement('rect', {
+        x, y, width: barWidth, height: Math.max(1, Math.abs(zeroY - valueY(value))),
+        rx: 3, class: 'lab-bar', style: `fill:${chartColors[seriesIndex % chartColors.length]}`
+      });
+      labChart.append(rect);
+    });
+
+    if (series.length > 1) {
+      const legend = svgElement('text', {
+        x: 68 + seriesIndex * 145, y: 27, class: 'lab-legend',
+        style: `fill:${chartColors[seriesIndex % chartColors.length]}`
+      });
+      legend.textContent = `■ ${item.name}`;
+      labChart.append(legend);
+    }
+  });
+
+  result.labels.forEach((label, index) => {
+    const caption = svgElement('text', {
+      x: left + index * groupWidth + groupWidth / 2,
+      y: 309,
+      class: 'lab-bar-label'
+    });
+    caption.textContent = String(label).length > 8 ? `${String(label).slice(0, 8)}…` : label;
+    labChart.append(caption);
+  });
+}
+
+function renderHeatmap(result) {
+  const matrix = result.matrix || [];
+  const rows = matrix.length;
+  const columns = matrix[0]?.length || 0;
+  if (!rows || !columns) throw new Error('热力图矩阵不能为空');
+  const values = matrix.flat();
+  const minValue = Math.min(...values);
+  const maxValue = Math.max(...values);
+  const left = 122;
+  const top = 42;
+  const width = 470;
+  const height = 242;
+  const cellWidth = width / columns;
+  const cellHeight = height / rows;
+
+  matrix.forEach((row, rowIndex) => {
+    row.forEach((value, columnIndex) => {
+      const ratio = (value - minValue) / (maxValue - minValue || 1);
+      labChart.append(svgElement('rect', {
+        x: left + columnIndex * cellWidth,
+        y: top + rowIndex * cellHeight,
+        width: cellWidth,
+        height: cellHeight,
+        rx: 2,
+        class: 'lab-heat-cell',
+        style: `fill:hsl(${226 - ratio * 190} 72% ${93 - ratio * 43}%)`
+      }));
+    });
+  });
+
+  const rowLabels = result.rowLabels || Array.from({length: rows}, (_, index) => index + 1);
+  const columnLabels = result.colLabels || Array.from({length: columns}, (_, index) => index + 1);
+  rowLabels.forEach((label, index) => {
+    const text = svgElement('text', {x: left - 9, y: top + (index + 0.57) * cellHeight, class: 'lab-heat-label', 'text-anchor': 'end'});
+    text.textContent = label;
+    labChart.append(text);
+  });
+  columnLabels.forEach((label, index) => {
+    const text = svgElement('text', {x: left + (index + 0.5) * cellWidth, y: top - 10, class: 'lab-heat-label', 'text-anchor': 'middle'});
+    text.textContent = label;
+    labChart.append(text);
+  });
+}
 
 document.querySelectorAll('[data-open-lab]').forEach((link) => {
-  link.addEventListener('click', () => selectLab(link.dataset.openLab));
+  link.addEventListener('click', () => selectLab(link.dataset.openLab, {reveal: true}));
 });
 
 labReset.addEventListener('click', () => selectLab(activeLab));
+
+labDownload.addEventListener('click', () => {
+  const example = labById.get(activeLab);
+  const blob = new Blob([labCode.value], {type: 'text/x-python;charset=utf-8'});
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = `${example?.id || 'traffic-lab'}.py`;
+  link.click();
+  URL.revokeObjectURL(url);
+});
 
 labRun.addEventListener('click', () => {
   if (labRunning) return;
@@ -278,4 +383,4 @@ labStop.addEventListener('click', () => {
   labConsole.textContent = '运行已由用户停止。再次点击运行会重新启动 Python。';
 });
 
-selectLab(activeLab);
+if (activeLab) selectLab(activeLab, {reveal: true});
