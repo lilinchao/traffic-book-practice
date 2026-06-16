@@ -59,8 +59,8 @@ function renderCatalog() {
     : labExamples.filter((example) => example.chapter === activeChapter);
 
   labCatalogCount.textContent = activeChapter === 0
-    ? `全部章节 · ${visible.length}项实践`
-    : `第${activeChapter}章 · ${visible.length}项实践`;
+    ? `全部小节 · ${visible.length}个实验`
+    : `第${activeChapter}章 · ${visible.length}个小节实验`;
 
   labCatalog.replaceChildren(...visible.map((example) => {
     const card = document.createElement('button');
@@ -72,7 +72,7 @@ function renderCatalog() {
     const meta = document.createElement('span');
     meta.className = 'lab-card-meta';
     const level = document.createElement('span');
-    level.textContent = `第${example.chapter}章 · ${example.level}`;
+    level.textContent = `${example.section || `第${example.chapter}章`} · ${example.level}`;
     const duration = document.createElement('span');
     duration.textContent = example.duration;
     meta.append(level, duration);
