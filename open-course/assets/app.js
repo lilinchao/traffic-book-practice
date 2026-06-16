@@ -1,3 +1,26 @@
+(() => {
+  let labExamplesValue = window.LAB_EXAMPLES;
+  let variantsLoaded = false;
+
+  Object.defineProperty(window, 'LAB_EXAMPLES', {
+    configurable: true,
+    get() {
+      return labExamplesValue;
+    },
+    set(value) {
+      labExamplesValue = value;
+      if (!Array.isArray(value) || variantsLoaded) return;
+      variantsLoaded = true;
+      const request = new XMLHttpRequest();
+      request.open('GET', 'assets/lab-variants.js?v=1', false);
+      request.send(null);
+      if (request.status >= 200 && request.status < 400) {
+        (0, eval)(request.responseText);
+      }
+    }
+  });
+})();
+
 const menuButton = document.querySelector('.menu-button');
 const sidebar = document.querySelector('.sidebar');
 
