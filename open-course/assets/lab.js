@@ -59,8 +59,8 @@ function renderCatalog() {
     : labExamples.filter((example) => example.chapter === activeChapter);
 
   labCatalogCount.textContent = activeChapter === 0
-    ? `全部小节 · ${visible.length}个实验`
-    : `第${activeChapter}章 · ${visible.length}个小节实验`;
+    ? `全部章节 · ${visible.length}个核心案例`
+    : `第${activeChapter}章 · ${visible.length}个核心案例`;
 
   labCatalog.replaceChildren(...visible.map((example) => {
     const card = document.createElement('button');
