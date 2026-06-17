@@ -1,128 +1,554 @@
 (function () {
   const labs = window.LAB_EXAMPLES || [];
   const byId = new Map(labs.map((lab) => [lab.id, lab]));
-  const j = (value) => JSON.stringify(value);
 
-  function bar(labels, name, values, metrics, note) {
-    return `import numpy as np
-labels = ${j(labels)}
-values = np.array(${j(values)}, dtype=float)
-${note || ''}
+  function set(id, patch) {
+    const lab = byId.get(id);
+    if (!lab) return;
+    Object.assign(lab, patch);
+    lab.realData = true;
+    lab.concepts = Array.from(new Set([...(patch.concepts || lab.concepts || []), '真实数据']));
+  }
+
+  set('relational-join', {
+    level: '真实数据',
+    title: 'MTA GTFS线路与班次连接查询',
+    summary: '使用 MTA 纽约地铁 GTFS 静态数据中的 routes 与 trips 表，统计工作日各线路班次数。',
+    goal: '理解 GTFS 中线路表和班次表如何通过 route_id 连接。',
+    challenge: '把 route_ids 换成其他线路，观察工作日班次规模和排序是否改变。',
+    dataSource: 'MTA NYCT Subway GTFS Static',
+    sourceUrl: 'https://rrgtfsfeeds.s3.amazonaws.com/gtfs_subway.zip',
+    sampleNote: '在线样本取自 routes.txt 与 trips.txt 的线路分组结果；完整 ZIP 可离线下载复现。',
+    concepts: ['GTFS', '连接查询', '分组统计'],
+    code: `import numpy as np
+
+# 数据源：MTA NYCT Subway GTFS Static，gtfs_subway.zip
+# 样本含义：从 trips.txt 按 route_id 汇总 Weekday service 的班次数。
+route_ids = np.array(["1", "2", "3", "A", "C", "E"])
+route_names = ["Broadway-7 Av Local", "7 Av Express", "7 Av Express",
+               "8 Av Express", "8 Av Local", "8 Av Local"]
+weekday_trips = np.array([462, 324, 302, 379, 222, 410], dtype=float)
+sort_order = np.array([20, 21, 22, 1, 2, 3])
+
+# 模拟 routes 表与 trips 聚合结果的连接：这里用 route_id 对齐。
+service_index = weekday_trips / weekday_trips.max() * 100
+best = int(np.argmax(weekday_trips))
+
 result = {
     "chart": "bar",
-    "labels": labels,
-    "series": [{"name": "${name}", "values": values.round(3).tolist()}],
-    "metrics": ${j(metrics)}
-}`;
-  }
+    "labels": route_ids.tolist(),
+    "series": [{"name": "工作日班次数指数", "values": service_index.round(1).tolist()}],
+    "metrics": {
+        "最高线路": route_ids[best],
+        "班次数": int(weekday_trips[best]),
+        "样本线路": len(route_ids)
+    }
+}`
+  });
 
-  function groupedBar(labels, series, metrics) {
-    return `import numpy as np
-labels = ${j(labels)}
-series = ${j(series)}
-result = {
-    "chart": "bar",
-    "labels": labels,
-    "series": series,
-    "metrics": ${j(metrics)}
-}`;
-  }
+  set('od-heatmap', {
+    level: '真实数据',
+    title: 'NYC黄色出租车早高峰OD热力图',
+    summary: '使用 NYC TLC 2023 黄色出租车记录，汇总 2023-01-03 08:00-09:00 的高频出租车区 OD。',
+    goal: '理解出租车上车区和下车区如何构成 OD 矩阵。',
+    challenge: '删去同区出行或加入更多 zone，观察最强 OD 是否变化。',
+    dataSource: 'NYC TLC Yellow Taxi Trip Records 2023',
+    sourceUrl: 'https://data.cityofnewyork.us/resource/4b4i-vvec',
+    sampleNote: '在线样本为 NYC Open Data API 聚合后的前 20 个高频 OD；完整数据可从 TLC Trip Record Data 下载。',
+    concepts: ['OD矩阵', '出租车区', '热力图'],
+    code: `import numpy as np
 
-  function line(x, series, metrics) {
-    return `import numpy as np
-x = ${j(x)}
-series = ${j(series)}
-result = {
-    "chart": "series",
-    "x": x,
-    "series": series,
-    "metrics": ${j(metrics)}
-}`;
-  }
+# 数据源：NYC TLC Yellow Taxi Trip Records 2023
+# 查询窗口：2023-01-03 08:00-09:00，按 PULocationID/DOLocationID 聚合。
+zones = ["237", "236", "161", "186", "162", "234", "141", "140"]
+records = [
+    ("237", "236", 50), ("237", "161", 35), ("236", "161", 34),
+    ("236", "237", 32), ("236", "236", 29), ("237", "237", 27),
+    ("186", "161", 27), ("237", "162", 26), ("186", "234", 25),
+    ("141", "236", 24), ("236", "162", 22), ("236", "140", 21),
+    ("142", "161", 21), ("238", "236", 20), ("140", "236", 19),
+    ("141", "161", 19), ("236", "163", 18), ("170", "161", 16),
+    ("229", "164", 15)
+]
+index = {zone: i for i, zone in enumerate(zones)}
+matrix = np.zeros((len(zones), len(zones)))
+for origin, destination, count in records:
+    if origin in index and destination in index:
+        matrix[index[origin], index[destination]] += count
 
-  function heatmap(matrix, rows, cols, metrics) {
-    return `import numpy as np
-matrix = np.array(${j(matrix)}, dtype=float)
+masked = matrix.copy()
+np.fill_diagonal(masked, -1)
+origin, destination = np.unravel_index(np.argmax(masked), masked.shape)
+
 result = {
     "chart": "heatmap",
     "matrix": matrix.tolist(),
-    "rowLabels": ${j(rows)},
-    "colLabels": ${j(cols)},
-    "metrics": ${j(metrics)}
-}`;
-  }
+    "rowLabels": zones,
+    "colLabels": zones,
+    "metrics": {
+        "样本出行": int(matrix.sum()),
+        "最强OD": f"{zones[origin]}->{zones[destination]}",
+        "流量": int(matrix[origin, destination])
+    }
+}`
+  });
 
-  function clusters(x, y, labels, metrics, centers) {
-    return `import numpy as np
-x = np.array(${j(x)}, dtype=float)
-y = np.array(${j(y)}, dtype=float)
-labels = ${j(labels)}
+  set('bayes-accident-risk', {
+    level: '真实数据',
+    title: 'NYC事故样本的贝叶斯受伤风险更新',
+    summary: '使用 NYC 交通事故 2023 年 1 月样本，根据夜间和驾驶员注意力不集中两个证据更新受伤概率。',
+    goal: '把贝叶斯公式落到真实事故字段：受伤人数、事故时间和主要致因。',
+    challenge: '把夜间定义从 18-06 改为 20-05，观察后验概率是否改变。',
+    dataSource: 'NYC Motor Vehicle Collisions - Crashes',
+    sourceUrl: 'https://data.cityofnewyork.us/resource/h9gi-nx95',
+    sampleNote: '在线样本使用 2023-01 的 2000 条事故记录聚合比例；完整接口可按日期继续拉取。',
+    concepts: ['条件概率', '贝叶斯公式', '事故风险'],
+    code: `import numpy as np
+
+# 数据源：NYC Motor Vehicle Collisions - Crashes
+# 聚合窗口：2023-01，样本 2000 条。
+evidence = ["先验", "夜间后", "夜间+注意力不集中"]
+prior = 0.3835  # P(有人受伤)
+p_night_injured = 0.4537
+p_night_safe = 0.3966
+p_distracted_injured = 0.2503
+p_distracted_safe = 0.2303
+
+p_night = p_night_injured * prior + p_night_safe * (1 - prior)
+posterior_night = p_night_injured * prior / p_night
+p_distracted = p_distracted_injured * posterior_night + p_distracted_safe * (1 - posterior_night)
+posterior_both = p_distracted_injured * posterior_night / p_distracted
+values = np.array([prior, posterior_night, posterior_both]) * 100
+
 result = {
-    "chart": "clusters",
-    "x": x.tolist(),
-    "y": y.tolist(),
-    "labels": labels,
-    "centers": ${j(centers || [])},
-    "metrics": ${j(metrics)}
-}`;
-  }
+    "chart": "bar",
+    "labels": evidence,
+    "series": [{"name": "受伤概率(%)", "values": values.round(2).tolist()}],
+    "metrics": {
+        "样本数": 2000,
+        "先验": f"{prior:.1%}",
+        "后验": f"{posterior_both:.1%}"
+    }
+}`
+  });
 
-  function regression(x, y, prediction, metrics) {
-    return `import numpy as np
-x = np.array(${j(x)}, dtype=float)
-y = np.array(${j(y)}, dtype=float)
-prediction = np.array(${j(prediction)}, dtype=float)
-mae = float(np.mean(np.abs(y - prediction)))
+  set('regression', {
+    level: '真实数据',
+    title: 'UCI共享单车小时需求梯度下降',
+    summary: '使用 UCI Bike Sharing 第一天小时记录，用小时变量拟合租车需求的简单基线。',
+    goal: '把损失函数、梯度下降和 MAE 连接到真实共享单车需求数据。',
+    challenge: '修改 learning_rate 或 steps，观察拟合线和 MAE 是否稳定。',
+    dataSource: 'UCI Bike Sharing Dataset',
+    sourceUrl: 'https://archive.ics.uci.edu/dataset/275/bike+sharing+dataset',
+    sampleNote: '在线样本取 hour.csv 的 2011-01-01 24 小时记录；离线脚本使用完整数据。',
+    concepts: ['梯度下降', '共享单车', 'MAE'],
+    code: `import numpy as np
+
+# 数据源：UCI Bike Sharing Dataset, hour.csv 前 24 小时。
+hour = np.arange(24, dtype=float)
+cnt = np.array([16,40,32,13,1,1,2,3,8,14,36,56,
+                84,94,106,110,93,67,35,37,36,34,28,39], dtype=float)
+
+x = (hour - hour.mean()) / hour.std()
+w, b = 0.0, cnt.mean()
+learning_rate = 0.08
+steps = 240
+for _ in range(steps):
+    error = (w * x + b) - cnt
+    w -= learning_rate * float(2 * np.mean(error * x))
+    b -= learning_rate * float(2 * np.mean(error))
+
+prediction = w * x + b
+mae = float(np.mean(np.abs(cnt - prediction)))
+
 result = {
     "chart": "regression",
-    "x": x.tolist(),
-    "y": y.tolist(),
-    "prediction": prediction.round(2).tolist(),
-    "metrics": {**${j(metrics)}, "MAE": round(mae, 2)}
-}`;
-  }
-
-  const variants = {
-    'data-types': bar(['表格', '时序', '位置', '轨迹', '影像'], '任务匹配度', [3.0, 4.1, 4.6, 4.0, 2.7], {'推荐类型': '位置数据', '最高分': 4.6, '任务数': 4}),
-    'open-data-readiness': bar(['NYC事故', 'PeMS流量', 'OSM路网', '共享单车'], '可用性评分', [4.58, 4.12, 4.18, 3.86], {'首选数据': 'NYC事故', '评价维度': 4, '最低门槛': 3.8}),
-    'method-selector': bar(['统计回归', '随机森林', '时间序列', '空间分析', '深度学习'], '方法匹配度', [3.45, 4.05, 3.75, 3.4, 3.7], {'推荐方法': '随机森林', '首要权重': '预测能力', '候选方法': 5}),
-    'relational-join': bar(['1路', '2路', '快线A', '夜线'], '平均满载率(%)', [86.7, 83.9, 97.8, 61.1], {'最高线路': '快线A', '班次数': 10, '平均满载率': '82.4%'}),
-    'clean-resample': line([1,2,3,4,5,6,7,8,9,10,11,12], [{'name':'清洗后速度','values':[62,60,58,57,55,20,54,56,58,120,60,63]}, {'name':'15分钟均值','values':[60,60,60,44,44,44,56,56,56,81,81,81]}], {'缺失数':1, '异常数':2, '聚合段数':4}),
-    'od-heatmap': heatmap([[0,120,180,95],[140,0,70,0],[210,92,0,85],[115,60,0,0]], ['中心区','北区','东区','南区'], ['中心区','北区','东区','南区'], {'总出行':1167, '最强OD':'东区->中心区', '流量':210}),
-    'speed-flow-derivative': line([5,18,31,44,57,70,83,96,109,122,135,145], [{'name':'流量','values':[465,1533,2399,3102,3642,3938,4017,3872,3566,3090,2453,1305]}, {'name':'边际变化(缩放)','values':[124,111,98,85,72,59,46,33,20,7,-6,-15]}], {'临界密度':83, '最大流量':4017, '边际符号':'峰值后为负'}),
-    'bayes-accident-risk': bar(['先验', '降雨后', '降雨+夜间'], '事故概率(%)', [8.0, 21.03, 33.65], {'先验':'8.0%', '后验':'33.7%', '风险倍数':4.21}, 'posterior_gain = values[-1] / values[0]'),
-    'pca-traffic-state': clusters([-1.8,-1.2,-0.5,0.4,1.3,1.9,2.1,0.8,-0.7,-1.6], [0.6,0.2,-0.3,-0.8,-1.1,-0.4,0.5,1.2,0.9,0.4], [0,0,0,1,1,1,1,2,2,0], {'解释方差':'91.8%', '原始维度':3, '拥堵样本':4}),
-    'regression': regression([6,7,8,9,10,16,17,18,19,20], [72,145,286,230,168,210,355,430,318,226], [98,135,171,208,245,282,319,356,393,430], {'梯度步数':16, '学习率':0.08}),
-    'overfit-generalization': groupedBar(['1阶','2阶','3阶','5阶','7阶'], [{'name':'训练RMSE','values':[24.5,18.2,12.6,7.8,3.9]}, {'name':'测试RMSE','values':[26.1,20.0,15.1,18.7,34.5]}], {'最佳阶数':3, '测试RMSE':15.1, '最大泛化差距':30.6}),
-    'table-preprocess': bar(['完整性','有效性','唯一性','可标准化'], '检查得分', [90,90,80,100], {'缺失数':1, '越界数':1, '重复流量':2}),
-    'travel-time-linear': regression([2,3,4,5,6,7,8,9,10,11], [8,11,21,16,25,29,23,34,38,30], [9.4,13.0,20.5,20.2,27.7,31.3,27.9,35.4,39.0,38.7], {'距离系数':3.78, '高峰变量':3.98}),
-    'mode-choice-logit': bar(['公交更快','时间接近','公交稍慢','公交很慢'], '公交选择概率(%)', [94.8,86.4,62.2,12.0], {'最高场景':'公交更快', '最低概率':'12.0%', '平均概率':'63.9%'}),
-    'count-regression': groupedBar(['A路','B路','C路','D路','E路'], [{'name':'观测事故','values':[1,2,3,5,8]}, {'name':'泊松预测','values':[0.32,0.66,0.9,1.42,2.27]}], {'最高风险':'E路', '预测总数':5.57, '观测总数':19}),
-    'zero-inflation': groupedBar(['近郊高可达','近郊低可达','远郊高可达','远郊低可达'], [{'name':'零出行概率(%)','values':[18,31,44,58]}, {'name':'期望出行次数','values':[2.3,1.45,0.9,0.5]}], {'最低出行组':'远郊低可达', '最高零值':'58%', '平均期望':1.29}),
-    'network-distance': groupedBar(['居住区-地铁','学校-医院','园区-高速口','商场-停车场'], [{'name':'直线距离','values':[1.2,2.8,4.5,1.7]}, {'name':'路网距离','values':[1.62,3.14,7.11,3.06]}], {'最大绕行':'商场-停车场', '平均绕行系数':1.46, '单位':'km'}),
-    'map-matching': clusters([0,1,2,3,4,5,6,7,8,9,10], [1.4,1.3,2.2,2.0,2.6,3.2,3.1,3.9,4.6,4.8,5.2], [0,0,0,0,0,0,0,0,0,0,0], {'平均误差':0.28, '最大误差':0.52, 'GPS点':11}, [[0,1.2],[5,3.3],[10,5.4]]),
-    'buffer-coverage': groupedBar(['A街区','B街区','C街区','D街区','E街区'], [{'name':'改造前覆盖人口','values':[1200,0,0,640,0]}, {'name':'改造后覆盖人口','values':[1200,980,860,640,0]}], {'覆盖率提升':'47.6%', '新增覆盖':1840, '总人口':4410}),
-    'grid-aggregation': heatmap([[2,4,3,1],[5,9,8,3],[4,10,18,7],[1,6,9,5]], ['北1','北2','南1','南2'], ['西1','西2','东1','东2'], {'热点网格':'南1-东1', '事故总数':95, '热点占比':'18.9%'}),
-    'clusters': clusters([1,1.3,0.8,1.5,4.6,5.1,4.8,5.4,8.2,8.6,7.8,8.9,3.0,6.5], [1.2,1.0,0.9,1.4,4.8,5.2,5.5,4.7,2.0,2.4,2.6,1.8,2.8,3.8], [0,0,0,0,1,1,1,1,2,2,2,2,-1,-1], {'热点数':3, '噪声点':2, '事故点':14}, [[1.15,1.13],[4.98,5.05],[8.38,2.2]]),
-    'moran-hotspot': heatmap([[8,9,3,2],[7,8,3,2],[2,3,7,8],[1,2,8,9]], ['北1','北2','南1','南2'], ['西1','西2','东1','东2'], {'Moran I':0.603, '均值':5.13, '判断':'正向集聚'}),
-    'time-cleaning': line([0,1,2,3,4,5,6,7,8,9,10,11], [{'name':'补全后流量','values':[22,18,16.5,15,20,55,120,260,350,280,180,130]}, {'name':'平滑趋势','values':[13.3,18.8,16.5,17.2,30,65,145,243.3,296.7,270,196.7,103.3]}], {'补全数':1, '原峰值':350, '平滑峰值':296.7}),
-    'seasonal-acf': bar(['1','2','3','4','5','6','7','8','9','10','11','12'], '自相关', [0.47,-0.28,-0.74,-0.32,0.44,0.98,0.46,-0.3,-0.73,-0.31,0.45,0.97], {'最强滞后':6, '相关系数':0.98, '周期参数':6}),
-    'timeseries': line([1,2,3,4,5,6,7], [{'name':'真实流量','values':[108,121,134,155,171,132,98]}, {'name':'季节基线','values':[102,118,130,142,160,126,95]}, {'name':'残差修正','values':[115,122,134,151,169,131,97]}], {'基线MAE':6.14, '修正MAE':2.57, 'phi':0.55}),
-    'lstm-window': groupedBar(['样本1','样本2','样本3','样本4','样本5','样本6','样本7'], [{'name':'窗口均值','values':[119.8,140.8,165.8,191.2,206.2,178.8,151.8]}, {'name':'下一步目标','values':[180,210,230,205,170,132,105]}], {'窗口长度':4, '样本数':7, '目标峰值':230}),
-    'dtw-pattern': bar(['道路A','道路B','道路C'], 'DTW距离', [23,145,343], {'最相似':'道路A', '最小距离':23, '候选道路':3}),
-    'st-matrix': heatmap([[72,69,60,35,21,42,65,71,72,72],[72,71,66,49,25,27,52,67,72,72],[72,72,70,61,39,20,34,59,70,72],[72,72,72,68,55,30,22,44,65,71],[72,72,72,71,65,47,24,27,53,68]], ['路段1','路段2','路段3','路段4','路段5'], ['t1','t2','t3','t4','t5','t6','t7','t8','t9','t10'], {'最低速度':20, '最低位置':'路段3-t6', '平均速度':59.4}),
-    'lag-correlation': bar(['0','1','2','3','4','5','6','7','8'], '滞后相关', [0.28,0.51,0.76,0.97,0.78,0.55,0.31,0.18,0.05], {'识别时滞':3, '真实时滞':3, '最高相关':0.97}),
-    'st-forecast': line([0,1,2,3,4,5,6,7,8,9,10,11], [{'name':'真实速度','values':[64,60,55,48,40,35,38,45,52,58,62,65]}, {'name':'历史同期','values':[66,61,57,51,44,39,40,47,54,59,63,66]}, {'name':'时空融合','values':[66.9,62.4,57.9,50.6,42.7,36.8,38.2,45.2,52.2,57.7,62.1,65.1]}], {'历史MAE':2.92, '融合MAE':1.86, '邻接权重':0.45}),
-    'iou-nms': bar(['框1','框2','框3','框4'], 'IoU', [0.854,0.494,0.375,0.097], {'最高IoU':0.854, '合格框':1, '阈值':0.5}),
-    'segmentation-mask': heatmap([[0,0,1,1,0,0],[0,1,1,1,0,0],[1,1,1,1,1,0],[0,1,1,1,1,1]], ['r1','r2','r3','r4'], ['c1','c2','c3','c4','c5','c6'], {'像素IoU':0.706, '交集像素':12, '并集像素':17}),
-    'tracking-count': line([0,1,2,3,4,5,6,7,8,9,10,11], [{'name':'车辆A','values':[10,15,21,28,35,43,52,61,70,78,86,92]}, {'name':'车辆B','values':[92,87,80,74,67,59,51,44,36,29,22,16]}, {'name':'计数线','values':[55,55,55,55,55,55,55,55,55,55,55,55]}], {'总计数':2, '车辆A':1, '车辆B':1})
-  };
-
-  for (const [id, code] of Object.entries(variants)) {
-    const lab = byId.get(id);
-    if (lab) {
-      lab.code = code;
-      lab.summary = lab.summary.replace('构建一个可运行的交通数据小实验。', '使用差异化数据和指标完成一个可运行实验。');
+    "x": hour.tolist(),
+    "y": cnt.tolist(),
+    "prediction": prediction.round(1).tolist(),
+    "metrics": {
+        "MAE": round(mae, 2),
+        "梯度步数": steps,
+        "样本小时": len(hour)
     }
-  }
+}`
+  });
+
+  set('overfit-generalization', {
+    level: '真实数据',
+    title: 'UCI共享单车多项式过拟合观察',
+    summary: '用同一天奇偶小时切分训练和测试，比较不同多项式阶数的泛化误差。',
+    goal: '看到模型复杂度提高后，训练误差下降但测试误差可能变差。',
+    challenge: '把 degree 增加到 11 或 13，观察测试 RMSE 是否恶化。',
+    dataSource: 'UCI Bike Sharing Dataset',
+    sourceUrl: 'https://archive.ics.uci.edu/dataset/275/bike+sharing+dataset',
+    sampleNote: '在线样本取 hour.csv 的 2011-01-01 24 小时需求记录。',
+    concepts: ['训练测试划分', '过拟合', 'RMSE'],
+    code: `import numpy as np
+
+hour = np.arange(24, dtype=float)
+cnt = np.array([16,40,32,13,1,1,2,3,8,14,36,56,
+                84,94,106,110,93,67,35,37,36,34,28,39], dtype=float)
+train = np.arange(0, 24, 2)
+test = np.arange(1, 24, 2)
+degrees = np.array([1, 3, 5, 9], dtype=int)
+train_rmse, test_rmse = [], []
+
+for degree in degrees:
+    coef = np.polyfit(hour[train], cnt[train], degree)
+    train_pred = np.polyval(coef, hour[train])
+    test_pred = np.polyval(coef, hour[test])
+    train_rmse.append(float(np.mean((cnt[train] - train_pred) ** 2) ** 0.5))
+    test_rmse.append(float(np.mean((cnt[test] - test_pred) ** 2) ** 0.5))
+
+best = int(np.argmin(test_rmse))
+result = {
+    "chart": "bar",
+    "labels": [f"{d}阶" for d in degrees],
+    "series": [
+        {"name": "训练RMSE", "values": np.round(train_rmse, 2).tolist()},
+        {"name": "测试RMSE", "values": np.round(test_rmse, 2).tolist()}
+    ],
+    "metrics": {
+        "最佳阶数": int(degrees[best]),
+        "测试RMSE": round(test_rmse[best], 2),
+        "样本数": len(hour)
+    }
+}`
+  });
+
+  set('count-regression', {
+    level: '真实数据',
+    title: 'NYC各区受伤事故计数基线',
+    summary: '使用 NYC 事故 2023 年 1 月分区样本，把事故总数作为暴露量估计受伤事故期望。',
+    goal: '理解计数模型为什么要区分暴露量和事件次数。',
+    challenge: '把全局受伤率改成各区历史率，比较预测是否更接近观测值。',
+    dataSource: 'NYC Motor Vehicle Collisions - Crashes',
+    sourceUrl: 'https://data.cityofnewyork.us/resource/h9gi-nx95',
+    sampleNote: '在线样本为 2023-01 分区聚合：total crashes 与 injured crashes。',
+    concepts: ['计数数据', '暴露量', '泊松基线'],
+    code: `import numpy as np
+
+# 2023-01 NYC crash records, borough IS NOT NULL.
+boroughs = ["BROOKLYN", "QUEENS", "MANHATTAN", "BRONX", "STATEN ISLAND"]
+total_crashes = np.array([1697, 1357, 857, 846, 201], dtype=float)
+injured_crashes = np.array([663, 531, 295, 303, 70], dtype=float)
+
+global_rate = injured_crashes.sum() / total_crashes.sum()
+expected = total_crashes * global_rate
+residual = injured_crashes - expected
+
+result = {
+    "chart": "bar",
+    "labels": ["BK", "QN", "MN", "BX", "SI"],
+    "series": [
+        {"name": "观测受伤事故", "values": injured_crashes.tolist()},
+        {"name": "泊松期望", "values": expected.round(1).tolist()}
+    ],
+    "metrics": {
+        "全局受伤率": f"{global_rate:.1%}",
+        "最大残差区": boroughs[int(np.argmax(np.abs(residual)))],
+        "样本事故": int(total_crashes.sum())
+    }
+}`
+  });
+
+  set('network-distance', {
+    level: '真实数据',
+    title: 'MTA 1号线站点直线距离与线路距离',
+    summary: '使用 MTA GTFS stops.txt 的真实站点坐标，比较直线距离和沿 1 号线站序累计距离。',
+    goal: '理解交通网络上的距离通常大于两点直线距离。',
+    challenge: '改用更远的站点对，观察线路距离与直线距离差异是否扩大。',
+    dataSource: 'MTA NYCT Subway GTFS Static',
+    sourceUrl: 'https://rrgtfsfeeds.s3.amazonaws.com/gtfs_subway.zip',
+    sampleNote: '在线样本取 1 号线北段站点坐标；完整 stops.txt 可离线复现。',
+    concepts: ['GTFS站点', '网络距离', 'Haversine'],
+    code: `import numpy as np
+
+# 数据源：MTA GTFS stops.txt，1号线北段站点坐标。
+names = ["242 St", "238 St", "231 St", "225 St", "215 St", "207 St",
+         "Dyckman", "191 St", "181 St", "168 St", "157 St", "145 St"]
+lat = np.array([40.889248,40.884667,40.878856,40.874561,40.869444,40.864621,
+                40.860531,40.855225,40.849505,40.840556,40.834041,40.826551])
+lon = np.array([-73.898583,-73.900870,-73.904834,-73.909831,-73.915279,-73.918822,
+                -73.925536,-73.929412,-73.933596,-73.940133,-73.944890,-73.950360])
+
+def haversine(i, j):
+    r = 6371.0
+    lat1, lat2 = np.radians(lat[i]), np.radians(lat[j])
+    dlat = np.radians(lat[j] - lat[i])
+    dlon = np.radians(lon[j] - lon[i])
+    a = np.sin(dlat / 2) ** 2 + np.cos(lat1) * np.cos(lat2) * np.sin(dlon / 2) ** 2
+    return float(2 * r * np.arcsin(np.sqrt(a)))
+
+segment = np.array([haversine(i, i + 1) for i in range(len(names) - 1)])
+cum = np.concatenate([[0], np.cumsum(segment)])
+pairs = [(0, 3), (0, 6), (2, 9), (5, 11)]
+straight = np.array([haversine(i, j) for i, j in pairs])
+network = np.array([cum[j] - cum[i] for i, j in pairs])
+labels = [f"{names[i]}-{names[j]}" for i, j in pairs]
+detour = network / straight
+
+result = {
+    "chart": "bar",
+    "labels": labels,
+    "series": [
+        {"name": "直线距离km", "values": straight.round(2).tolist()},
+        {"name": "线路距离km", "values": network.round(2).tolist()}
+    ],
+    "metrics": {
+        "最大绕行": labels[int(np.argmax(detour))],
+        "平均绕行": round(float(detour.mean()), 2),
+        "站点数": len(names)
+    }
+}`
+  });
+
+  set('map-matching', {
+    level: '真实数据',
+    title: 'GeoLife GPS点投影到候选道路',
+    summary: '使用 GeoLife 文档样例中的 GPS 点，演示把经纬度点投影到候选中心线。',
+    goal: '理解地图匹配的核心是把有噪声的 GPS 点约束到道路几何上。',
+    challenge: '增大 GPS 点的横向偏移，观察平均匹配误差如何变化。',
+    dataSource: 'Microsoft GeoLife GPS Trajectories',
+    sourceUrl: 'https://www.microsoft.com/en-us/download/details.aspx?id=52367',
+    sampleNote: '在线样本取 GeoLife PLT 文档样例首段；完整数据需按 Microsoft 页面下载。',
+    concepts: ['GPS轨迹', '地图匹配', '点线投影'],
+    code: `import numpy as np
+
+# GeoLife PLT 样例：Data/010/Trajectory/20070804033032.plt 的前三个点。
+lat = np.array([39.921712, 39.921705, 39.921695])
+lon = np.array([116.472343, 116.472343, 116.472345])
+
+# 转成近似米制坐标，便于投影。
+lat0 = lat.mean()
+x = (lon - lon.mean()) * 111000 * np.cos(np.radians(lat0))
+y = (lat - lat.mean()) * 111000
+
+# 候选道路中心线：用首尾点构成一条局部线段。
+a = np.array([x[0], y[0]])
+b = np.array([x[-1], y[-1]])
+v = b - a
+t = ((np.column_stack([x, y]) - a) @ v) / (v @ v)
+t = np.clip(t, 0, 1)
+matched = a + t[:, None] * v
+distance = np.sqrt(((np.column_stack([x, y]) - matched) ** 2).sum(axis=1))
+reference_x = np.linspace(a[0], b[0], 10)
+reference_y = np.linspace(a[1], b[1], 10)
+
+result = {
+    "chart": "clusters",
+    "x": x.round(3).tolist(),
+    "y": y.round(3).tolist(),
+    "labels": [0, 0, 0],
+    "centers": matched.round(3).tolist(),
+    "reference": {"x": reference_x.round(3).tolist(), "y": reference_y.round(3).tolist()},
+    "metrics": {
+        "平均误差m": round(float(distance.mean()), 3),
+        "最大误差m": round(float(distance.max()), 3),
+        "GPS点": len(lat)
+    }
+}`
+  });
+
+  set('clusters', {
+    level: '真实数据',
+    title: 'NYC交通事故坐标DBSCAN热点识别',
+    summary: '使用 NYC 事故开放数据的真实经纬度点，运行一个小型 DBSCAN 热点识别。',
+    goal: '理解 eps 和 min_points 如何影响事故热点与噪声点划分。',
+    challenge: '把 eps_km 从 4 改为 2，观察热点数量和噪声点变化。',
+    dataSource: 'NYC Motor Vehicle Collisions - Crashes',
+    sourceUrl: 'https://data.cityofnewyork.us/resource/h9gi-nx95',
+    sampleNote: '在线样本取 2023-01-01 前 20 条带坐标事故记录。',
+    concepts: ['DBSCAN', '事故坐标', '热点识别'],
+    code: `import numpy as np
+
+lat = np.array([40.710514,40.845870,40.708237,40.693660,40.745068,
+                40.823853,40.815320,40.820625,40.814762,40.651337,
+                40.876747,40.648228,40.679730,40.708300,40.651863,
+                40.814010,40.761982,40.633130,40.704810,40.769737])
+lon = np.array([-73.956140,-73.890730,-73.943370,-73.931540,-73.936356,
+                -73.807686,-73.886650,-73.890300,-73.813630,-73.889595,
+                -73.901245,-74.084500,-73.937400,-73.789200,-73.865360,
+                -73.944660,-73.878960,-74.075356,-73.939320,-73.912440])
+
+lat0 = lat.mean()
+x = (lon - lon.mean()) * 111 * np.cos(np.radians(lat0))
+y = (lat - lat.mean()) * 111
+points = np.column_stack([x, y])
+eps_km = 4.0
+min_points = 3
+labels = np.full(len(points), -1, dtype=int)
+visited = np.zeros(len(points), dtype=bool)
+
+def neighbors(i):
+    d = np.sqrt(((points - points[i]) ** 2).sum(axis=1))
+    return np.where(d <= eps_km)[0].tolist()
+
+cluster_id = 0
+for i in range(len(points)):
+    if visited[i]:
+        continue
+    visited[i] = True
+    seed = neighbors(i)
+    if len(seed) < min_points:
+        continue
+    labels[i] = cluster_id
+    k = 0
+    while k < len(seed):
+        j = seed[k]
+        if not visited[j]:
+            visited[j] = True
+            expanded = neighbors(j)
+            if len(expanded) >= min_points:
+                seed.extend([n for n in expanded if n not in seed])
+        if labels[j] == -1:
+            labels[j] = cluster_id
+        k += 1
+    cluster_id += 1
+
+centers = []
+for group in range(cluster_id):
+    centers.append(points[labels == group].mean(axis=0).round(3).tolist())
+
+result = {
+    "chart": "clusters",
+    "x": x.round(3).tolist(),
+    "y": y.round(3).tolist(),
+    "labels": labels.tolist(),
+    "centers": centers,
+    "metrics": {
+        "热点数": cluster_id,
+        "噪声点": int(np.sum(labels == -1)),
+        "事故点": len(points)
+    }
+}`
+  });
+
+  set('timeseries', {
+    level: '真实数据',
+    title: 'Metro I-94小时交通量短时预测',
+    summary: '使用 UCI Metro Interstate Traffic Volume 的连续小时流量，比较上一小时基线和三小时均值预测。',
+    goal: '先建立简单、可解释的时间序列基线，再讨论复杂模型是否值得使用。',
+    challenge: '把窗口长度从 3 改为 5，观察 MAE 是否下降。',
+    dataSource: 'UCI Metro Interstate Traffic Volume',
+    sourceUrl: 'https://archive.ics.uci.edu/dataset/492/metro+interstate+traffic+volume',
+    sampleNote: '在线样本取 CSV 开头 19 个小时记录；离线项目使用完整压缩 CSV。',
+    concepts: ['时间序列', '基线模型', 'MAE'],
+    code: `import numpy as np
+
+# Metro I-94 traffic_volume, 2012-10-02 09:00 起连续小时样本。
+volume = np.array([5545,4516,4767,5026,4918,5181,5584,6015,5791,
+                   4770,3539,2784,2361,1529,963,506,321,273,367], dtype=float)
+time = np.arange(len(volume))
+window = 3
+actual = volume[window:]
+last_hour = volume[window - 1:-1]
+rolling = np.array([volume[i - window:i].mean() for i in range(window, len(volume))])
+mae_last = float(np.mean(np.abs(actual - last_hour)))
+mae_roll = float(np.mean(np.abs(actual - rolling)))
+
+result = {
+    "chart": "series",
+    "x": time[window:].tolist(),
+    "series": [
+        {"name": "真实流量", "values": actual.tolist()},
+        {"name": "上一小时", "values": last_hour.tolist()},
+        {"name": "三小时均值", "values": rolling.round(1).tolist()}
+    ],
+    "metrics": {
+        "上一小时MAE": round(mae_last, 1),
+        "均值MAE": round(mae_roll, 1),
+        "窗口": window
+    }
+}`
+  });
+
+  set('st-matrix', {
+    level: '真实数据',
+    title: 'PeMS-SF检测器时空矩阵切片',
+    summary: '使用 UCI PeMS-SF 训练文件开头的归一化检测器读数，组成检测器 × 时间矩阵。',
+    goal: '理解时空数据最小单元是“位置-时间”观测值。',
+    challenge: '把矩阵乘以 1000 改成 100，观察指标尺度变化但空间结构不变。',
+    dataSource: 'UCI PeMS-SF',
+    sourceUrl: 'https://archive.ics.uci.edu/dataset/204/pems+sf',
+    sampleNote: '在线样本取 PEMS_train 第一条记录的前 5 个检测器、前 10 个时间片。',
+    concepts: ['时空矩阵', '检测器', 'PeMS'],
+    code: `import numpy as np
+
+# UCI PeMS-SF PEMS_train 第一条记录切片，原值为归一化读数。
+matrix = np.array([
+    [0.0154,0.0085,0.0099,0.0108,0.0100,0.0111,0.0099,0.0081,0.0099,0.0088],
+    [0.0054,0.0051,0.0056,0.0045,0.0037,0.0027,0.0046,0.0028,0.0042,0.0040],
+    [0.0164,0.0127,0.0172,0.0126,0.0185,0.0077,0.0119,0.0086,0.0091,0.0124],
+    [0.0079,0.0062,0.0068,0.0072,0.0048,0.0046,0.0046,0.0046,0.0045,0.0057],
+    [0.0059,0.0051,0.0053,0.0058,0.0063,0.0046,0.0063,0.0047,0.0052,0.0044]
+], dtype=float) * 1000
+rows = ["400000", "400001", "400009", "400010", "400015"]
+cols = [f"t{i}" for i in range(1, 11)]
+low = np.unravel_index(np.argmin(matrix), matrix.shape)
+high = np.unravel_index(np.argmax(matrix), matrix.shape)
+
+result = {
+    "chart": "heatmap",
+    "matrix": matrix.round(2).tolist(),
+    "rowLabels": rows,
+    "colLabels": cols,
+    "metrics": {
+        "最低点": f"{rows[low[0]]}-{cols[low[1]]}",
+        "最高值": round(float(matrix[high]), 2),
+        "检测器数": len(rows)
+    }
+}`
+  });
+
+  set('iou-nms', {
+    level: '真实数据',
+    title: 'KITTI车辆框IoU与重复检测',
+    summary: '使用 KITTI 目标检测标注风格的车辆框，计算候选框 IoU 并演示 NMS 保留逻辑。',
+    goal: '理解目标检测评价同时关注位置重叠、置信度和重复框去除。',
+    challenge: '把 nms_threshold 从 0.5 改为 0.3，观察保留框数量是否变化。',
+    dataSource: 'KITTI Object Detection Benchmark',
+    sourceUrl: 'https://www.cvlibs.net/datasets/kitti/eval_object.php?obj_benchmark=2d',
+    sampleNote: '在线样本使用 KITTI label_2 风格车辆框坐标；完整图像和标签需按 KITTI 条款下载。',
+    concepts: ['目标检测', 'IoU', 'NMS'],
+    code: `import numpy as np
+
+# KITTI label_2 风格车辆框：[x1, y1, x2, y2]
+truth = np.array([712.40, 143.00, 810.73, 307.92], dtype=float)
+boxes = np.array([
+    [710.0, 140.0, 812.0, 309.0],
+    [699.0, 150.0, 800.0, 300.0],
+    [730.0, 160.0, 840.0, 315.0],
+    [600.0, 150.0, 690.0, 295.0]
+], dtype=float)
+scores = np.array([0.93, 0.82, 0.66, 0.41])
+
+def iou(a, b):
+    x1, y1 = max(a[0], b[0]), max(a[1], b[1])
+    x2, y2 = min(a[2], b[2]), min(a[3], b[3])
+    inter = max(0, x2 - x1) * max(0, y2 - y1)
+    area_a = (a[2] - a[0]) * (a[3] - a[1])
+    area_b = (b[2] - b[0]) * (b[3] - b[1])
+    return inter / (area_a + area_b - inter)
+
+ious = np.array([iou(truth, box) for box in boxes])
+nms_threshold = 0.5
+order = scores.argsort()[::-1]
+kept = []
+for idx in order:
+    if all(iou(boxes[idx], boxes[j]) < nms_threshold for j in kept):
+        kept.append(int(idx))
+
+result = {
+    "chart": "bar",
+    "labels": [f"框{i+1}" for i in range(len(boxes))],
+    "series": [{"name": "对真值IoU", "values": ious.round(3).tolist()}],
+    "metrics": {
+        "最高IoU": round(float(ious.max()), 3),
+        "NMS保留": len(kept),
+        "阈值": nms_threshold
+    }
+}`
+  });
 })();

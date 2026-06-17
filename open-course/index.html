@@ -102,16 +102,16 @@
         <div class="section-intro lab-heading">
           <div>
             <p class="eyebrow">PYTHON IN YOUR BROWSER</p>
-            <h2>33 个核心在线案例</h2>
+            <h2>12 个真实数据核心实验</h2>
           </div>
-          <p>实践内容聚焦教材中最适合动手的概念、方法和综合应用；小结、习题和不适合代码化的小节不强行放实验。Python 代码只在当前浏览器中运行，不上传代码、不保存学习记录；首次运行需要下载浏览器 Python 环境。</p>
+          <p>先把最有教学价值的案例换成真实开放数据的小样本实验；其余章节练习继续作为补充。Python 代码只在当前浏览器中运行，不上传代码、不保存学习记录；首次运行需要下载浏览器 Python 环境。</p>
         </div>
 
         <div class="lab-stats" aria-label="在线实践统计">
-          <div><strong>33</strong><span>核心案例</span></div>
+          <div><strong>12</strong><span>真实数据核心实验</span></div>
           <div><strong>8</strong><span>教材章节</span></div>
           <div><strong>6</strong><span>完整项目</span></div>
-          <div><strong>5</strong><span>图表类型</span></div>
+          <div><strong>10+</strong><span>开放数据来源</span></div>
         </div>
 
         <div class="lab-browser">
@@ -132,6 +132,7 @@
               <p><span>实践目标</span><strong id="lab-goal"></strong></p>
               <p><span>动手挑战</span><strong id="lab-challenge"></strong></p>
               <div id="lab-concepts" class="lab-concepts"></div>
+              <div id="lab-data-source" class="lab-data-source" hidden></div>
             </div>
             <textarea id="lab-code" class="lab-code" aria-label="可编辑 Python 代码" spellcheck="false"></textarea>
             <div class="lab-runbar">
@@ -258,9 +259,12 @@ python ch03_linear_regression.py</code></pre>
       <section class="data-strip" aria-label="开放数据来源">
         <p>课程使用的开放数据</p>
         <a href="https://archive.ics.uci.edu/dataset/275/bike+sharing+dataset">UCI Bike Sharing ↗</a>
+        <a href="https://rrgtfsfeeds.s3.amazonaws.com/gtfs_subway.zip">MTA GTFS ↗</a>
+        <a href="https://data.cityofnewyork.us/resource/4b4i-vvec">NYC TLC Taxi ↗</a>
         <a href="https://data.cityofnewyork.us/d/h9gi-nx95">NYC Crash Data ↗</a>
+        <a href="https://archive.ics.uci.edu/dataset/492/metro+interstate+traffic+volume">Metro I-94 ↗</a>
         <a href="https://archive.ics.uci.edu/dataset/204/pems+sf">UCI PeMS-SF ↗</a>
-        <a href="https://detrac-db.rit.albany.edu/">UA-DETRAC ↗</a>
+        <a href="https://www.cvlibs.net/datasets/kitti/eval_object.php?obj_benchmark=2d">KITTI ↗</a>
       </section>
 
       <footer>
@@ -269,8 +273,8 @@ python ch03_linear_regression.py</code></pre>
       </footer>
     </main>
   </div>
-  <script src="assets/app.js?v=3"></script>
-  <script src="assets/lab-examples.js?v=4"></script>
-  <script src="assets/lab.js?v=6"></script>
+  <script src="assets/app.js?v=4"></script>
+  <script src="assets/lab-examples.js?v=5"></script>
+  <script src="assets/lab.js?v=7"></script>
 </body>
 </html>

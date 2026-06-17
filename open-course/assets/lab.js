@@ -6,6 +6,7 @@ const labTitle = document.getElementById('lab-example-title');
 const labGoal = document.getElementById('lab-goal');
 const labChallenge = document.getElementById('lab-challenge');
 const labConcepts = document.getElementById('lab-concepts');
+const labDataSource = document.getElementById('lab-data-source');
 const labFilters = document.getElementById('lab-chapter-filters');
 const labCatalog = document.getElementById('lab-catalog');
 const labCatalogCount = document.getElementById('lab-catalog-count');
@@ -82,6 +83,12 @@ function renderCatalog() {
     const summary = document.createElement('p');
     summary.textContent = example.summary;
     card.append(meta, title, summary);
+    if (example.realData) {
+      const badge = document.createElement('span');
+      badge.className = 'lab-real-data-badge';
+      badge.textContent = '真实数据';
+      card.append(badge);
+    }
     card.addEventListener('click', () => selectLab(example.id));
     return card;
   }));
@@ -100,6 +107,24 @@ function selectLab(id, options = {}) {
     tag.textContent = concept;
     return tag;
   }));
+  if (labDataSource) {
+    labDataSource.hidden = !example.dataSource;
+    labDataSource.replaceChildren();
+    if (example.dataSource) {
+      const label = document.createElement('span');
+      label.textContent = '数据来源';
+      const source = example.sourceUrl ? document.createElement('a') : document.createElement('strong');
+      source.textContent = example.dataSource;
+      if (example.sourceUrl) {
+        source.href = example.sourceUrl;
+        source.target = '_blank';
+        source.rel = 'noopener';
+      }
+      const note = document.createElement('p');
+      note.textContent = example.sampleNote || '在线实验使用经过压缩的小样本，完整数据请查看来源页面。';
+      labDataSource.append(label, source, note);
+    }
+  }
   if (options.resetCode !== false) labCode.value = example.code;
   renderChapterFilters();
   renderCatalog();
