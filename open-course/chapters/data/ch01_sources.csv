@@ -1,0 +1,5 @@
+scenario,dataset,observations,coverage,limits,source_url
+道路运行,UCI I-94,小时交通量、天气标签,单个断面；本地时间标签,交通量不等于车速，不能直接判断拥堵等级,https://archive.ics.uci.edu/dataset/492/metro+interstate+traffic+volume
+事故排查,NYC 事故记录,事故事件、位置、伤者人数,2024年1月；有无法落图记录,没有暴露量分母，不能直接排名风险,https://data.cityofnewyork.us/Public-Safety/Motor-Vehicle-Collisions-Crashes/h9gi-nx95
+出行画像,NYC TLC,已发生的出租车上车记录,绿出租车；课程仅发布聚合数据,不包含未满足需求或所有交通方式,https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page
+路口计数,SinD 天津样本,轨迹ID、时间、地面坐标,前120秒车辆平滑轨迹,不是原视频；遵循禁止商业使用的自定义数据许可,https://github.com/SOTIF-AVLab/SinD
