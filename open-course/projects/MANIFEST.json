@@ -1,0 +1,31 @@
+{
+  "purpose": "Python project kit; per-file SHA-256",
+  "files": {
+    "DATA_SOURCES.md": "c8e2c8b2d79aa09ca95ead2a636f8d54408c7b40cb8e0ce3892a3513a3a57ffc",
+    "LICENSE_CODE.txt": "1126322e2cc8d165adc4c792eeb195717de2bcc7b39be1ce77959d78e87ef685",
+    "PROJECT_BRIEFS.md": "8102f790a9b83be28cdd967340e48a23f2382bdf1ff1a49dd6d95b939295e0d3",
+    "README.md": "60d5189704df5e7940af3e99d821312d742fb49c193deb42fb34d65badedbbee",
+    "TEACHING_GUIDE.md": "b58d28aefbe45446f02395b41d813d26199a5678cce8676be831951e8d52be00",
+    "data/audit.json": "e94603938353a88fd33a7dce94e288e556da60c17fd4d99b43e0e78fbbda2908",
+    "data/crashes.json": "ed0b60193877eec20721d7b4b234193905bdb1927a0e053b7b570bf6a16b8405",
+    "data/forecast.json": "ea0bfab243ef70f7c5472406dfeb75da3ef316d5b316c41ad94dd4a92c9522c1",
+    "data/metro-hours.csv": "8923d245f46f5e9829ba333d5613977d7e68e9edae784966215712128832768b",
+    "data/nyc-crashes-2024-01.csv": "d5c15a86e4669895985d7bce350a033214a9062b41522431df7bae1e891b183a",
+    "data/SIND-LICENSE.txt": "faebf991f2049dbf1d32765a63b3c5df0d5e046dddd95d67778dd3a9d8b3c847",
+    "data/sind-tianjin-120s.csv": "4f72aab4eb62b714f547be37e4139c6fef98096e6f62088b39ef1c65797fb651",
+    "data/sind.json": "e6ed9160ef6e5787c7c16a048735093f240e1a48807485e2cc73165b468652f6",
+    "data/taxi-borough-date-hour.csv": "20649c8b110a38659beae14fe75ba8da26f8cd644f658114b5c25a4a7cd10c49",
+    "data/taxi.json": "bb9544cd868c305f2a91dde353ce5e30142c47434839cd764c3adbc1e4fda887",
+    "notebooks/audit.ipynb": "50ce910116fc72f931838bbe31345cb9e61fccb88bd24628709374808773ea72",
+    "notebooks/counting.ipynb": "94724aa6f0edfe8b0068d6b2ea01403d6ce5b152f7fa3e82f1f736d0764cba03",
+    "notebooks/forecast.ipynb": "b197c884f82ece5cac3d36838fbcaa5b37e546f6a947dc6d2626c1f819e76f0f",
+    "notebooks/hotspots.ipynb": "e6c311aea11c051fa73549b364e88cbd2d448488acebe0730aeaac8204bdb516",
+    "notebooks/taxi.ipynb": "967fdeec4eb3d0d9c14d444238aa858e8bee87bee0ed4cb4b1b73519fb0f7216",
+    "python/analyze.py": "1e53d613c1dd42cb399eea7c835065c7535b31dc92bde49fccea0444c9287af3",
+    "python/extensions.py": "434988d38dac8d4897e1d59a349cdd4c2abee9ce86c59a702f29dad7457ce611",
+    "python/prepare_data.py": "d84d2f6d42ad65a2c2d05c23ccb177f1599588a1ec4839d30f747314a9c06861",
+    "python/requirements-tested.txt": "181551640d75bdcd16dfdb39ee0872ed2673feee4ab026726e7a487507bf65ef",
+    "python/requirements.txt": "3e522cc18de31e757e0d717dcae191fa4b19f1d3f0116b93de14b0f09fd545d9",
+    "tests/test_analyze.py": "16d7162cf25104be5ba49b9f03c9761434fef8b75f107bc9ee6151f2e19680b4"
+  }
+}
