@@ -53,4 +53,14 @@
 
 ## 案例与参考页面
 
+### 完整案例的结果证据
+
+16篇完整案例使用`case-studies.js`中的课程原创分析和`data/case-evidence.js`中的固定结果表。后者由`build-case-evidence.mjs`计算或汇总，记录10个实际输入文件的SHA-256。网页与案例册不手工编造数值；统计口径在每篇结果部分列出。案例场景属于教学分析，不是管理部门已经实施的项目或治理成效报告。
+
+日画像聚类实际运行现有`projects/python/extensions.py --project taxi`，使用scikit-learn 1.9.1、random_state=42、n_init=10，对31日×168维日内占比矩阵比较K=2/3/4/5。`case-cluster-comparison.csv`保存样本内轮廓系数，`case-day-clusters-4.csv`保存K=4日期分组，`case-cluster-centers-4.csv`保存对应中心向量。这些是从同一TLC真实快照计算的派生数据，不是新的交通观测；许可沿用TLC原始条款。没有实施的跨种子、跨月份稳定性检验不作数值结论。
+
+第三章案例的主结果表统一采用1000次重采样，并解释旧500次示例与它之间的计算差异。第六章基线案例使用1小时任务全部2190个目标时刻，多跨度案例则先取三个任务共有的2169个目标时刻；两种口径不混用。第八章仍只评价给定平滑轨迹的规则敏感性，无独立真值的评价层不填准确率。
+
+网页、单篇下载和完整`CASEBOOK.md`由同一份内容与证据生成。修改源数据、聚类输出或案例文字后，应依次重建证据与案例册，再运行案例一致性测试并更新资料包。
+
 16个案例为本课程结合上述数据编写的中文解读，不是搬运Kaggle文章。页面组织参考[House Prices项目](https://www.kaggle.com/competitions/house-prices-advanced-regression-techniques/overview)的任务、数据、代码、评价与提交结构；未使用其房价数据、图片、Logo或参赛者成绩。

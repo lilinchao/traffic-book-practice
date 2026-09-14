@@ -17,7 +17,29 @@
 
 每个项目有四阶段任务。章节项目聚焦一条可完成的主线，不声称覆盖教材中的所有方法。第8章重点落在8.7节跟踪后处理与交通参数提取，不把已有平滑轨迹冒充新训练的检测器。
 
-## 在线对照实验
+## 完整案例分析
+
+案例库的16个案例均按四个环节展开：研究背景与意义、问题分析与定义、解决思路与方法、结果评价与分析。每篇包含观测单元、变量与范围、四步方法、固定参数结果表、结论边界和讨论交付要求。数值来自配套真实快照，尚未实施的研究设计不写成既有成果。
+
+网页提供段落目录、单篇Markdown下载、完整案例册下载以及直达对应专题的入口。案例正文不随学生调参自动改写；复核时应先恢复给定参数。原有本机案例笔记保留。
+
+内容源为`case-studies.js`，证据源为`data/case-evidence.js`；`case-reader.js`同时生成页面与单篇Markdown，`build-casebook.mjs`由同一内容生成`CASEBOOK.md`，避免网页与下载材料分叉。案例生成脚本及案例测试使用Node.js 24核验。依次运行：
+
+```bash
+node chapters/build-case-evidence.mjs
+node chapters/build-casebook.mjs
+node chapters/tests/cases.test.mjs
+```
+
+日画像聚类表使用现有`projects/python/extensions.py --project taxi`在固定数据上复算，scikit-learn 1.9.1，种子42、n_init=10。如需重新运行，先安装原Python依赖，再运行以下命令；将生成的`day-cluster-comparison.csv`、`day-clusters-4.csv`、`cluster-centers-4.csv`分别核对后对应更新至`chapters/data/case-cluster-comparison.csv`、`case-day-clusters-4.csv`、`case-cluster-centers-4.csv`，再重建证据和案例册。不要只手改页面中的分数。
+
+```bash
+python projects/python/extensions.py --project taxi --output outputs/case-clusters
+```
+
+专题实验与案例课文是互补关系：前者让学生改变条件计算，后者完整解释问题、方法和证据。第一章两个案例侧重研究问题定义，不强行增加预测成绩；第八章没有独立真值时不报告检测或计数准确率。
+
+## 专题对照操作
 
 第2至8章的代码页在原有自由调参区下新增15个专题，支持一键比较多组方案、导出CSV/完整JSON、保存整组结果到本机项目报告。专题参数独立于上方自由实验，修改参数后必须重新运行，过期结果不能保存。第一章继续以问题设计和真实数据源比较为主，不强行加入数值实验。
 
@@ -49,6 +71,11 @@ node chapters/tests/comparisons.test.mjs
 
 ```text
 chapters/
+  case-studies.js
+  case-reader.js
+  build-case-evidence.mjs
+  build-casebook.mjs
+  tests/cases.test.mjs
   compare.mjs
   comparisons.mjs
   engine.mjs

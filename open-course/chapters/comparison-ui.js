@@ -38,7 +38,9 @@ export function mountComparisons(anchor,p,data,onSave,download){
  const section=document.createElement('section');section.className='article-section comparison-lab';section.id='comparison-lab';anchor.after(section);
  const shortcut=document.createElement('button');shortcut.type='button';shortcut.className='outline comparison-jump';shortcut.textContent=`直接查看本章${list.length}个专题对照 ↓`;anchor.before(shortcut);
  shortcut.addEventListener('click',()=>{section.tabIndex=-1;section.focus({preventScroll:true});section.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth',block:'start'});});
- let chosen=list.find(e=>e.id===memory.get(p.id)?.id)||list[0],output=null;
+ const requested=list.find(e=>e.id===location.hash.split('/')[3]);
+ if(requested)memory.set(p.id,{id:requested.id,config:defaultsFor(requested)});
+ let chosen=requested||list.find(e=>e.id===memory.get(p.id)?.id)||list[0],output=null;
  const query=s=>section.querySelector(s);
  function controlsValue(){return Object.fromEntries([...new FormData(query('form'))].map(([k,v])=>[k.replace('compare-',''),v]));}
  function markDirty(){output=null;query('[data-comparison-save]').disabled=true;query('[data-comparison-csv]').disabled=true;query('[data-comparison-json]').disabled=true;query('[data-comparison-status]').textContent='参数已改变，请重新运行对照。';query('[data-comparison-result]').innerHTML='<p class="empty">结果已过期。运行后显示新配置下的完整对照。</p>';}
@@ -71,4 +73,5 @@ export function mountComparisons(anchor,p,data,onSave,download){
   if(b.hasAttribute('data-comparison-json'))download(p.id+'_'+output.id+'.json',JSON.stringify(output,null,2),'application/json');
  });
  render();
+ if(requested)requestAnimationFrame(()=>{if(section.isConnected){section.tabIndex=-1;section.focus({preventScroll:true});section.scrollIntoView({block:'start'});}});
 }
