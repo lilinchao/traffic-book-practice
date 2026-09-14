@@ -1,0 +1,1467 @@
+{
+  "meta": {
+    "source": "https://d37ci6vzurychx.cloudfront.net/trip-data/green_tripdata_2024-01.parquet",
+    "sourcePage": "https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page",
+    "retrieved": "2026-09-14",
+    "rawRows": 56551,
+    "retainedRows": 56549,
+    "excludedTimeRows": 2,
+    "sha256": "1512a953bed564ac68dcb622827424dfb4f68ad93c2a4572e50ef6ab0b09c1ad",
+    "unit": "一次绿出租车行程记录，不等于乘客人数或居民出行次数",
+    "note": "只按上车时间筛选2024年1月，未按车费、里程或乘客人数过滤。地区取上车出租车分区对应行政区，未知地区保留。仅发布分组计数。"
+  },
+  "rows": [
+    {
+      "Borough": "Bronx",
+      "daytype": "周末",
+      "hour": 0,
+      "count": 3
+    },
+    {
+      "Borough": "Bronx",
+      "daytype": "周末",
+      "hour": 1,
+      "count": 7
+    },
+    {
+      "Borough": "Bronx",
+      "daytype": "周末",
+      "hour": 2,
+      "count": 1
+    },
+    {
+      "Borough": "Bronx",
+      "daytype": "周末",
+      "hour": 3,
+      "count": 5
+    },
+    {
+      "Borough": "Bronx",
+      "daytype": "周末",
+      "hour": 4,
+      "count": 7
+    },
+    {
+      "Borough": "Bronx",
+      "daytype": "周末",
+      "hour": 5,
+      "count": 4
+    },
+    {
+      "Borough": "Bronx",
+      "daytype": "周末",
+      "hour": 6,
+      "count": 4
+    },
+    {
+      "Borough": "Bronx",
+      "daytype": "周末",
+      "hour": 7,
+      "count": 2
+    },
+    {
+      "Borough": "Bronx",
+      "daytype": "周末",
+      "hour": 8,
+      "count": 10
+    },
+    {
+      "Borough": "Bronx",
+      "daytype": "周末",
+      "hour": 9,
+      "count": 9
+    },
+    {
+      "Borough": "Bronx",
+      "daytype": "周末",
+      "hour": 10,
+      "count": 8
+    },
+    {
+      "Borough": "Bronx",
+      "daytype": "周末",
+      "hour": 11,
+      "count": 11
+    },
+    {
+      "Borough": "Bronx",
+      "daytype": "周末",
+      "hour": 12,
+      "count": 6
+    },
+    {
+      "Borough": "Bronx",
+      "daytype": "周末",
+      "hour": 13,
+      "count": 11
+    },
+    {
+      "Borough": "Bronx",
+      "daytype": "周末",
+      "hour": 14,
+      "count": 7
+    },
+    {
+      "Borough": "Bronx",
+      "daytype": "周末",
+      "hour": 15,
+      "count": 7
+    },
+    {
+      "Borough": "Bronx",
+      "daytype": "周末",
+      "hour": 16,
+      "count": 5
+    },
+    {
+      "Borough": "Bronx",
+      "daytype": "周末",
+      "hour": 17,
+      "count": 6
+    },
+    {
+      "Borough": "Bronx",
+      "daytype": "周末",
+      "hour": 18,
+      "count": 6
+    },
+    {
+      "Borough": "Bronx",
+      "daytype": "周末",
+      "hour": 19,
+      "count": 6
+    },
+    {
+      "Borough": "Bronx",
+      "daytype": "周末",
+      "hour": 20,
+      "count": 7
+    },
+    {
+      "Borough": "Bronx",
+      "daytype": "周末",
+      "hour": 21,
+      "count": 4
+    },
+    {
+      "Borough": "Bronx",
+      "daytype": "周末",
+      "hour": 22,
+      "count": 5
+    },
+    {
+      "Borough": "Bronx",
+      "daytype": "周末",
+      "hour": 23,
+      "count": 5
+    },
+    {
+      "Borough": "Bronx",
+      "daytype": "平日",
+      "hour": 0,
+      "count": 17
+    },
+    {
+      "Borough": "Bronx",
+      "daytype": "平日",
+      "hour": 1,
+      "count": 18
+    },
+    {
+      "Borough": "Bronx",
+      "daytype": "平日",
+      "hour": 2,
+      "count": 4
+    },
+    {
+      "Borough": "Bronx",
+      "daytype": "平日",
+      "hour": 3,
+      "count": 8
+    },
+    {
+      "Borough": "Bronx",
+      "daytype": "平日",
+      "hour": 4,
+      "count": 15
+    },
+    {
+      "Borough": "Bronx",
+      "daytype": "平日",
+      "hour": 5,
+      "count": 27
+    },
+    {
+      "Borough": "Bronx",
+      "daytype": "平日",
+      "hour": 6,
+      "count": 16
+    },
+    {
+      "Borough": "Bronx",
+      "daytype": "平日",
+      "hour": 7,
+      "count": 17
+    },
+    {
+      "Borough": "Bronx",
+      "daytype": "平日",
+      "hour": 8,
+      "count": 36
+    },
+    {
+      "Borough": "Bronx",
+      "daytype": "平日",
+      "hour": 9,
+      "count": 87
+    },
+    {
+      "Borough": "Bronx",
+      "daytype": "平日",
+      "hour": 10,
+      "count": 53
+    },
+    {
+      "Borough": "Bronx",
+      "daytype": "平日",
+      "hour": 11,
+      "count": 63
+    },
+    {
+      "Borough": "Bronx",
+      "daytype": "平日",
+      "hour": 12,
+      "count": 67
+    },
+    {
+      "Borough": "Bronx",
+      "daytype": "平日",
+      "hour": 13,
+      "count": 72
+    },
+    {
+      "Borough": "Bronx",
+      "daytype": "平日",
+      "hour": 14,
+      "count": 46
+    },
+    {
+      "Borough": "Bronx",
+      "daytype": "平日",
+      "hour": 15,
+      "count": 42
+    },
+    {
+      "Borough": "Bronx",
+      "daytype": "平日",
+      "hour": 16,
+      "count": 26
+    },
+    {
+      "Borough": "Bronx",
+      "daytype": "平日",
+      "hour": 17,
+      "count": 21
+    },
+    {
+      "Borough": "Bronx",
+      "daytype": "平日",
+      "hour": 18,
+      "count": 22
+    },
+    {
+      "Borough": "Bronx",
+      "daytype": "平日",
+      "hour": 19,
+      "count": 15
+    },
+    {
+      "Borough": "Bronx",
+      "daytype": "平日",
+      "hour": 20,
+      "count": 13
+    },
+    {
+      "Borough": "Bronx",
+      "daytype": "平日",
+      "hour": 21,
+      "count": 10
+    },
+    {
+      "Borough": "Bronx",
+      "daytype": "平日",
+      "hour": 22,
+      "count": 12
+    },
+    {
+      "Borough": "Bronx",
+      "daytype": "平日",
+      "hour": 23,
+      "count": 17
+    },
+    {
+      "Borough": "Brooklyn",
+      "daytype": "周末",
+      "hour": 0,
+      "count": 89
+    },
+    {
+      "Borough": "Brooklyn",
+      "daytype": "周末",
+      "hour": 1,
+      "count": 108
+    },
+    {
+      "Borough": "Brooklyn",
+      "daytype": "周末",
+      "hour": 2,
+      "count": 98
+    },
+    {
+      "Borough": "Brooklyn",
+      "daytype": "周末",
+      "hour": 3,
+      "count": 81
+    },
+    {
+      "Borough": "Brooklyn",
+      "daytype": "周末",
+      "hour": 4,
+      "count": 44
+    },
+    {
+      "Borough": "Brooklyn",
+      "daytype": "周末",
+      "hour": 5,
+      "count": 8
+    },
+    {
+      "Borough": "Brooklyn",
+      "daytype": "周末",
+      "hour": 6,
+      "count": 9
+    },
+    {
+      "Borough": "Brooklyn",
+      "daytype": "周末",
+      "hour": 7,
+      "count": 14
+    },
+    {
+      "Borough": "Brooklyn",
+      "daytype": "周末",
+      "hour": 8,
+      "count": 25
+    },
+    {
+      "Borough": "Brooklyn",
+      "daytype": "周末",
+      "hour": 9,
+      "count": 50
+    },
+    {
+      "Borough": "Brooklyn",
+      "daytype": "周末",
+      "hour": 10,
+      "count": 58
+    },
+    {
+      "Borough": "Brooklyn",
+      "daytype": "周末",
+      "hour": 11,
+      "count": 82
+    },
+    {
+      "Borough": "Brooklyn",
+      "daytype": "周末",
+      "hour": 12,
+      "count": 117
+    },
+    {
+      "Borough": "Brooklyn",
+      "daytype": "周末",
+      "hour": 13,
+      "count": 129
+    },
+    {
+      "Borough": "Brooklyn",
+      "daytype": "周末",
+      "hour": 14,
+      "count": 148
+    },
+    {
+      "Borough": "Brooklyn",
+      "daytype": "周末",
+      "hour": 15,
+      "count": 136
+    },
+    {
+      "Borough": "Brooklyn",
+      "daytype": "周末",
+      "hour": 16,
+      "count": 164
+    },
+    {
+      "Borough": "Brooklyn",
+      "daytype": "周末",
+      "hour": 17,
+      "count": 173
+    },
+    {
+      "Borough": "Brooklyn",
+      "daytype": "周末",
+      "hour": 18,
+      "count": 177
+    },
+    {
+      "Borough": "Brooklyn",
+      "daytype": "周末",
+      "hour": 19,
+      "count": 142
+    },
+    {
+      "Borough": "Brooklyn",
+      "daytype": "周末",
+      "hour": 20,
+      "count": 106
+    },
+    {
+      "Borough": "Brooklyn",
+      "daytype": "周末",
+      "hour": 21,
+      "count": 111
+    },
+    {
+      "Borough": "Brooklyn",
+      "daytype": "周末",
+      "hour": 22,
+      "count": 81
+    },
+    {
+      "Borough": "Brooklyn",
+      "daytype": "周末",
+      "hour": 23,
+      "count": 58
+    },
+    {
+      "Borough": "Brooklyn",
+      "daytype": "平日",
+      "hour": 0,
+      "count": 128
+    },
+    {
+      "Borough": "Brooklyn",
+      "daytype": "平日",
+      "hour": 1,
+      "count": 80
+    },
+    {
+      "Borough": "Brooklyn",
+      "daytype": "平日",
+      "hour": 2,
+      "count": 57
+    },
+    {
+      "Borough": "Brooklyn",
+      "daytype": "平日",
+      "hour": 3,
+      "count": 27
+    },
+    {
+      "Borough": "Brooklyn",
+      "daytype": "平日",
+      "hour": 4,
+      "count": 30
+    },
+    {
+      "Borough": "Brooklyn",
+      "daytype": "平日",
+      "hour": 5,
+      "count": 41
+    },
+    {
+      "Borough": "Brooklyn",
+      "daytype": "平日",
+      "hour": 6,
+      "count": 48
+    },
+    {
+      "Borough": "Brooklyn",
+      "daytype": "平日",
+      "hour": 7,
+      "count": 121
+    },
+    {
+      "Borough": "Brooklyn",
+      "daytype": "平日",
+      "hour": 8,
+      "count": 202
+    },
+    {
+      "Borough": "Brooklyn",
+      "daytype": "平日",
+      "hour": 9,
+      "count": 285
+    },
+    {
+      "Borough": "Brooklyn",
+      "daytype": "平日",
+      "hour": 10,
+      "count": 273
+    },
+    {
+      "Borough": "Brooklyn",
+      "daytype": "平日",
+      "hour": 11,
+      "count": 290
+    },
+    {
+      "Borough": "Brooklyn",
+      "daytype": "平日",
+      "hour": 12,
+      "count": 290
+    },
+    {
+      "Borough": "Brooklyn",
+      "daytype": "平日",
+      "hour": 13,
+      "count": 284
+    },
+    {
+      "Borough": "Brooklyn",
+      "daytype": "平日",
+      "hour": 14,
+      "count": 353
+    },
+    {
+      "Borough": "Brooklyn",
+      "daytype": "平日",
+      "hour": 15,
+      "count": 365
+    },
+    {
+      "Borough": "Brooklyn",
+      "daytype": "平日",
+      "hour": 16,
+      "count": 399
+    },
+    {
+      "Borough": "Brooklyn",
+      "daytype": "平日",
+      "hour": 17,
+      "count": 426
+    },
+    {
+      "Borough": "Brooklyn",
+      "daytype": "平日",
+      "hour": 18,
+      "count": 461
+    },
+    {
+      "Borough": "Brooklyn",
+      "daytype": "平日",
+      "hour": 19,
+      "count": 375
+    },
+    {
+      "Borough": "Brooklyn",
+      "daytype": "平日",
+      "hour": 20,
+      "count": 334
+    },
+    {
+      "Borough": "Brooklyn",
+      "daytype": "平日",
+      "hour": 21,
+      "count": 272
+    },
+    {
+      "Borough": "Brooklyn",
+      "daytype": "平日",
+      "hour": 22,
+      "count": 229
+    },
+    {
+      "Borough": "Brooklyn",
+      "daytype": "平日",
+      "hour": 23,
+      "count": 169
+    },
+    {
+      "Borough": "EWR",
+      "daytype": "周末",
+      "hour": 12,
+      "count": 1
+    },
+    {
+      "Borough": "EWR",
+      "daytype": "平日",
+      "hour": 10,
+      "count": 1
+    },
+    {
+      "Borough": "EWR",
+      "daytype": "平日",
+      "hour": 18,
+      "count": 1
+    },
+    {
+      "Borough": "Manhattan",
+      "daytype": "周末",
+      "hour": 0,
+      "count": 95
+    },
+    {
+      "Borough": "Manhattan",
+      "daytype": "周末",
+      "hour": 1,
+      "count": 55
+    },
+    {
+      "Borough": "Manhattan",
+      "daytype": "周末",
+      "hour": 2,
+      "count": 29
+    },
+    {
+      "Borough": "Manhattan",
+      "daytype": "周末",
+      "hour": 3,
+      "count": 19
+    },
+    {
+      "Borough": "Manhattan",
+      "daytype": "周末",
+      "hour": 4,
+      "count": 18
+    },
+    {
+      "Borough": "Manhattan",
+      "daytype": "周末",
+      "hour": 5,
+      "count": 12
+    },
+    {
+      "Borough": "Manhattan",
+      "daytype": "周末",
+      "hour": 6,
+      "count": 48
+    },
+    {
+      "Borough": "Manhattan",
+      "daytype": "周末",
+      "hour": 7,
+      "count": 131
+    },
+    {
+      "Borough": "Manhattan",
+      "daytype": "周末",
+      "hour": 8,
+      "count": 167
+    },
+    {
+      "Borough": "Manhattan",
+      "daytype": "周末",
+      "hour": 9,
+      "count": 241
+    },
+    {
+      "Borough": "Manhattan",
+      "daytype": "周末",
+      "hour": 10,
+      "count": 311
+    },
+    {
+      "Borough": "Manhattan",
+      "daytype": "周末",
+      "hour": 11,
+      "count": 384
+    },
+    {
+      "Borough": "Manhattan",
+      "daytype": "周末",
+      "hour": 12,
+      "count": 356
+    },
+    {
+      "Borough": "Manhattan",
+      "daytype": "周末",
+      "hour": 13,
+      "count": 423
+    },
+    {
+      "Borough": "Manhattan",
+      "daytype": "周末",
+      "hour": 14,
+      "count": 446
+    },
+    {
+      "Borough": "Manhattan",
+      "daytype": "周末",
+      "hour": 15,
+      "count": 495
+    },
+    {
+      "Borough": "Manhattan",
+      "daytype": "周末",
+      "hour": 16,
+      "count": 467
+    },
+    {
+      "Borough": "Manhattan",
+      "daytype": "周末",
+      "hour": 17,
+      "count": 429
+    },
+    {
+      "Borough": "Manhattan",
+      "daytype": "周末",
+      "hour": 18,
+      "count": 439
+    },
+    {
+      "Borough": "Manhattan",
+      "daytype": "周末",
+      "hour": 19,
+      "count": 399
+    },
+    {
+      "Borough": "Manhattan",
+      "daytype": "周末",
+      "hour": 20,
+      "count": 306
+    },
+    {
+      "Borough": "Manhattan",
+      "daytype": "周末",
+      "hour": 21,
+      "count": 235
+    },
+    {
+      "Borough": "Manhattan",
+      "daytype": "周末",
+      "hour": 22,
+      "count": 166
+    },
+    {
+      "Borough": "Manhattan",
+      "daytype": "周末",
+      "hour": 23,
+      "count": 149
+    },
+    {
+      "Borough": "Manhattan",
+      "daytype": "平日",
+      "hour": 0,
+      "count": 195
+    },
+    {
+      "Borough": "Manhattan",
+      "daytype": "平日",
+      "hour": 1,
+      "count": 137
+    },
+    {
+      "Borough": "Manhattan",
+      "daytype": "平日",
+      "hour": 2,
+      "count": 66
+    },
+    {
+      "Borough": "Manhattan",
+      "daytype": "平日",
+      "hour": 3,
+      "count": 32
+    },
+    {
+      "Borough": "Manhattan",
+      "daytype": "平日",
+      "hour": 4,
+      "count": 42
+    },
+    {
+      "Borough": "Manhattan",
+      "daytype": "平日",
+      "hour": 5,
+      "count": 119
+    },
+    {
+      "Borough": "Manhattan",
+      "daytype": "平日",
+      "hour": 6,
+      "count": 549
+    },
+    {
+      "Borough": "Manhattan",
+      "daytype": "平日",
+      "hour": 7,
+      "count": 1586
+    },
+    {
+      "Borough": "Manhattan",
+      "daytype": "平日",
+      "hour": 8,
+      "count": 1764
+    },
+    {
+      "Borough": "Manhattan",
+      "daytype": "平日",
+      "hour": 9,
+      "count": 1758
+    },
+    {
+      "Borough": "Manhattan",
+      "daytype": "平日",
+      "hour": 10,
+      "count": 1670
+    },
+    {
+      "Borough": "Manhattan",
+      "daytype": "平日",
+      "hour": 11,
+      "count": 1537
+    },
+    {
+      "Borough": "Manhattan",
+      "daytype": "平日",
+      "hour": 12,
+      "count": 1503
+    },
+    {
+      "Borough": "Manhattan",
+      "daytype": "平日",
+      "hour": 13,
+      "count": 1541
+    },
+    {
+      "Borough": "Manhattan",
+      "daytype": "平日",
+      "hour": 14,
+      "count": 1739
+    },
+    {
+      "Borough": "Manhattan",
+      "daytype": "平日",
+      "hour": 15,
+      "count": 2089
+    },
+    {
+      "Borough": "Manhattan",
+      "daytype": "平日",
+      "hour": 16,
+      "count": 2162
+    },
+    {
+      "Borough": "Manhattan",
+      "daytype": "平日",
+      "hour": 17,
+      "count": 2291
+    },
+    {
+      "Borough": "Manhattan",
+      "daytype": "平日",
+      "hour": 18,
+      "count": 2042
+    },
+    {
+      "Borough": "Manhattan",
+      "daytype": "平日",
+      "hour": 19,
+      "count": 1545
+    },
+    {
+      "Borough": "Manhattan",
+      "daytype": "平日",
+      "hour": 20,
+      "count": 1059
+    },
+    {
+      "Borough": "Manhattan",
+      "daytype": "平日",
+      "hour": 21,
+      "count": 731
+    },
+    {
+      "Borough": "Manhattan",
+      "daytype": "平日",
+      "hour": 22,
+      "count": 512
+    },
+    {
+      "Borough": "Manhattan",
+      "daytype": "平日",
+      "hour": 23,
+      "count": 357
+    },
+    {
+      "Borough": "Queens",
+      "daytype": "周末",
+      "hour": 0,
+      "count": 225
+    },
+    {
+      "Borough": "Queens",
+      "daytype": "周末",
+      "hour": 1,
+      "count": 199
+    },
+    {
+      "Borough": "Queens",
+      "daytype": "周末",
+      "hour": 2,
+      "count": 158
+    },
+    {
+      "Borough": "Queens",
+      "daytype": "周末",
+      "hour": 3,
+      "count": 132
+    },
+    {
+      "Borough": "Queens",
+      "daytype": "周末",
+      "hour": 4,
+      "count": 81
+    },
+    {
+      "Borough": "Queens",
+      "daytype": "周末",
+      "hour": 5,
+      "count": 46
+    },
+    {
+      "Borough": "Queens",
+      "daytype": "周末",
+      "hour": 6,
+      "count": 54
+    },
+    {
+      "Borough": "Queens",
+      "daytype": "周末",
+      "hour": 7,
+      "count": 58
+    },
+    {
+      "Borough": "Queens",
+      "daytype": "周末",
+      "hour": 8,
+      "count": 75
+    },
+    {
+      "Borough": "Queens",
+      "daytype": "周末",
+      "hour": 9,
+      "count": 121
+    },
+    {
+      "Borough": "Queens",
+      "daytype": "周末",
+      "hour": 10,
+      "count": 130
+    },
+    {
+      "Borough": "Queens",
+      "daytype": "周末",
+      "hour": 11,
+      "count": 157
+    },
+    {
+      "Borough": "Queens",
+      "daytype": "周末",
+      "hour": 12,
+      "count": 158
+    },
+    {
+      "Borough": "Queens",
+      "daytype": "周末",
+      "hour": 13,
+      "count": 173
+    },
+    {
+      "Borough": "Queens",
+      "daytype": "周末",
+      "hour": 14,
+      "count": 210
+    },
+    {
+      "Borough": "Queens",
+      "daytype": "周末",
+      "hour": 15,
+      "count": 221
+    },
+    {
+      "Borough": "Queens",
+      "daytype": "周末",
+      "hour": 16,
+      "count": 217
+    },
+    {
+      "Borough": "Queens",
+      "daytype": "周末",
+      "hour": 17,
+      "count": 244
+    },
+    {
+      "Borough": "Queens",
+      "daytype": "周末",
+      "hour": 18,
+      "count": 228
+    },
+    {
+      "Borough": "Queens",
+      "daytype": "周末",
+      "hour": 19,
+      "count": 243
+    },
+    {
+      "Borough": "Queens",
+      "daytype": "周末",
+      "hour": 20,
+      "count": 170
+    },
+    {
+      "Borough": "Queens",
+      "daytype": "周末",
+      "hour": 21,
+      "count": 154
+    },
+    {
+      "Borough": "Queens",
+      "daytype": "周末",
+      "hour": 22,
+      "count": 145
+    },
+    {
+      "Borough": "Queens",
+      "daytype": "周末",
+      "hour": 23,
+      "count": 161
+    },
+    {
+      "Borough": "Queens",
+      "daytype": "平日",
+      "hour": 0,
+      "count": 266
+    },
+    {
+      "Borough": "Queens",
+      "daytype": "平日",
+      "hour": 1,
+      "count": 155
+    },
+    {
+      "Borough": "Queens",
+      "daytype": "平日",
+      "hour": 2,
+      "count": 116
+    },
+    {
+      "Borough": "Queens",
+      "daytype": "平日",
+      "hour": 3,
+      "count": 103
+    },
+    {
+      "Borough": "Queens",
+      "daytype": "平日",
+      "hour": 4,
+      "count": 91
+    },
+    {
+      "Borough": "Queens",
+      "daytype": "平日",
+      "hour": 5,
+      "count": 65
+    },
+    {
+      "Borough": "Queens",
+      "daytype": "平日",
+      "hour": 6,
+      "count": 123
+    },
+    {
+      "Borough": "Queens",
+      "daytype": "平日",
+      "hour": 7,
+      "count": 322
+    },
+    {
+      "Borough": "Queens",
+      "daytype": "平日",
+      "hour": 8,
+      "count": 478
+    },
+    {
+      "Borough": "Queens",
+      "daytype": "平日",
+      "hour": 9,
+      "count": 502
+    },
+    {
+      "Borough": "Queens",
+      "daytype": "平日",
+      "hour": 10,
+      "count": 476
+    },
+    {
+      "Borough": "Queens",
+      "daytype": "平日",
+      "hour": 11,
+      "count": 541
+    },
+    {
+      "Borough": "Queens",
+      "daytype": "平日",
+      "hour": 12,
+      "count": 540
+    },
+    {
+      "Borough": "Queens",
+      "daytype": "平日",
+      "hour": 13,
+      "count": 611
+    },
+    {
+      "Borough": "Queens",
+      "daytype": "平日",
+      "hour": 14,
+      "count": 651
+    },
+    {
+      "Borough": "Queens",
+      "daytype": "平日",
+      "hour": 15,
+      "count": 745
+    },
+    {
+      "Borough": "Queens",
+      "daytype": "平日",
+      "hour": 16,
+      "count": 875
+    },
+    {
+      "Borough": "Queens",
+      "daytype": "平日",
+      "hour": 17,
+      "count": 975
+    },
+    {
+      "Borough": "Queens",
+      "daytype": "平日",
+      "hour": 18,
+      "count": 989
+    },
+    {
+      "Borough": "Queens",
+      "daytype": "平日",
+      "hour": 19,
+      "count": 770
+    },
+    {
+      "Borough": "Queens",
+      "daytype": "平日",
+      "hour": 20,
+      "count": 577
+    },
+    {
+      "Borough": "Queens",
+      "daytype": "平日",
+      "hour": 21,
+      "count": 419
+    },
+    {
+      "Borough": "Queens",
+      "daytype": "平日",
+      "hour": 22,
+      "count": 434
+    },
+    {
+      "Borough": "Queens",
+      "daytype": "平日",
+      "hour": 23,
+      "count": 353
+    },
+    {
+      "Borough": "Staten Island",
+      "daytype": "平日",
+      "hour": 0,
+      "count": 1
+    },
+    {
+      "Borough": "Staten Island",
+      "daytype": "平日",
+      "hour": 3,
+      "count": 1
+    },
+    {
+      "Borough": "Staten Island",
+      "daytype": "平日",
+      "hour": 15,
+      "count": 1
+    },
+    {
+      "Borough": "Staten Island",
+      "daytype": "平日",
+      "hour": 16,
+      "count": 1
+    },
+    {
+      "Borough": "Staten Island",
+      "daytype": "平日",
+      "hour": 17,
+      "count": 1
+    },
+    {
+      "Borough": "Unknown",
+      "daytype": "周末",
+      "hour": 0,
+      "count": 3
+    },
+    {
+      "Borough": "Unknown",
+      "daytype": "周末",
+      "hour": 1,
+      "count": 1
+    },
+    {
+      "Borough": "Unknown",
+      "daytype": "周末",
+      "hour": 2,
+      "count": 1
+    },
+    {
+      "Borough": "Unknown",
+      "daytype": "周末",
+      "hour": 3,
+      "count": 3
+    },
+    {
+      "Borough": "Unknown",
+      "daytype": "周末",
+      "hour": 4,
+      "count": 1
+    },
+    {
+      "Borough": "Unknown",
+      "daytype": "周末",
+      "hour": 5,
+      "count": 1
+    },
+    {
+      "Borough": "Unknown",
+      "daytype": "周末",
+      "hour": 6,
+      "count": 2
+    },
+    {
+      "Borough": "Unknown",
+      "daytype": "周末",
+      "hour": 7,
+      "count": 2
+    },
+    {
+      "Borough": "Unknown",
+      "daytype": "周末",
+      "hour": 8,
+      "count": 1
+    },
+    {
+      "Borough": "Unknown",
+      "daytype": "周末",
+      "hour": 9,
+      "count": 2
+    },
+    {
+      "Borough": "Unknown",
+      "daytype": "周末",
+      "hour": 10,
+      "count": 3
+    },
+    {
+      "Borough": "Unknown",
+      "daytype": "周末",
+      "hour": 12,
+      "count": 2
+    },
+    {
+      "Borough": "Unknown",
+      "daytype": "周末",
+      "hour": 13,
+      "count": 3
+    },
+    {
+      "Borough": "Unknown",
+      "daytype": "周末",
+      "hour": 15,
+      "count": 3
+    },
+    {
+      "Borough": "Unknown",
+      "daytype": "周末",
+      "hour": 17,
+      "count": 3
+    },
+    {
+      "Borough": "Unknown",
+      "daytype": "周末",
+      "hour": 19,
+      "count": 4
+    },
+    {
+      "Borough": "Unknown",
+      "daytype": "周末",
+      "hour": 20,
+      "count": 2
+    },
+    {
+      "Borough": "Unknown",
+      "daytype": "周末",
+      "hour": 21,
+      "count": 1
+    },
+    {
+      "Borough": "Unknown",
+      "daytype": "周末",
+      "hour": 22,
+      "count": 3
+    },
+    {
+      "Borough": "Unknown",
+      "daytype": "周末",
+      "hour": 23,
+      "count": 1
+    },
+    {
+      "Borough": "Unknown",
+      "daytype": "平日",
+      "hour": 0,
+      "count": 3
+    },
+    {
+      "Borough": "Unknown",
+      "daytype": "平日",
+      "hour": 1,
+      "count": 6
+    },
+    {
+      "Borough": "Unknown",
+      "daytype": "平日",
+      "hour": 2,
+      "count": 1
+    },
+    {
+      "Borough": "Unknown",
+      "daytype": "平日",
+      "hour": 4,
+      "count": 2
+    },
+    {
+      "Borough": "Unknown",
+      "daytype": "平日",
+      "hour": 6,
+      "count": 1
+    },
+    {
+      "Borough": "Unknown",
+      "daytype": "平日",
+      "hour": 7,
+      "count": 2
+    },
+    {
+      "Borough": "Unknown",
+      "daytype": "平日",
+      "hour": 8,
+      "count": 3
+    },
+    {
+      "Borough": "Unknown",
+      "daytype": "平日",
+      "hour": 9,
+      "count": 9
+    },
+    {
+      "Borough": "Unknown",
+      "daytype": "平日",
+      "hour": 10,
+      "count": 4
+    },
+    {
+      "Borough": "Unknown",
+      "daytype": "平日",
+      "hour": 11,
+      "count": 6
+    },
+    {
+      "Borough": "Unknown",
+      "daytype": "平日",
+      "hour": 12,
+      "count": 4
+    },
+    {
+      "Borough": "Unknown",
+      "daytype": "平日",
+      "hour": 13,
+      "count": 7
+    },
+    {
+      "Borough": "Unknown",
+      "daytype": "平日",
+      "hour": 14,
+      "count": 8
+    },
+    {
+      "Borough": "Unknown",
+      "daytype": "平日",
+      "hour": 15,
+      "count": 7
+    },
+    {
+      "Borough": "Unknown",
+      "daytype": "平日",
+      "hour": 16,
+      "count": 4
+    },
+    {
+      "Borough": "Unknown",
+      "daytype": "平日",
+      "hour": 17,
+      "count": 7
+    },
+    {
+      "Borough": "Unknown",
+      "daytype": "平日",
+      "hour": 18,
+      "count": 3
+    },
+    {
+      "Borough": "Unknown",
+      "daytype": "平日",
+      "hour": 19,
+      "count": 4
+    },
+    {
+      "Borough": "Unknown",
+      "daytype": "平日",
+      "hour": 20,
+      "count": 10
+    },
+    {
+      "Borough": "Unknown",
+      "daytype": "平日",
+      "hour": 21,
+      "count": 3
+    },
+    {
+      "Borough": "Unknown",
+      "daytype": "平日",
+      "hour": 22,
+      "count": 3
+    },
+    {
+      "Borough": "Unknown",
+      "daytype": "平日",
+      "hour": 23,
+      "count": 2
+    }
+  ]
+}
