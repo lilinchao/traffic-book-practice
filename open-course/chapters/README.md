@@ -17,12 +17,43 @@
 
 每个项目有四阶段任务。章节项目聚焦一条可完成的主线，不声称覆盖教材中的所有方法。第8章重点落在8.7节跟踪后处理与交通参数提取，不把已有平滑轨迹冒充新训练的检测器。
 
-## 资料包结构
+## 在线对照实验
+
+第2至8章的代码页在原有自由调参区下新增15个专题，支持一键比较多组方案、导出CSV/完整JSON、保存整组结果到本机项目报告。专题参数独立于上方自由实验，修改参数后必须重新运行，过期结果不能保存。第一章继续以问题设计和真实数据源比较为主，不强行加入数值实验。
+
+| 章节 | 新增专题 |
+| --- | --- |
+| 2 | 重复行权重与小时均值；缺测误填0与月均趋势 |
+| 3 | 20/60/90天抽样；六个随机种子；200/500/1000/2000次Bootstrap |
+| 4 | 三模型同样本对照；24小时分组误差与有符号偏差 |
+| 5 | 250/500/1000米网格尺度；事故次数与伤者人数排序 |
+| 6 | 共同目标时间上的1/3/6小时预测；逐月与上周同期基线比较 |
+| 7 | 平日/周末的累计量与日均；三个地区的规模与小时占比 |
+| 8 | 抽帧后的事件集合与触发延迟；死区宽度与事件变化 |
+
+所有输出均由既有真实快照计算，没有新增模拟观测。第4、6章只对已有Python训练模型的冻结预测重算误差，不宣称在浏览器训练模型；第8章基于SinD已平滑轨迹，不报告无真值支持的准确率。具体实验步骤与解释边界见[对照实验学习单](COMPARISONS.md)。
+
+资料包新增JavaScript计算模块和命令行入口。安装Node.js 18或更新版本后，在解压根目录运行，无需第三方依赖：
+
+```bash
+node chapters/compare.mjs sample-size --group=all --seed=42
+node chapters/compare.mjs forecast-horizon --model=ridge > result.csv 2> result.json
+node chapters/tests/comparisons.test.mjs
+```
+
+标准输出是CSV，标准错误输出是含配置、口径、来源元数据、完整结果及事件明细的JSON。执行失败返回非零退出码。网页和命令行使用同一计算模块，结果应一致。模块遵循课程MIT代码许可；第三方数据许可不变。
+
+## 资料包目录
 
 下载`chapter-projects.zip`并解压，保持以下两个顶层目录在一起：
 
 ```text
 chapters/
+  compare.mjs
+  comparisons.mjs
+  engine.mjs
+  COMPARISONS.md
+  tests/comparisons.test.mjs
   notebooks/ch01.ipynb ... ch08.ipynb
   python/ch02_cleaning.py
   python/ch03_inference.py
@@ -34,6 +65,7 @@ chapters/
   README.md
   DATA_SOURCES.md
 projects/
+  engine.mjs
   python/analyze.py
   python/prepare_data.py
   python/extensions.py
