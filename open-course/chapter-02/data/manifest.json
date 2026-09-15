@@ -1,0 +1,16 @@
+{
+  "inputs": {
+    "chapters/data/ch02_raw.csv": "749c90d720360a4215bb15345526073c079ba4cc95e3fa558796d083f85fce9e",
+    "projects/data/nyc-crashes-2024-01.csv": "d5c15a86e4669895985d7bce350a033214a9062b41522431df7bae1e891b183a",
+    "projects/data/sind-tianjin-120s.csv": "4f72aab4eb62b714f547be37e4139c6fef98096e6f62088b39ef1c65797fb651",
+    "chapters/data/project-protocols.json": "2ca878197b39948da95c7ca4a8d874436b49ef8900a43e49a474ba454d224643"
+  },
+  "rows": 48204,
+  "uniqueHours": 40575,
+  "crashPoints": 7068,
+  "trajectoryIDs": [
+    "1",
+    "2",
+    "3"
+  ]
+}

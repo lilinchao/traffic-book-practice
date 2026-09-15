@@ -1,0 +1,40 @@
+Original classroom code: MIT License
+Copyright (c) 2026 lilinchao / traffic-book-practice contributors
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+Original Chinese classroom explanations: CC BY-SA 4.0
+https://creativecommons.org/licenses/by-sa/4.0/
+Attribution: lilinchao / traffic-book-practice, Chapter 2 interactive classroom.
+
+Third-party components and observations retain their own licenses:
+- sql.js 1.14.2: MIT. Full original notice: vendor/SQLJS-LICENSE.txt.
+- SQLite: public domain. https://www.sqlite.org/copyright.html
+- Pyodide 0.29.3 (loaded remotely, not redistributed here): MPL-2.0;
+  CPython, NumPy and Pandas retain their respective licenses.
+- John Hogue (2019), Metro Interstate Traffic Volume, UCI,
+  DOI:10.24432/C5X60B, CC BY 4.0. Raw CSV and derived observations included.
+- NYC Open Data, Motor Vehicle Collisions - Crashes: original NYC terms.
+  January 2024 public locations only; see README for scope and source.
+- SOTIF-AVLab/SinD: custom noncommercial terms. Full original notice:
+  data/SIND-LICENSE.txt. This data is NOT relicensed as MIT or CC0.
+
+Original code/text licenses do not override third-party restrictions.
+The course is an open, noncommercial teaching resource, with no enrollment
+payments, prizes, telemetry or server-side student-code submission.

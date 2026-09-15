@@ -1,0 +1,8 @@
+{
+  "version": "1.14.2",
+  "url": "https://registry.npmjs.org/sql.js/-/sql.js-1.14.2.tgz",
+  "archiveSHA256": "9d491337e1850df39362be640c23f9751bf0fbd33fc232c2a580bb87b70d62fd",
+  "engineSHA256": "dd6bccb127181487a7179e79a93adf3d95247ea0f582d69861fea2e72a9dde41",
+  "license": "MIT",
+  "source": "https://github.com/sql-js/sql.js"
+}
