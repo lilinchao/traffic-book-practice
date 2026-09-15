@@ -4,6 +4,10 @@
 
 ## 章节项目
 
+当前主线已统一为8个逐步工作本、51个可执行代码单元。项目概述列明必做方法、样本范围和工程交付；第4-8章新增主JSON文件自测，第6章统一2169个共同目标，旧2190行接口只作补充。工作本可在网页阅读、编辑并下载，完整Python拟合在Jupyter运行，不冒充网页云端训练。详见[主实验与工程成果说明](PRIMARY_EXPERIMENTS.md)。
+
+第8章新增真实夜间步行街视频：YOLOX检测、卡尔曼/匈牙利关联、分方向计数与独立人工框/ID核验。它与SinD轨迹实验分开采用影像协议；支持视频、标注叠加、逐采样帧回看和个人核查记录。[完整影像实验说明](VIDEO_LESSON.md)。
+
 | 章节 | 实践项目 | 最终成果 |
 | --- | --- | --- |
 | 1 绪论 | 为一个交通问题设计数据方案 | 问题、变量、来源与可行性报告 |
@@ -15,7 +19,7 @@
 | 7 交通时空数据分析 | 出租车时空出行画像 | 地区—小时矩阵及模式解释 |
 | 8 交通影像数据分析 | 从路口轨迹到通行计数 | 跨线事件、规则审计和人工核验方案 |
 
-每个项目有四阶段任务。章节项目聚焦一条可完成的主线，不声称覆盖教材中的所有方法。第8章重点落在8.7节跟踪后处理与交通参数提取，不把已有平滑轨迹冒充新训练的检测器。
+每个项目有四阶段任务。章节项目聚焦可完成的研究问题，不声称覆盖教材中的所有方法。第8章将匿名轨迹关联与真实影像链路分开实施，不把已有平滑轨迹冒充新训练的检测器。
 
 ## 完整案例分析
 
@@ -112,15 +116,14 @@ MANIFEST.json
 
 ## 环境与运行
 
-建议Python 3.11或更新版本。在解压后的根目录执行：
+八章主工作本已用Python 3.12逐格核验。在解压后的根目录执行：
 
 ```bash
-python -m pip install -r projects/python/requirements.txt
-python -m pip install notebook
+python -m pip install -r chapters/python/learning-requirements.txt
 jupyter notebook chapters/notebooks/ch01.ipynb
 ```
 
-第1章侧重方案设计，不要求模型训练。第2、3章基线脚本和公共`analyze.py`只使用Python标准库。第4章训练及其他扩展分析需要安装依赖。8个工作本可在Jupyter或支持Notebook的编辑器中运行。
+第8章另安装`chapters/python/video-requirements.txt`；首次运行影像单元需下载固定YOLOX模型。8份工作本采用同一套科学计算依赖，可在Jupyter或支持Notebook的编辑器中运行。以下保留的旧脚本是补充协议入口，不代替主工作本：
 
 ```bash
 python chapters/python/ch02_cleaning.py
@@ -132,11 +135,13 @@ python projects/python/extensions.py --project taxi
 python projects/python/extensions.py --project counting
 ```
 
-第4章脚本生成均值、岭回归、泊松回归三份预测CSV；第6章工作本示范1小时任务的标准提交。第7、8章工作本也生成对应CSV。第5章需要在真实网格结果基础上自行填写候选理由。
+旧第4章脚本生成均值、岭回归、泊松回归CSV；新主工作本生成OLS、泊松和NB2的共同测试输出。新第6章主工作本为2169个共同目标的多提前量实验；新第7章包含留出预测和独立日型聚类，新第8章分别输出SinD与影像成果。第5章需要在真实计算结果上填写道路对象、候选理由和证据缺口。
 
 若需从原始UCI文件重建第2、3、4章数据与基线，可运行`python chapters/python/prepare_chapters.py`。该脚本也重建第6章的1小时提交接口；公共交通量快照的完整上游处理过程在`projects/python/prepare_data.py`。重建会更新本地数据文件，实验时应保留原版本并核对哈希。
 
 ## 提交与自测
+
+第4-8章首先使用工作本生成的`outputs/chXX/chXX_primary.json`作主实验自测；第8章影像结果另提交`outputs/ch08-video/`。下列原CSV检查接口保留作补充，第1-3章仍用其对应格式。不要把旧第6章2190行或旧第7章168行当作新主实验范围。
 
 - 第1章：Markdown中包含“研究问题、数据方案、指标定义、局限与许可”四个标题。网页只检查结构。
 - 第2章：完整40,575行`local_time,volume`，与公开参考清洗结果检查一致性。
@@ -159,4 +164,4 @@ python projects/python/extensions.py --project counting
 
 ## 许可
 
-新增课程代码沿用`projects/LICENSE_CODE.txt`中的MIT许可；任务书与案例文本沿用课程CC BY-SA 4.0许可，署名“交通数据挖掘开放课程”。各原始数据遵循其提供者的许可，不被课程代码或文本许可重新授权。SinD为禁止商业使用的自定义条款，不能称为标准CC0。
+原创课程代码沿用`projects/LICENSE_CODE.txt`中的MIT许可；任务书与案例文本沿用课程CC BY-SA 4.0许可，署名“交通数据挖掘开放课程”。第三方YOLOX包装代码与模型保留Apache-2.0。各原始数据及其衍生材料遵循提供者的许可，不被课程代码或文本许可重新授权：SinD为禁止商业使用的自定义条款，MOT17影像及衍生结果为CC BY-NC-SA 3.0，均不能称为CC0。

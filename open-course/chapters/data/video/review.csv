@@ -1,0 +1,8 @@
+﻿threshold,event_type,time_s,track_id,direction,observation,reviewer,status
+0.35,missed_annotation,14.166666666666666,106,up,,,pending
+0.35,missed_annotation,15.333333333333334,105,up,,,pending
+0.6,missed_annotation,9.833333333333334,70,down,,,pending
+0.6,missed_annotation,9.933333333333334,71,down,,,pending
+0.6,missed_annotation,11.0,99,up,,,pending
+0.6,missed_annotation,14.166666666666666,106,up,,,pending
+0.6,missed_annotation,15.333333333333334,105,up,,,pending

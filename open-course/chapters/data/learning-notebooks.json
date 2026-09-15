@@ -1,0 +1,117 @@
+{
+  "ch01": {
+    "path": "chapters/notebooks/ch01.ipynb",
+    "protocol": "ch01-design-v1",
+    "cells": 10,
+    "code_cells": 5,
+    "steps": [
+      "1. 读取真实来源及观测定义",
+      "2. 直接查看数据样本",
+      "3. 写出问题-指标-字段关系",
+      "4. 导出方案证据并完成文字论证"
+    ],
+    "sha256": "1e7245200d398f326c449049e079ce1f6e09a0131f3a62f470c76ac0e1597bda"
+  },
+  "ch02": {
+    "path": "chapters/notebooks/ch02.ipynb",
+    "protocol": "ch02-audit-v1",
+    "cells": 10,
+    "code_cells": 5,
+    "steps": [
+      "1. 读取原表与观测时刻",
+      "2. 冲突核查先于去重",
+      "3. 生成整编结果并比较日变化曲线",
+      "4. 写出数据接收结论"
+    ],
+    "sha256": "6dd076d53a357deb22a4311adf83beacf825d77bd669d6d9aa4cb1e7f4078d33"
+  },
+  "ch03": {
+    "path": "chapters/notebooks/ch03.ipynb",
+    "protocol": "ch03-bootstrap-v1",
+    "cells": 10,
+    "code_cells": 5,
+    "steps": [
+      "1. 核查日期总体",
+      "2. 参数与随机抽样",
+      "3. 形成区间并比较调查工作量",
+      "4. 提出有条件的调查建议"
+    ],
+    "sha256": "dbe7e8cc034d12641d2847424486f62e86c0d139b218103aa3a54e1a9fb42267"
+  },
+  "ch04": {
+    "path": "chapters/notebooks/ch04.ipynb",
+    "protocol": "ch04-regression-v1",
+    "cells": 14,
+    "code_cells": 7,
+    "steps": [
+      "1. 分别读取训练、验证和测试输入",
+      "2. 只用训练集拟合预处理",
+      "3. 实际拟合OLS、泊松和NB2",
+      "4. 在共同4376小时评价",
+      "5. 画出日内形态并导出自己的结果",
+      "6. 完成高峰服务量估计报告"
+    ],
+    "sha256": "70467fdbb61a1e4271c91935fb9aedd17ff8d25710c24c599d70ae575ca05113"
+  },
+  "ch05": {
+    "path": "chapters/notebooks/ch05.ipynb",
+    "protocol": "ch05-spatial-v1",
+    "cells": 12,
+    "code_cells": 6,
+    "steps": [
+      "1. 固定有效点集与距离单位",
+      "2. 自己运行KDE带宽比较",
+      "3. 实际运行DBSCAN并检查巨簇",
+      "4. 候选地图与现场排查清单",
+      "5. 导出空间证据"
+    ],
+    "sha256": "58035bae1788a96c22d6f4cf3f18c38d87e3dc27914dcbfac36fb4254816ad63"
+  },
+  "ch06": {
+    "path": "chapters/notebooks/ch06.ipynb",
+    "protocol": "ch06-forecast-v1",
+    "cells": 14,
+    "code_cells": 7,
+    "steps": [
+      "1. 建立真实时间骨架和共同目标",
+      "2. 在训练期实际拟合模型",
+      "3. 检查验证期与训练残差",
+      "4. 按起点过滤状态滚动预测",
+      "5. 预先固定图示窗口与失败样本",
+      "6. 交付主实验结果与运行适用性报告"
+    ],
+    "sha256": "582275e1aa96e3cd627e33a32b694a0e519657e018ed1b91c1c0f27d0ef0f106"
+  },
+  "ch07": {
+    "path": "chapters/notebooks/ch07.ipynb",
+    "protocol": "ch07-spatiotemporal-v1",
+    "cells": 12,
+    "code_cells": 6,
+    "steps": [
+      "1. 分开建立预测矩阵与探索性日画像",
+      "2. 构造滞后特征并在验证期选阶",
+      "3. 比较共同672个区域小时",
+      "4. 独立实施12组KMeans与成员一致性核查",
+      "5. 联读形态与原始规模"
+    ],
+    "sha256": "18f7966d89d3b34337feeb1c082848f9a368c5934bee270c3e53886a3854bb7a"
+  },
+  "ch08": {
+    "path": "chapters/notebooks/ch08.ipynb",
+    "protocol": "ch08-tracking-v1",
+    "cells": 20,
+    "code_cells": 10,
+    "steps": [
+      "1. 读取测得坐标，定义实验参数",
+      "2. 构造匿名帧并真实运行关联器",
+      "3. 计算身份连续性与分方向计数",
+      "4. 定位并回看错误身份连接",
+      "5. 导出调查证据与人工核查记录表",
+      "6. 补齐真实影像链路：夜间步行街调查",
+      "7. 对真实帧运行YOLOX",
+      "8. 独立标注核验、关联与事件评价",
+      "9. 导出并逐条回看，不将总数接近当准确"
+    ],
+    "sha256": "78794c04345f040d3ad79fcd58848abb9bd6b1971b8ed267fdcc46bec18a64e1"
+  }
+}

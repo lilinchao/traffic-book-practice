@@ -1,0 +1,3 @@
+﻿threshold,sampled_frames,GT_boxes,TP,FP,FN,ignored_detections,precision,recall,matched_identity_changes,reference_events,predicted_events,event_TP,event_FP,event_FN
+0.35,350,15848,6238,481,9610,25,0.9284119660663789,0.3936143361938415,45,15,15,13,2,2
+0.6,350,15848,4138,280,11710,0,0.93662290629244,0.26110550227158,23,15,11,10,1,5

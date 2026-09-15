@@ -20,3 +20,13 @@
 @media(max-width:680px){.case-algorithm-method,.case-algorithm-results{padding:16px 12px;margin:24px 0}.case-algorithm-lab{padding:10px}.case-algorithm-findings{padding-left:12px}.case-algorithm-options{gap:6px}.case-algorithm-results h3,.case-algorithm-method>h3{font-size:16px}}
 .case-algorithm-intro{background:#f4f6ff;border:1px solid #dde3f5;padding:18px 22px;border-radius:6px;color:#435485;font-size:13px}.case-algorithm-intro p{font-size:12px;margin:8px 0 12px}.case-algorithm-intro button{font-size:12px;padding:6px 13px}
 @media(max-width:680px){.case-algorithm-lab:before{content:"图表可横向滚动；完整数值见下方表格与JSON";display:block;font-size:11px;color:#68788a;margin-bottom:12px}}
+/* Primary protocol and single-version, step-by-step notebook reader. */
+.primary-protocol,.primary-learning,.primary-submit{border:1px solid #b8cdcf;border-radius:12px;background:#f5faf9;padding:24px;margin-bottom:28px}
+.primary-protocol table td:first-child{min-width:100px;font-weight:600}
+.learning-markdown{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.8;padding:24px 0 12px}
+.learning-cell{display:block;margin:12px 0 24px}.learning-cell span{display:block;font-weight:600;margin-bottom:8px}
+.learning-cell textarea{display:block;width:100%;max-width:100%;font:13px/1.6 Consolas,monospace;color:#dfeddd;background:#192320;border:1px solid #456256;padding:16px;white-space:pre;overflow:auto;tab-size:4}
+.primary-learning pre{white-space:pre-wrap;overflow-wrap:anywhere}.primary-learning [data-learning-reader]{border-top:1px solid #b8cdcf;margin-top:24px}
+@media(max-width:640px){.primary-protocol,.primary-learning,.primary-submit{padding:16px}.learning-cell textarea{font-size:12px}}
+.video-lesson{border:1px solid #c7c7c0;border-radius:12px;padding:24px}.video-stage{position:relative;aspect-ratio:16/9;background:#18201d;margin-top:24px}.video-stage video{width:100%;height:100%;display:block}.video-stage canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}.video-lesson input[type=checkbox]{width:auto}.video-lesson form{display:grid;gap:14px}.video-lesson form input{width:100%}.video-lesson form button{justify-self:start}
+.video-lesson form select,.video-lesson form input{font:inherit;border:1px solid #c6d2d8;border-radius:6px;padding:9px 12px;background:white;max-width:100%}.video-lesson form label{display:grid;gap:8px}.video-lesson .controls label:has(input[type=checkbox]){display:flex;gap:8px;align-items:center}

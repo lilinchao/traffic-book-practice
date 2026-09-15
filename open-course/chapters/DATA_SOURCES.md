@@ -70,3 +70,8 @@
 网页、单篇下载和完整`CASEBOOK.md`由同一份内容与证据生成。修改源数据、聚类输出或案例文字后，应依次重建证据与案例册，再运行案例一致性测试并更新资料包。
 
 16个案例为本课程结合上述数据编写的中文解读，不是搬运Kaggle文章。页面组织参考[House Prices项目](https://www.kaggle.com/competitions/house-prices-advanced-regression-techniques/overview)的任务、数据、代码、评价与提交结构；未使用其房价数据、图片、Logo或参赛者成绩。
+## 本轮新增影像数据与许可
+
+第8章采用MOTChallenge公开MOT17-04夜间街道序列及独立人工框/ID标注，官方压缩视频960×540、1050帧、30Hz。视频、标注与衍生结果保留CC BY-NC-SA 3.0；YOLOX模型与包装代码保留Apache-2.0，不能与课程代码许可混淆。精确文件来源、处理规则、SHA-256、署名与适用边界见[影像实验说明](VIDEO_LESSON.md)及`data/video/sources.json`。
+
+检测对原视频实际推理，标注仅用于评价；计数参考由提供方人工框/ID按规则导出，不冒充本课程另做的人工调查。完整结果包含漏检、未匹配事件和待核查项，不以总数一致宣称完全准确。

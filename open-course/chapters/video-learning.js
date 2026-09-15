@@ -1,0 +1,37 @@
+const esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const ROOT='chapters/data/video/',KEY='traffic-ch08-video-audit-v1';
+export function videoPanel(p){return p.chapter!==8?'':`<section class="article-section video-lesson"><p class="eyebrow">第8章影像链路 / 真实夜间街道</p><h2>夜间步行街的分方向行人通行调查</h2><p>在MOT17-04的真实35秒片段上，复核YOLOX行人检测、卡尔曼运动预测、匈牙利关联和虚拟断面计数。提供方人工框与ID独立于本课模型，用于逐框及逐事件核对。</p><div class="notice neutral">原视频30帧/秒，算法每3帧运行一次。预览采用官方960×540视频，标注由1920×1080等比映射。方向仅指画面上/下；没有地面标定，不能推算行走速度、通行能力或整小时流量。</div><button data-video-open>打开视频与标注对照</button><div data-video-body hidden></div><p class="tiny">视频、标注及衍生结果：MOTChallenge，CC BY-NC-SA 3.0；模型：OpenCV Zoo / Megvii YOLOX，Apache-2.0。非商业教学复用，不能用课程代码许可替代数据许可。</p><p><a href="chapters/VIDEO_LESSON.md">实验协议、来源与许可</a> · <a href="chapters/data/video/events.csv" download>逐事件结果</a> · <a href="chapters/python/video_lesson.py" download>检测、关联与评价代码</a></p></section>`;}
+export function mountVideo(root,download){
+ const open=root.querySelector('[data-video-open]');if(!open)return;
+ const body=root.querySelector('[data-video-body]');let loaded=false;
+ open.addEventListener('click',async()=>{if(loaded){body.hidden=!body.hidden;body.querySelector('video')?.pause();return;}open.disabled=true;try{
+  const response=await fetch(ROOT+'results.json');if(!response.ok)throw Error('视频结果读取失败。');const result=await response.json();if(!root.isConnected)return;
+  loaded=true;body.hidden=false;
+  body.innerHTML=`<div class="video-stage"><video controls playsinline preload="metadata" src="${ROOT}mot17-04-web.mp4" aria-label="MOT17-04真实夜间步行街视频转码预览"></video><canvas width="960" height="540" aria-label="同画面检测与独立标注叠加"></canvas></div><div class="controls"><label>冻结模型输出阈值<select data-video-threshold><option value="0.35">0.35</option><option value="0.6">0.60</option></select></label><label><input type="checkbox" data-video-pred checked>蓝色：模型框与新ID</label><label><input type="checkbox" data-video-truth>绿色：提供方人工框与源ID</label><label><input type="checkbox" data-video-ids>显示ID</label></div><div class="actions"><button class="outline" data-video-prev>前一采样帧</button><button class="outline" data-video-next>后一采样帧</button><span data-video-time role="status"></span></div><p class="tiny">播放时叠加最近一个已计算采样帧；暂停后逐采样帧核查最准确。阈值切换是重算冻结检测结果的筛选和后续评价，不是网页训练模型。</p><div data-video-scores></div><details><summary>逐事件漏计与误计核查</summary><div data-video-events></div></details><h3>我的现场核查记录</h3><p>逐帧回看后写入实际观察。下面是你在本机记录的核查意见，不是新增的官方真值，也不自动证明通过人工复核。</p><form data-video-audit><label>方向<select name="direction"><option value="up">画面向上</option><option value="down">画面向下</option></select></label><label>核查对象与依据<input name="observation" required maxlength="500" placeholder="记录源ID/新ID、遮挡、线附近位置与判断依据"></label><button type="submit">记录当前画面时刻</button></form><div data-video-audit-status role="status"></div><div class="actions"><button data-video-audit-download class="outline">导出我的核查记录 JSON</button><button data-video-result-download class="outline">下载完整算法与标注结果 JSON</button></div>`;
+  const video=body.querySelector('video'),canvas=body.querySelector('canvas'),ctx=canvas.getContext('2d');let audits=[];
+  try{const old=JSON.parse(localStorage.getItem(KEY)||'[]');if(Array.isArray(old))audits=old.filter(x=>typeof x?.observation==='string'&&Number.isFinite(x.time_s)).slice(-200);}catch{}
+  const active=()=>result.runs[body.querySelector('[data-video-threshold]').value];
+  const table=(heads,rows)=>`<div class="table-scroll"><table><thead><tr>${heads.map(x=>`<th>${esc(x)}</th>`).join('')}</tr></thead><tbody>${rows.map(r=>`<tr>${r.map(x=>`<td>${typeof x==='number'?x.toLocaleString('zh-CN',{maximumFractionDigits:3}):esc(x)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+  function draw(){
+   if(!root.isConnected)return;
+   const frame=active().frames[Math.min(active().frames.length-1,Math.max(0,Math.floor(video.currentTime*10+1e-5)))];
+   ctx.clearRect(0,0,960,540);ctx.strokeStyle='#ffbb36';ctx.lineWidth=2;ctx.setLineDash([7,5]);ctx.beginPath();ctx.moveTo(0,300);ctx.lineTo(960,300);ctx.stroke();ctx.setLineDash([]);
+   const ids=body.querySelector('[data-video-ids]').checked;
+   function box(id,x,y,w,h,color){ctx.strokeStyle=color;ctx.lineWidth=1.5;ctx.strokeRect(x,y,w,h);if(ids){ctx.fillStyle=color;ctx.font='12px monospace';ctx.fillText(String(id),x,Math.max(12,y-3));}}
+   if(body.querySelector('[data-video-pred]').checked)for(const [id,x,y,w,h] of frame.predicted)box(id,x,y,w,h,'#57b9ff');
+   if(body.querySelector('[data-video-truth]').checked)for(const [id,x,y,w,h] of frame.truth)box(id,x,y,w,h,'#82f1a4');
+   body.querySelector('[data-video-time]').textContent=`视频 ${video.currentTime.toFixed(2)} 秒 / 对照原帧 ${frame.frame}（${frame.time_s.toFixed(2)}秒）`;
+  }
+  function scores(){const run=active(),m=run.metrics;body.querySelector('[data-video-scores]').innerHTML=`<h3>固定35秒片段的真实计算结果</h3>${table(['采样帧','人工目标框','检测TP','检测FP','检测FN'],[[m.sampled_frames,m.GT_boxes,m.TP,m.FP,m.FN]])}${table(['检测查准率','检测查全率','相邻匹配身份变化','事件TP/FP/FN'],[[m.precision,m.recall,m.matched_identity_changes,`${m.event_TP} / ${m.event_FP} / ${m.event_FN}`]])}${table(['画面方向','人工标注导出的参考事件','模型事件','计数偏差'],run.directions.map(r=>[r[0]==='up'?'向上':'向下',...r.slice(1)]))}<p>检测采用IoU≥0.5的一对一匹配，排除与给定干扰人物类别重合的未匹配检测。事件须同方向、同参考身份且时间差≤0.5秒；参考事件由人工框/ID按30Hz规则导出，不是本课另行逐人手工计数。上述不是官方MOTA、IDF1、HOTA或mAP。</p>`;
+   body.querySelector('[data-video-events]').innerHTML=table(['类型','身份','秒','方向'],[...run.missed_reference.map(i=>['参考漏计',...result.reference_events[i]]),...run.unmatched_predicted.map(i=>['模型未匹配',...run.predicted_events[i]])]);draw();}
+  video.addEventListener('timeupdate',draw);video.addEventListener('seeked',draw);video.addEventListener('loadedmetadata',draw);video.addEventListener('error',()=>{body.querySelector('[data-video-time]').textContent='视频未能加载，请检查连接或下载原片段核查。';});
+  body.addEventListener('change',e=>{if(e.target.matches('[data-video-threshold]'))scores();else draw();});
+  body.querySelector('[data-video-prev]').addEventListener('click',()=>{video.pause();video.currentTime=Math.max(0,(Math.round(video.currentTime*10)-1)/10);});
+  body.querySelector('[data-video-next]').addEventListener('click',()=>{video.pause();video.currentTime=Math.min(34.9,(Math.round(video.currentTime*10)+1)/10);});
+  const auditStatus=()=>body.querySelector('[data-video-audit-status]').textContent=`本机已记录${audits.length}条核查意见。`;
+  body.querySelector('[data-video-audit]').addEventListener('submit',e=>{e.preventDefault();const form=e.target;if(!form.reportValidity())return;const values=Object.fromEntries(new FormData(form));audits.push({protocol:result.protocol.id,source:'MOT17-04',time_s:video.currentTime,frame:Math.floor(video.currentTime*30)+1,threshold:body.querySelector('[data-video-threshold]').value,...values,status:'student_observation'});audits=audits.slice(-200);try{localStorage.setItem(KEY,JSON.stringify(audits));auditStatus();}catch{body.querySelector('[data-video-audit-status]').textContent='浏览器无法保存，请立即导出当前核查记录。';}});
+  body.querySelector('[data-video-audit-download]').addEventListener('click',()=>download('ch08_my_video_audit.json',JSON.stringify(audits,null,2),'application/json'));
+  body.querySelector('[data-video-result-download]').addEventListener('click',()=>download('ch08_night_video_results.json',JSON.stringify(result),'application/json'));
+  scores();auditStatus();
+ }catch(e){if(root.isConnected){body.hidden=false;body.textContent=e.message;}}finally{open.disabled=false;}});
+}

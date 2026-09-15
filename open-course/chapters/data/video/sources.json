@@ -1,0 +1,43 @@
+{
+  "video": {
+    "url": "https://motchallenge.net/sequenceVideos/MOT17-04-FRCNN-raw.mp4",
+    "sha256": "ab0d2fc03bce5e112abe9a173de7a2d70b39875c0af3eca49d6160c6e317e495",
+    "bytes": 14745062
+  },
+  "annotation_archive": {
+    "url": "https://motchallenge.net/data/MOT17Labels.zip",
+    "sha256": "0aa79322e91583369f42f17c4d79a0b145380d8732487bba59272048dc82b2b9",
+    "bytes": 10107022
+  },
+  "mot17-04-gt.txt": {
+    "archive_member": "train/MOT17-04-FRCNN/gt/gt.txt",
+    "sha256": "f8cfbe36ef38a2e1857d7ebfe7d754b2355a3ffb9e1f9cedea435e86e4fbc948"
+  },
+  "mot17-04-seqinfo.ini": {
+    "archive_member": "train/MOT17-04-FRCNN/seqinfo.ini",
+    "sha256": "f2d5bbe2c4d2a884422571987bc5363b61bb7e2c6748d1cff444e55b4886b888"
+  },
+  "yolox.py": {
+    "url": "https://raw.githubusercontent.com/opencv/opencv_zoo/47534e27c9851bb1128ccc0102f1145e27f23f98/models/object_detection_yolox/yolox.py",
+    "sha256": "a3df3abbac584f9c57a1552017fa3140dfe6f70b13b703130477d1c64120bc8b",
+    "bytes": 3376,
+    "course_modification": "ONNX byte buffer loading for Windows Unicode paths; inference unchanged"
+  },
+  "LICENSE": {
+    "url": "https://raw.githubusercontent.com/opencv/opencv_zoo/47534e27c9851bb1128ccc0102f1145e27f23f98/models/object_detection_yolox/LICENSE",
+    "sha256": "0ec3668d3274bcf29e8a29e9576d5a2cd96fc78d3c5bec4387355a796e5d9088",
+    "bytes": 11371
+  },
+  "model": {
+    "url": "https://media.githubusercontent.com/media/opencv/opencv_zoo/47534e27c9851bb1128ccc0102f1145e27f23f98/models/object_detection_yolox/object_detection_yolox_2022nov.onnx",
+    "sha256": "c5c2d13e59ae883e6af3b45daea64af4833a4951c92d116ec270d9ddbe998063",
+    "bytes": 35858002
+  },
+  "dataset": "MOT17-04",
+  "dataset_license": "CC BY-NC-SA 3.0",
+  "model_license": "Apache-2.0",
+  "model_commit": "47534e27c9851bb1128ccc0102f1145e27f23f98",
+  "dataset_source": "https://motchallenge.net/data/MOT17/",
+  "license_documentation": "https://trackers.roboflow.com/develop/learn/download/",
+  "citation": "Milan, Leal-Taixe, Reid, Roth, Schindler. MOT16: A Benchmark for Multi-Object Tracking, 2016; Dendorfer et al. MOTChallenge, IJCV 2021."
+}

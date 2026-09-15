@@ -1,4 +1,5 @@
 import {PROJECTS as PREVIOUS,CHAPTERS} from '../projects/catalog.js';
+import {applyProjectProtocol} from './project-protocols.js';
 export {CHAPTERS};
 const source=(title,url,license)=>({title,url,license});
 const uci=source('UCI I-94 小时交通量','https://archive.ics.uci.edu/dataset/492/metro+interstate+traffic+volume','CC BY 4.0 · John Hogue (2019)');
@@ -40,7 +41,7 @@ const specifications={
  ch07:{metric:'时空口径与对照分析',sections:'第7章：时空矩阵、归一化与模式分析',format:'CSV · borough,hour,value',header:['borough','hour','value'],sample:'borough,hour,value\nManhattan,0,请填真实结果\n',code:'projects/python/extensions.py',notebook:'ch07'},
  ch08:{metric:'事件核查与参数敏感性',sections:'8.1 影像数据；8.7 目标跟踪与交通参数提取',format:'CSV · track_id,time_s,direction',header:['track_id','time_s','direction'],sample:'track_id,time_s,direction\n请填真实ID,请填秒数,+x\n',code:'projects/python/analyze.py',notebook:'ch08'},
 };
-for(const p of PROJECTS){Object.assign(p,specifications[p.id]);p.color=['#296b99','#087f8c','#7952a3','#25816e','#b96937','#3e66ad','#986786','#b5782d'][p.chapter-1];}
+for(const p of PROJECTS){Object.assign(p,specifications[p.id]);applyProjectProtocol(p);p.color=['#296b99','#087f8c','#7952a3','#25816e','#b96937','#3e66ad','#986786','#b5782d'][p.chapter-1];}
 export const CASES=[
  {id:'records-demand',chapter:1,type:'出租车服务规划',title:'纽约绿出租车服务覆盖诊断与补充调查设计',lead:'围绕地区服务差异与夜间出行保障，识别已实现服务、潜在需求和运力配置之间的证据缺口。',question:'哪些地区与时段应优先开展出租车服务调查，现有上车记录能为运力配置提供哪些依据？',target:'ch07',source:'https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page'},
  {id:'problem-metric',chapter:1,type:'道路交通安全',title:'面向道路安全治理的事故排查任务与指标体系设计',lead:'以事故频次和伤者负担建立候选区域清单，衔接路网筛查、现场诊断与治理评价。',question:'在缺少交通暴露量的条件下，如何提出可执行的道路安全排查任务，而不是直接宣布“最危险路口”？',target:'ch05',source:'https://data.cityofnewyork.us/Public-Safety/Motor-Vehicle-Collisions-Crashes/h9gi-nx95'},

@@ -1,0 +1,13 @@
+{
+  "source": "mot17-04-raw.mp4",
+  "source_sha256": "ab0d2fc03bce5e112abe9a173de7a2d70b39875c0af3eca49d6160c6e317e495",
+  "file": "mot17-04-web.mp4",
+  "sha256": "b22bc0b320484a4765dcd89b51ae916be177e33cf296e28c68b8a027ba3c78a3",
+  "frames": 1050,
+  "fps": 30,
+  "width": 960,
+  "height": 540,
+  "license": "CC BY-NC-SA 3.0",
+  "modification": "MPEG-4 Part 2 to H.264 CRF18 for browser playback, no crop, resize, trim or overlays. Detection uses the original source file.",
+  "ffmpeg": "ffmpeg version 7.1-essentials_build-www.gyan.dev Copyright (c) 2000-2024 the FFmpeg developers"
+}
