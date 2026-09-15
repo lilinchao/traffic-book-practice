@@ -19,6 +19,8 @@
 
 ## 完整案例分析
 
+第4—8章的10篇案例进一步加入本章算法实证：OLS/泊松/NB2、KDE/DBSCAN、ARIMA/SARIMA、VAR/时空画像KMeans、卡尔曼/匈牙利关联。新增20张算法结果表，与原30张资料审计及基础表分别标明协议；提供36个可切换结果视图、完整JSON与Python复现代码。方法解释与教材小节对应，结论落回具体交通任务，不要求复杂模型一定获胜。详见[章节算法复现说明](ALGORITHMS.md)。
+
 案例库的16篇案例面向交通运输工程问题，采用论文式结构：摘要与关键词、研究背景、研究区域与数据、问题与工程指标、方法与技术路线、结果评价、工程应用讨论与局限、结论、研究交付和参考资料。保留原有16个地址及笔记键。案例是原创教学研究，非已发表论文，不冒充已实施的交通规划或治理成果。
 
 2026-09-15版补充地区出租车服务与夜间活动、早高峰调查相对精度、共享单车分时低估诊断、断面预测高峰适用性、皇后区日期与时段交叉对照、路口分方向分时计数，共30张结果或材料核查表。使用已有真实数据快照和冻结预测复算，未新增虚构观测。案例讨论区分系统租借量与站点库存、断面交通量与拥堵、事故负担与风险、规则输出与独立真值。
@@ -29,8 +31,10 @@
 
 ```bash
 node chapters/build-case-evidence.mjs
+node chapters/build-algorithm-evidence.mjs
 node chapters/build-casebook.mjs
 node chapters/tests/cases.test.mjs
+node chapters/tests/algorithms.test.mjs
 ```
 
 日画像聚类表使用现有`projects/python/extensions.py --project taxi`在固定数据上复算，scikit-learn 1.9.1，种子42、n_init=10。如需重新运行，先安装原Python依赖，再运行以下命令；将生成的`day-cluster-comparison.csv`、`day-clusters-4.csv`、`cluster-centers-4.csv`分别核对后对应更新至`chapters/data/case-cluster-comparison.csv`、`case-day-clusters-4.csv`、`case-cluster-centers-4.csv`，再重建证据和案例册。不要只手改页面中的分数。
