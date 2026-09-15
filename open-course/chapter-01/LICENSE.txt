@@ -29,4 +29,14 @@ remain subject to their respective terms. See README.md and the source page.
 Metro Interstate Traffic Volume: John Hogue, 2019, DOI 10.24432/C5X60B,
 CC BY 4.0. Data transformations are documented in README.md and data/metro.json.
 NYC TLC: original NYC open-data terms. Only aggregate trip counts are included.
-Videos and highD raw data are not redistributed.
+highD raw data and external research videos are not redistributed here.
+Bike Sharing Dataset summaries retain the UCI dataset terms; see the chapter
+DATA_SOURCES.md. NYC crash summaries retain the NYC Open Data terms.
+MOT17-04 derived event summaries in data/project-bridge.js are CC BY-NC-SA 3.0:
+https://creativecommons.org/licenses/by-nc-sa/3.0/
+Attribution: Milan, Leal-Taixe, Reid, Roth, Schindler and MOTChallenge contributors.
+The classroom links the course-hosted H.264 video derivative under the same license;
+the video is not included in this classroom's offline archive.
+Model information refers to OpenCV Zoo YOLOX (Apache-2.0, Megvii Inc.);
+no model weights are included here. Full source and modification records:
+https://lilinchao.github.io/traffic-book-practice/open-course/chapters/VIDEO_LESSON.md

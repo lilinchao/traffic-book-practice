@@ -4,3 +4,34 @@
 @media(max-width:760px){.topbar{height:auto;min-height:74px;flex-wrap:wrap;padding:14px 18px;gap:10px;position:relative}.brand strong{font-size:18px}.topbar nav{gap:5px;flex-wrap:wrap}.topbar button,.download{font-size:12px;padding:6px 9px}.shell{display:block}.sidebar{position:static;border-right:0;border-bottom:1px solid var(--line);height:auto;padding:16px 18px}.sidebar>.eyebrow,.side-bottom{display:none}.sidebar nav{flex-direction:row;overflow:auto;gap:4px}.chapter-link{flex:0 0 115px;padding:8px;font-size:11px}.chapter-link b{font-size:12px}.chapter-link small{display:none}main{padding:22px 18px 60px}.hero{padding:25px;min-height:365px;background-position:62% center}.hero h1{font-size:34px}.hero p{font-size:16px;max-width:260px}.hero .caption{font-size:10px}.intro-line{gap:18px;flex-wrap:wrap}.intro-line strong{font-size:21px}.lesson-article{padding:32px 0}.lesson-article h2{font-size:25px}.body-line{font-size:16px}.lead{font-size:21px}.lab{padding:17px 12px}.chart-box{padding:3px}.numbers{gap:25px}.numbers strong{font-size:31px}.case-list{grid-template-columns:1fr}.controls{gap:10px}.controls select{font-size:13px;padding:7px 9px;min-width:90px}.controls input[type=number]{width:110px}.section-title h1{font-size:30px}td,th{font-size:13px;padding:10px;min-width:95px}.present-nav{padding:9px;gap:8px;font-size:12px}.present-nav button{font-size:12px;padding:6px 9px}body.present main{padding:20px 18px 90px}body.present .lesson-article h2{font-size:27px}body.present .body-line{font-size:18px}body.present .takeaway{font-size:16px}.video-box{padding:22px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 @media print{.topbar,.sidebar,.present-nav,.controls,button,.video-box iframe{display:none!important}.shell{display:block}main{padding:0}.lesson-article{break-inside:avoid}.lab{border:1px solid #999}.hero{color:#111;background:none;min-height:150px}.hero .caption{display:none}a{color:inherit}}
+
+/* Transportation tasks and the shared chapter learning paths. */
+.task-nav{margin-top:20px;padding-top:18px;border-top:1px solid var(--line);font-size:13px}
+.mission-home{margin:50px 0 30px}.mission-home h2{font-size:30px;line-height:1.5;margin:0 0 16px}
+.mission-home>p:not(.eyebrow){max-width:850px;color:var(--muted)}
+.mission-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin:26px 0}
+.mission-card{display:block;border:1px solid var(--line);padding:25px 28px;background:white;color:var(--ink);text-decoration:none;transition:background .15s,border-color .15s}
+.mission-card:hover{border-color:var(--teal);background:var(--wash)}.mission-card h3{font-size:23px;line-height:1.45;margin:12px 0}
+.mission-card p{font-size:15px;line-height:1.85;color:var(--muted)}.mission-card small{font-size:12px;color:var(--teal)}
+.mission-number{font-size:11px;font-weight:700;letter-spacing:1px;color:var(--gold)}
+.mission-card:last-child{grid-column:1/-1;background:var(--ink);color:white}.mission-card:last-child p{color:#d4e2e1}.mission-card:last-child small,.mission-card:last-child .mission-number{color:#f3ca8c}
+.practice-bridge{background:#f0f5f3;border-top:2px solid var(--teal);padding:22px 24px;margin:26px 0}
+.bridge-label{font-size:11px;letter-spacing:1.2px;color:var(--teal);font-weight:700;margin:0 0 12px}
+.practice-bridge>p:not(.bridge-label){font-size:15px;line-height:1.8}
+.bridge-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:24px}
+.bridge-grid strong{font-size:15px;line-height:1.7}.bridge-grid p{font-size:13px;line-height:1.75;color:var(--muted);margin:8px 0}.bridge-grid a{font-size:13px}
+.lab>label{display:flex;flex-direction:column;align-items:flex-start;gap:7px;font-size:14px;margin:20px 0}.lab>label select{max-width:100%;width:330px}
+.mission-context{background:white;padding:23px;margin:24px 0;border-left:3px solid var(--gold)}.mission-context>strong{font-size:18px}
+.mission-context dl,.path-card dl{display:grid;grid-template-columns:90px minmax(0,1fr);gap:10px 18px;font-size:14px;line-height:1.9;margin:15px 0}
+.mission-context dt,.path-card dt{color:var(--muted)}.mission-context dd,.path-card dd{margin:0;overflow-wrap:anywhere}
+.brief-fields{display:grid;gap:20px}.brief-fields label{font-size:14px;font-weight:600;display:grid;gap:8px}
+.brief-fields textarea{font:inherit;font-weight:400;line-height:1.8;background:white;border:1px solid #aabbb3;border-radius:4px;padding:12px;width:100%;min-height:110px;resize:vertical;color:var(--ink)}
+textarea:focus-visible{outline:3px solid #d38425;outline-offset:3px}
+.path-card{display:grid;grid-template-columns:48px minmax(0,1fr);gap:22px;padding:32px 0;border-bottom:1px solid var(--line)}
+.path-index{font-size:34px;color:var(--teal);font-weight:600;line-height:1.3}.path-card h4{font-size:23px;line-height:1.5;margin:0 0 18px}.path-card .bridge-label{margin-bottom:6px}.path-card small{font-size:11px;color:var(--muted)}
+.feature-check{border:0;padding:0;margin:24px 0}.feature-check legend{font-size:15px;font-weight:600;margin-bottom:12px}.feature-check label{display:flex;align-items:flex-start;gap:10px;font-size:15px;padding:10px 0}.feature-check input{margin:6px 0 0;flex:0 0 auto;accent-color:var(--teal)}
+.night-frame{position:relative;margin:22px 0;background:#0b1519;aspect-ratio:16/9}.night-frame video{display:block;width:100%;height:100%;object-fit:contain}
+.count-line{position:absolute;top:55.55556%;left:0;right:0;border-top:2px dashed #e9cf6b;pointer-events:none}.count-line span{position:absolute;right:6px;bottom:5px;background:#122f36e8;color:#fff1bd;padding:2px 8px;font-size:11px}
+.lab:has([data-forecast-chart]) .chart text{font-size:12px}.lab [hidden]{display:none!important}
+@media(max-width:760px){.task-nav{display:flex!important;flex-direction:row!important;flex-wrap:wrap;gap:18px!important;margin-top:12px;padding-top:12px}.mission-home h2{font-size:24px}.mission-grid{grid-template-columns:1fr}.mission-card{padding:20px}.mission-card h3{font-size:21px}.practice-bridge{padding:18px}.bridge-grid{gap:16px}.mission-context{padding:16px}.mission-context dl,.path-card dl{grid-template-columns:1fr;gap:3px}.mission-context dd,.path-card dd{margin-bottom:12px}.path-card{grid-template-columns:30px minmax(0,1fr);gap:12px}.path-index{font-size:25px}.path-card h4{font-size:20px}.path-card .controls{align-items:flex-start;flex-direction:column}.brief-fields textarea{font-size:16px}.count-line span{font-size:9px}.feature-check label{font-size:14px}}
+@media print{.night-frame{display:none}.mission-grid{grid-template-columns:1fr 1fr}.mission-card:last-child{background:none;color:var(--ink)}.mission-card:last-child p{color:var(--ink)}}
