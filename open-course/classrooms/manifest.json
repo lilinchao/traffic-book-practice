@@ -1,0 +1,30 @@
+{
+  "version": "20260917",
+  "book": "符号释义与教学逻辑修订清洁合稿的已核验内容提取稿",
+  "bookSnapshotSha256": "3019038549472574ebc3886ed1eff29cd6b1e964f5ca4501c417d339eb54e301",
+  "inputs": {
+    "3": {
+      "chapters/data/ch03.json": "8184a62e638030ef3c029035f6084c5efd73641a00b9119ad7b16724d31cd8ca"
+    },
+    "4": {
+      "chapters/data/algorithms/ch4.json": "02f336aba31f348744cc0160832a3d30e973d9fc5215d96b26ac06f4edd732ea"
+    },
+    "5": {
+      "projects/data/crashes.json": "ed0b60193877eec20721d7b4b234193905bdb1927a0e053b7b570bf6a16b8405",
+      "chapters/data/algorithms/ch5.json": "2c4b4035cb5ff9f83801ff2f67ff4c4530850100d31652260688005abae7274e"
+    },
+    "6": {
+      "projects/data/audit.json": "e94603938353a88fd33a7dce94e288e556da60c17fd4d99b43e0e78fbbda2908",
+      "projects/data/forecast.json": "ea0bfab243ef70f7c5472406dfeb75da3ef316d5b316c41ad94dd4a92c9522c1",
+      "chapters/data/algorithms/ch6.json": "b90000ae0dcc08b21feab29a9678c14f690c204ade6795a11b6dfc9ba47ca09a"
+    },
+    "7": {
+      "projects/data/taxi.json": "bb9544cd868c305f2a91dde353ce5e30142c47434839cd764c3adbc1e4fda887",
+      "chapters/data/algorithms/ch7.json": "f1ddfa575aac64e50a2c25272ddf06406dab18d5fcca97ef0e7eebb19e2e3eeb"
+    },
+    "8": {
+      "projects/data/sind.json": "e6ed9160ef6e5787c7c16a048735093f240e1a48807485e2cc73165b468652f6",
+      "chapters/data/algorithms/ch8.json": "322f46fbdc5237cb9ea09c6ad4c3867ccae94898a255b9c0630dd1f3d6511491"
+    }
+  }
+}
